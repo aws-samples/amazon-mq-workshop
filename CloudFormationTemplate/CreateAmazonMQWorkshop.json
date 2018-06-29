@@ -1,0 +1,392 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "AWS CloudFormation template to launch resources for the Amazon MQ workshop.",
+
+  "Parameters": {
+    "SSHKey": {
+      "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instance.",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "CIDR": {
+      "Description": "CIDR block, from which the access to the EC2 instance is allowed.",
+      "Type": "String",
+      "Default": "0.0.0.0/0"
+    }
+  },
+
+  "Mappings": {
+    "RegionMap": {
+      "us-east-1": {
+        "AMI": "ami-1853ac65"
+      },
+      "us-east-2": {
+        "AMI": "ami-25615740"
+      },
+      "us-west-2": {
+        "AMI": "ami-d874e0a0"
+      },
+      "ap-southeast-2": {
+        "AMI": "ami-43874721"
+      },
+      "eu-central-1" : {
+        "AMI": "ami-ac442ac3"
+      },
+      "eu-west-1": {
+        "AMI": "ami-3bfab942"
+      }
+    }
+  },
+
+  "Resources": {
+    "VPC": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.42.0.0/16",
+        "EnableDnsSupport": "true",
+        "EnableDnsHostnames": "true",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "VPC"
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "InternetGateway" : {
+      "Type" : "AWS::EC2::InternetGateway",
+      "Properties" : {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "InternetGateway"
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "AttachGateway": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": { "Ref": "VPC" },
+        "InternetGatewayId": { "Ref": "InternetGateway" }
+      }
+    },
+    "RouteTable": {
+       "Type": "AWS::EC2::RouteTable",
+       "Properties": {
+          "VpcId" : {"Ref" : "VPC" },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "RouteTable"
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "Route": {
+       "Type": "AWS::EC2::Route",
+       "DependsOn": "AttachGateway",
+       "Properties": {
+          "RouteTableId": { "Ref" : "RouteTable" },
+          "DestinationCidrBlock": "0.0.0.0/0",
+          "GatewayId": { "Ref" : "InternetGateway" }
+       }
+    },
+    "PublicSubnet1": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "CidrBlock": "10.42.0.0/24",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            "0",
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "PublicSubnet1"
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "PublicSubnet2": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "CidrBlock": "10.42.1.0/24",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            "1",
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "PublicSubnet2"
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "PublicSubnet1RouteTableAssociation": {
+       "Type": "AWS::EC2::SubnetRouteTableAssociation",
+       "Properties": {
+          "SubnetId": { "Ref" : "PublicSubnet1" },
+          "RouteTableId": { "Ref" : "RouteTable" }
+       }
+    },
+    "PublicSubnet2RouteTableAssociation": {
+       "Type": "AWS::EC2::SubnetRouteTableAssociation",
+       "Properties": {
+          "SubnetId": { "Ref" : "PublicSubnet2" },
+          "RouteTableId": { "Ref" : "RouteTable" }
+       }
+    },
+    "EC2SecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Limits security group ingress and egress traffic for the EC2 instance",
+        "VpcId": { "Ref": "VPC" },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": { "Ref": "CIDR" }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "EC2SecurityGroup"
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "AmazonMQSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Limits security group ingress and egress traffic for the Amazon MQ instance",
+        "VpcId": { "Ref": "VPC" },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "8162",
+            "ToPort": "8162",
+            "CidrIp": { "Ref": "CIDR" }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "61617",
+            "ToPort": "61617",
+            "SourceSecurityGroupId" : { "Ref": "EC2SecurityGroup" }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "5671",
+            "ToPort": "5671",
+            "SourceSecurityGroupId" : { "Ref": "EC2SecurityGroup" }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "61614",
+            "ToPort": "61614",
+            "SourceSecurityGroupId" : { "Ref": "EC2SecurityGroup" }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "8883",
+            "ToPort": "8883",
+            "SourceSecurityGroupId" : { "Ref": "EC2SecurityGroup" }
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "AmazonMQSecurityGroup"
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "EC2InstanceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [ "ec2.amazonaws.com" ]
+              },
+              "Action": [ "sts:AssumeRole" ]
+            }
+          ]
+        },
+        "Path": "/",
+        "Policies": [
+          {
+            "PolicyName": "AmazonMQWorkshopPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:GetObject"
+                  ],
+                  "Resource": "arn:aws:s3:::cmr-amazon-mq-workshop/*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "EC2InstanceProfile" : {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [ { "Ref": "EC2InstanceRole" } ]
+      }
+    },
+    "EC2Instance" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "ImageId" : { "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "AMI" ]},
+        "InstanceType": "t2.micro",
+        "IamInstanceProfile": { "Ref": "EC2InstanceProfile" },
+        "KeyName" : { "Ref" : "SSHKey" },
+        "NetworkInterfaces": [
+          {
+            "AssociatePublicIpAddress": "true",
+            "DeviceIndex": "0",
+            "GroupSet": [{ "Ref" : "EC2SecurityGroup" }],
+            "SubnetId": { "Ref" : "PublicSubnet1" }
+          }
+        ],
+        "UserData": { "Fn::Base64" : { "Fn::Join" : ["", [
+          "#!/bin/bash -xe\n",
+          "yum update -y\n",
+          "yum remove -y java-1.7.0\n",
+          "yum install -y java-1.8.0\n",
+          "yum install -y tmux\n",
+
+          "# Install the executables from the public S3 bucket\n",
+          "aws s3 cp s3://cmr-amazon-mq-workshop/amazon-mq-client.jar /home/ec2-user/\n",
+          "aws s3 cp s3://cmr-amazon-mq-workshop/stomp-client.jar /home/ec2-user/\n",
+          "aws s3 cp s3://cmr-amazon-mq-workshop/mqtt-client.jar /home/ec2-user/\n",
+          "aws s3 cp s3://cmr-amazon-mq-workshop/amqp-client.jar /home/ec2-user/\n",
+
+          "# set the correct file permission to be able to execute the jar\n",
+          "chmod +x /home/ec2-user/amazon-mq-client.jar\n",
+          "chmod +x /home/ec2-user/stomp-client.jar\n",
+          "chmod +x /home/ec2-user/mqtt-client.jar\n",
+          "chmod +x /home/ec2-user/amqp-client.jar\n"
+        ]]}},
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "AWS::StackName"
+                  },
+                  "AmazonMQWorkshopClient"
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+
+  "Outputs": {
+    "EC2IP": {
+      "Value": { "Fn::GetAtt": ["EC2Instance", "PublicIp"]},
+      "Description": "The IP address of your EC2 instance."
+    }
+  }
+}
