@@ -78,5 +78,5 @@ In this lab you will create the Amazon MQ broker, we will use during the worksho
 ```
 echo 'user=<user>' >> ~/.bashrc; source ~/.bashrc
 echo 'password=<password>' >> ~/.bashrc; source ~/.bashrc
-echo 'url=<failover openWire url>' >> ~/.bashrc; source ~/.bashrc
+echo 'url="<failover openWire url>"' >> ~/.bashrc; source ~/.bashrc
 ```
