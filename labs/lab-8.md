@@ -1,8 +1,8 @@
 # Lab 8: Protocol Interoperability
 
-In this exercise, you are connecting one of the message producer to the broker and start sending message. Afterwards, you connect one of the message consumer to the broker, using a different protocol. We will repeat this with multiple protocol combinations to figure out, which protocol conversions are supported by Amazon MQ.
+In this exercise, you connect one message producer to the broker and start sending messages. You then connect a message consumer to the broker using a different protocol. You repeat these steps with multiple protocol combinations to figure out which protocol conversions are supported by Amazon MQ.
 
-You your ec2-user home directory, you will find the following executable:
+In your ec2-user home directory you find the following JARs:
 * amazon-mq-client.jar (using the OpenWire protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/amazon-mq-client/src/main/java/com/aws/sample/amazonmq/AmazonMqClient.java)
 * amqp-client.jar (using the AMQP protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/amqp-client/src/main/java/com/aws/sample/amazonmq/AMQPClient.java)
 * mqtt-client.jar (using the MQTT protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/mqtt-client/src/main/java/com/aws/sample/amazonmq/MQTTClient.java)
@@ -77,10 +77,10 @@ CTRL + b [arrow key down]
 CTRL + b [arrow key left]
 ```
 
-to choose the bottom left window. Run the following command to start a receiver using the **MQTT** protocol (first replace **<MQTT single connection url>** with your current broker value):
+to choose the bottom left window. Run the following command to start a receiver using the **MQTT** protocol (first replace `<MQTT single connection url>` with your current broker value):
 
   * URL: This client doesn't support the failover connection url and expects the scheme to be **ssl** instead of **mqtt+ssl**. You have to provide the MQTT connection url for the active broker, like **ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:8883**.
-  * Type: MQTT is build for publish-subscribe and therefore, it only supports topics in Amazon MQ and not queues.
+  * Type: MQTT is built for publish-subscribe and therefore, it only supports topics in Amazon MQ and not queues.
   * Destination: In MQTT, it's common to use a '/' as a seperator, instead of a '.' to define your queue name. Amazon MQ transforms by default all '/' to '.' in your queue name.
 
 ``` bash
@@ -118,7 +118,7 @@ You should see a log output like the following:
 
 Feel free to try other combinations, using **AMQP**, **MQTT** or **Stomp** as sender protocol.
 
-Stop the sender and receiver by holding `CTRL + c` in each tmux screen. To terminate the active tmux screen, type `CTRL + d`.
+Stop any running sender or receiver by holding `CTRL + c` in each tmux screen. To terminate the active tmux screen, type `CTRL + d`.
 
 
 # Completion
