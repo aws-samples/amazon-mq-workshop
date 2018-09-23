@@ -1,6 +1,6 @@
 # Lab 7: Testing a Broker Fail-over
 
-In this lab you will have an running sender and receiver producing and consuming messages, when we will issue a Broker reboot. You will see how long the clients are not able to send and receive messages, until they could successfully reconnect to the broker.
+In this lab you will have a running sender and receiver producing and consuming messages while you issue a Broker reboot. You will see how long the clients are not able to send and receive messages before they successfully reconnect to the broker.
 
 ### 1. Navigate to the Amazon MQ Brokers page
 
@@ -41,7 +41,7 @@ Run the following command from the top screen, to start the sender:
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type queue -destination workshop.queueA -name Sender-1
 ```
 
-You should see a log output like the following one:
+You should see a log output like the following:
 
 ``` bash
 [ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617
@@ -51,13 +51,13 @@ You should see a log output like the following one:
 ...
 ```
 
-Type `CTRL + b [arrow key down]` to switch to the bottom screen and run the following command, to start the receiver:
+Type `CTRL + b [arrow key down]` to switch to the bottom screen and run the following command to start the receiver:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type queue -destination workshop.queueA
 ```
 
-You should see a log output like the following one:
+You should see a log output like the following:
 
 ``` bash
 [ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617
@@ -75,8 +75,7 @@ Scroll to the top of your brokers details page and click on `Actions -> Reboot b
 
 </p></details><p/>
 
-
-Shortly after, you should see an exception in both consoles, because the primary broker isn't reachable anymore. After waiting a few more seconds, you can see a successful reconnect from your clients to the secondary broker, which was becoming the new primary one (compare the connection urls):
+Shortly after, you should see an exception in both consoles because the primary broker isn't reachable any 	more. After waiting a few more seconds, you should see a successful reconnect from your clients to the secondary broker, which is now the new primary one (compare the connection urls):
 
 The sender console log output should look similar to this one:
 

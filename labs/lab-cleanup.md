@@ -1,6 +1,6 @@
 # Workshop Cleanup
 
-Before we finish this workshop, let's delete all resources we have created during this lab, so that no further costs are incurred.  
+Before we finish this workshop, let's delete all resources we have created so that no further costs are incurred. 
 
 1\. Navigate to the [Amazon MQ console](https://console.aws.amazon.com/amazon-mq).
 

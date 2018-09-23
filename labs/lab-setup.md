@@ -19,9 +19,9 @@ Once you have chosen a region and are inside the AWS CloudFormation Console, you
 
 </p></details><p/>
 
-On the following screen, "Specify Details", your Stack is pre-populated with the name "amazonmqworkshop". You can customize that to a name of your choice **less than 15 characters in length** or leave as is. The user launching the stack (you) already have the necessary permissions. Click **Next**.
+On the following screen, "Specify Details", your Stack is pre-populated with the name "amazonmqworkshop". You can customize that to a name of your choice **less than 15 characters in length** or leave as is. The user launching the stack (you) already has the necessary permissions. Click **Next**.
 
-> An IAM role will also be created and those role will be added to the EC2 instance, you are using during this workshop. On deletion of the stack, those resources will be deleted for you.
+> An IAM role will also be created and this role will be added to the EC2 instance you are using during this workshop. On deletion of the stack, these resources will be deleted for you.
 
 <details><summary>Screenshot</summary><p>
 

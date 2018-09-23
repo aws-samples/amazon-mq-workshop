@@ -1,18 +1,18 @@
-# Lab 5: Set-Up Amazon Cloudwatch to Monitor Our Broker
+# Lab 5: Set-Up Amazon CloudWatch to Monitor Our Broker
 
-In this lab, we will have a closer look which broker, queue and topic metrics are provides via CloudWatch metrics. We will also create an CloudWatch alarm which will trigger an e-mail, as soon as there are messages in the `ActiveMQ.DLQ` queue. The `ActiveMQ.DLQ` queue is a special queue, where Amazon MQ will move messages to it, when they coudn't be processed for multiple times (so called poison messages).
+In this lab we will have a closer look at broker, queue and topic metrics provided via CloudWatch metrics. We also create a CloudWatch alarm which triggers an e-mail as soon as there are messages in the **ActiveMQ.DLQ** queue. The **ActiveMQ.DLQ** queue is a special queue used by Amazon MQ to store messages that failed to be processed multiple times (so called "poison messages").
 
 ### 1. Open an SSH session to your EC2 instance 
 
-Run the following command from the ec2-user home directory, to send a few message to a queue where no receiver is listening to:
+Run the following command from the ec2-user home directory to send a few message to a queue where no receiver is listening to:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type queue -destination workshop.DLQTest -name Sender-1 -ttl 1000
 ```
 
-> Note the `ttl` option. This means the message has a life time from 1 second only. All messages, which were not consumed before the `ttl` expires are moved to the `ActiveMQ.DLQ` queue by default.
+> Note the `ttl` option. This means the message has a life time of only 1 second. All messages which are not consumed before the ttl expires are moved to the **ActiveMQ.DLQ** queue by default.
 
-You should see a log output like the following one:
+You should see a log output like the following:
 
 ``` bash
 [ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:61617
@@ -24,7 +24,7 @@ You should see a log output like the following one:
 
 ### 2. Working with Amazon CloudWatch Metrics
 
-Navigate to the [Amazon CloudWatch console](https://console.aws.amazon.com/cloudwatch). Click on `Metrics` in the left navigation.
+Navigate to the [Amazon CloudWatch console](https://console.aws.amazon.com/cloudwatch). Click on `Metrics` in the left navigation pane.
 
 <details><summary>Screenshot</summary><p>
 
@@ -34,7 +34,7 @@ Navigate to the [Amazon CloudWatch console](https://console.aws.amazon.com/cloud
 
 Click on the **AmazonMQ** namespace and on **Broker Metrics** afterwards.
 
-> If you have multiple brokers running or already started a broker in the past, enter the name of your current broker in the search field and click enter, to filter the metrics to our workshop brokers (primary and secondary).
+> If you have multiple brokers running or already started a broker in the past, enter the name of your current broker in the search field and click enter, to filter the metrics for the workshop broker (primary and secondary).
 
 <details><summary>Screenshot</summary><p>
 
@@ -42,7 +42,7 @@ Click on the **AmazonMQ** namespace and on **Broker Metrics** afterwards.
 
 </p></details><p/>
 
-By selecting some of the metrics, e.g. `CpuUtilization`, you can graph the metric for a given time-frame. 
+By selecting some of the metrics, e.g. `CpuUtilization`, you can plot the metric for a given time-frame. 
 <details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 5 step 4](/images/cloud-watch-Step4.png)

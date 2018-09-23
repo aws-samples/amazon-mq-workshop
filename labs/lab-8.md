@@ -42,7 +42,7 @@ Run the following command to start a sender using the `OpenWire` protocol:
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination workshop.topicA -name OpenWire
 ```
 
-You should see a log output like the following one:
+You should see a log output like the following:
 
 ``` bash
 [ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617
@@ -60,7 +60,7 @@ Type `CTRL + b [arrow key right]` to choose the upper right window. Run the foll
 java -jar stomp-client.jar -url '<Stomp single connection url>' -user $user -password $password -mode receiver -type topic -destination workshop.topicA
 ```
 
-You should see a log output like the following one:
+You should see a log output like the following:
 
 ``` bash
 Successfully connected to stomp+ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:61614
@@ -87,7 +87,7 @@ to choose the bottom left window. Run the following command to start a receiver 
 java -jar mqtt-client.jar -url '<MQTT single connection url>' -user $user -password $password -mode receiver -destination workshop/topicA
 ```
 
-You should see a log output like the following one:
+You should see a log output like the following:
 
 ``` bash
 Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:8883
@@ -105,7 +105,7 @@ Type `CTRL + b [arrow key right]` to choose the bottom right window. Run the fol
 java -jar amqp-client.jar -url '<AMQP failover connection url>' -user $user -password $password -mode receiver -type topic -destination workshop.topicA
 ```
 
-You should see a log output like the following one:
+You should see a log output like the following:
 
 ``` bash
 [AmqpProvider :(1):[amqps://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:5671]] INFO org.apache.qpid.jms.sasl.SaslMechanismFinder - Best match for SASL auth was: SASL-PLAIN

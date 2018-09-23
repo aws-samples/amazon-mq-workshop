@@ -1,6 +1,7 @@
-# Lab 3: Using Publish-Subscribe Messaging
+# Lab 3: Using Publish-Subscribe Messaging Using Topics
 
-In this exercise you will learn how to achieve Publish-Subscribe messaging with Amazon MQ using topics. The behavior of a message topic is that a sender publishes a message into the topic that will be received by all subscribers of that topic, so that there is 1:n relationship between sender and receivers for each considered message.  
+In this exercise you will learn how to do Publish-Subscribe messaging with Amazon MQ using topics. The behavior of a message topic is that a message published onto the topic will be received by all subscribers of that topic, so that there is 1:n relationship between sender and receivers for each published message.  
+
 You will find the source code of this client [here](/amazon-mq-client/src/main/java/com/aws/sample/amazonmq/AmazonMqClient.java).
 
 ### 1. Navigate to the Amazon MQ Brokers page.
@@ -12,7 +13,7 @@ You will find the source code of this client [here](/amazon-mq-client/src/main/j
 
 ### 2. Copy the Connection String
 
-Click on the name of the broker, you created in [Lab 1](/labs/lab-1.md) and scroll a bit down to the **Connections** section. Copy the `OpenWire` fail-over connection url, by clicking on the `Copy failover string (Java)` link on the right site.
+Click on the name of the broker you created in [Lab 1](/labs/lab-1.md) and scroll a bit down to the **Connections** section. Copy the `OpenWire` fail-over connection url, by clicking on the `Copy failover string (Java)` link on the right side.
 
 <details><summary>Screenshot</summary><p>
 
@@ -55,7 +56,7 @@ Run the following command in your tmux terminal session, to start the sender:
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination demo.topicA -name Sender-1
 ```
 
-You should see a log output like the following one:
+You should see a log output like the following:
 
 ``` bash
 [ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617
@@ -65,9 +66,7 @@ You should see a log output like the following one:
 ...
 ```
 
-In your tmux terminal session, run `CTRL + b [arrow key right]`
-
-to switch to the top right screen. Repeat step 4\. to start a second sender, so that 2 clients sending messages the same **topic**. Use a different **name** to distinguish between both.
+In your tmux terminal session, run `CTRL + b [arrow key right]` to switch to the top right screen. Repeat the last command to start a second sender, so that there are 2 clients sending messages the same **topic**. Use a different **name** to distinguish the senders in the logs.
 
 Run `CTRL + b [arrow key down]`, `CTRL + b [arrow key left]` in your tmux session to select the bottom left one as active screen and run the following command to start the first receiver:
 
@@ -75,7 +74,7 @@ Run `CTRL + b [arrow key down]`, `CTRL + b [arrow key left]` in your tmux sessio
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type topic -destination demo.topicA
 ```
 
-You should see a log output like the following one:
+You should see a log output like the following:
 
 ``` bash
 [ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617
@@ -85,9 +84,9 @@ You should see a log output like the following one:
 ...
 ```
 
-Repeat step number 6 to start a second receiver, so that 2 clients listening on the same **topic**.
+Repeat the last command to start a second receiver, so that there are 2 clients listening on the same **topic**.
 
-You will see that multiple sender can send messages to the same topic, and multiple receiver can receiving messages from the same topic. You will also observe, that each message is **delivered to all receivers**, not only one.
+You see that multiple senders can send messages to the same topic and multiple receivers can receive messages from the same topic. You also observe that each message is **delivered to all receivers**.
 
 <details><summary>Screenshot</summary><p>
 
@@ -95,11 +94,10 @@ You will see that multiple sender can send messages to the same topic, and multi
 
 </p></details><p/>
 
-
 Stop the sender and receiver by holding `CTRL + c` in each tmux screen. To terminate the active tmux screen, type `CTRL + d`.
 
 # Completion
 
-Congratulations, you've successfully completed Lab 3! You can move on to [Lab 4: Watch the Broker Statistics](/labs/lab-4.md)
+Congratulations, you've successfully completed Lab 3! You can move on to [Lab 4: Active MQ Broker Statistics](/labs/lab-4.md)
 
 [Return the the Workshop Landing page](/README.md)

@@ -45,7 +45,7 @@ To apply these changes imediately, you have to reboot your broker. Go to the top
 
 </p></details><p/>
 
-It takes a few minutes until the broker finishes the reboot and the status of these **Pending modifications** are not **Creation** anymore.
+It takes a few minutes for the broker to finish the reboot and you should see the the status in the **Pending modifications** column to be cleared and not **Creation**.
 
 <details><summary>Screenshot</summary><p>
 
@@ -78,7 +78,7 @@ To view and edit the latest configuration, just click the **View** link.
 
 </p></details><p/>
 
-Scroll a bit down to the element `<authorizationPlugin\>` and make the following changes. Afterwards click **Save** and confirm, to store the configuration changes.
+Scroll down to the element `<authorizationPlugin\>` and make the modify the content so that it looks as follows. Afterwards click **Save**, and confirm, to store the configuration changes.
 
 ``` xml
     <authorizationPlugin>
@@ -105,7 +105,7 @@ Scroll a bit down to the element `<authorizationPlugin\>` and make the following
 
 </p></details><p/>
 
-Close this browser-tab and go back to the Edit broker page. From the **Revision** drop down select the new revision you created, and click **Schedule modifications**. On the next page, select **Immediately** and click on **Apply**.
+Close this browser-tab and go back to the Edit broker page. From the **Revision** drop down select the new revision you just created, and click **Schedule modifications**. On the next page, select **Immediately** and click on **Apply**.
 <details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 6 step 11](/images/security-set-up-Step11.png)
@@ -118,15 +118,16 @@ After the broker is again in the status `Running`, run the following command in 
 java -jar amazon-mq-client.jar -url $url -user user2 -password <user 2 password> -mode sender -type queue -destination queue.user1 -name user1
 ```
 
-You should see a log output like the following one:
+You should see a log output like the following:
 
 ``` bash
 [ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617
 Error: User user2 is not authorized to write to: queue://queue.user1
 ```
 
-This indicates, the `user2` is not authorized to write into this queue. Try out what happens, if you read messages from this queue or read/write from/to another one.
-When you only change the user from `user2` to `user1` and read from `queue.user1`, you should see the following log output which indicates, that you can successfully write to `queue.user1`.
+This indicates that `user2` is not authorized to write into this queue. Try to see what happens if you read messages from this queue or read/write from/to another one.
+
+When you change the user from `user2` to `user1` and read from `queue.user1`, you should see the following log output which indicates that you can successfully write to `queue.user1`.
 
 ``` bash
 [ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617

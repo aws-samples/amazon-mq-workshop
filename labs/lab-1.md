@@ -1,6 +1,6 @@
 # Lab 1: Set-Up the Broker
 
-In this Lab you will create the Amazon MQ broker, we will use during the workshop.
+In this lab you will create the Amazon MQ broker we will use during the workshop.
 
 ### 1. Navigate to the [Amazon MQ service console](https://console.aws.amazon.com/amazon-mq).
 
@@ -12,7 +12,7 @@ In this Lab you will create the Amazon MQ broker, we will use during the worksho
 
 </p></details><p/>
 
-### 2. Click to the navigation button in the top left corner and select **Brokers**.
+### 2. Click to the navigation button in the top-left corner and select **Brokers**.
 
 <details><summary>Screenshot</summary><p>
 
@@ -29,7 +29,7 @@ In this Lab you will create the Amazon MQ broker, we will use during the worksho
 </p></details><p/>
 
 
-### 4. Configure the broker details as following and scroll down:
+### 4. Configure the broker details as follows and scroll down:
 
 * Broker name: `workshop`
 * Broker instance type: `mq.t2.micro`
@@ -52,12 +52,12 @@ In this Lab you will create the Amazon MQ broker, we will use during the worksho
 
 </p></details><p/>
 
-### 6. Open the brokers advanced settings and choose the following settings. Scrcoll down afterwards.
+### 6. Open the brokers advanced settings and choose the following settings. Scroll down afterwards.
 
 * Virtual Private Cloud (VPC): `{Stackname}-VPC`
 * Subnet(s): `{Stackname}-Subnet1` and `{Stackname}-Subnet2`
 
-> **It's important to use the VPC, subnet and security group which was created with the CloudFormation template to make sure, the connectivity between your EC2 instance and Amazon MQ is working!**
+> It's important to use the VPC, subnets and security group which were created by the CloudFormation template to make sure the connectivity between your EC2 instance and Amazon MQ is working!
 
 <details><summary>Screenshot</summary><p>
 
@@ -78,11 +78,11 @@ In this Lab you will create the Amazon MQ broker, we will use during the worksho
 </p></details><p/>
 
 
-### 8. It will take up to 10 minutes until the broker is in the **Running** state and ready to use
+### 8. It might take up to 10 minutes for the broker to go into **Running** state and be ready to use.
 
 ### 9. Store Bash Variables
 
-Open an SSH session to your EC2 instance, you have created during the set-up. We will store frequently used parameters like Amazon MQ broker user, password, etc. in Bash environment variables, to make it easier to run the commands in the following labs. Before you run the following commands, replace the values **<...>** with the value you have chosen.
+Open an SSH session to the EC2 instance you have created during the set-up. To make it easier to run the commands in the following labs we store frequently used parameters like Amazon MQ broker user, password, etc. in Bash environment variables. Before you run the following commands, replace the values **<...>** with the value you have chosen.
 
 ``` bash
 echo 'user=<user>' >> ~/.bashrc; source ~/.bashrc
@@ -92,6 +92,6 @@ echo 'url="<failover openWire url>"' >> ~/.bashrc; source ~/.bashrc
 
 # Completion
 
-Congratulations, you've successfully completed Lab 7! You can move on to [Lab 2: Using Point-To-Point Messaging](/labs/lab-2.md)
+Congratulations, you've successfully completed Lab 7! You can move on to [Lab 2: Using Point-To-Point Messaging Using Queues](/labs/lab-2.md)
 
 [Return the the Workshop Landing page](/README.md)
