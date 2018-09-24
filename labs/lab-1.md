@@ -55,7 +55,7 @@ In this lab you will create the Amazon MQ broker we will use during the workshop
 ### 6. Open the brokers advanced settings and choose the following settings. Scroll down afterwards.
 
 * Virtual Private Cloud (VPC): `{Stackname}-VPC`
-* Subnet(s): `{Stackname}-Subnet1` and `{Stackname}-Subnet2`
+* Subnet(s): `{Stackname}-PublicSubnet1` and `{Stackname}-PublicSubnet2`
 
 > It's important to use the VPC, subnets and security group which were created by the CloudFormation template to make sure the connectivity between your EC2 instance and Amazon MQ is working!
 
