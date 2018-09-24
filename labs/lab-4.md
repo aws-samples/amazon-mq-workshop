@@ -1,72 +1,79 @@
-# Lab 4: Watch the broker statistics
+# Lab 4: Active MQ Broker Statistics
 
-In this lab, we will have a look at the statistics, Apache Active MQ is providing us through their web console.
+In this lab, we will have a look at the statistics, Apache Active MQ is providing us through its web console.
 
-## Prerequisites
-You need to have done lab 2 and lab 3 to get statistics.  
+### Prerequisites
+You need to have done [Lab 2](/labs/lab-2.md) and [Lab 3](/labs/lab-3.md) to get statistics, or otherwise published and consumed messages on the broker. 
 
-## 
+### 1. Navigate to the Amazon MQ Brokers page.
+<details><summary>Screenshot</summary><p>
 
-
-1\. Navigate to the Amazon MQ Brokers page.
-<details><summary>Screenshot step 1</summary><p>
-
-![Amazon MQ workshop lab 4 step 1](/images/amazon-mq-broker-overview.png)
+![Amazon MQ workshop Lab 4 step 1](/images/amazon-mq-broker-overview.png)
 
 </p></details><p/>
 
 
-2\. Click on the name of the broker, you created in lab 1 and scroll a bit down to the **Connections** section. Here you will find the links to the **ActiveMQ Web Console**. Only the link to the primary broker will be available. Try out which link is working at this time.
-<details><summary>Screenshot step 2</summary><p>
+### 2. Get ActiveMQ Web console address
 
-![Amazon MQ workshop lab 4 step 2](/images/broker-statistics-Step2.png)
+Click on the name of the broker you created in [Lab 1](/labs/lab-1.md) and scroll a bit down to the **Connections** section. Here you find the links to the **ActiveMQ Web Console**. Only the link to the current primary broker will work. Try either link to find out which link is working at this time.
 
-</p></details><p/>
+<details><summary>Screenshot</summary><p>
 
-
-3\. On the next page, click on **Manage ActiveMQ broker** and provide your credentials. After a successfull login, you will be forwarded to the overview page. Here you can find e.g. the information about the brokers up-time or used memory:
-<details><summary>Screenshot step 3</summary><p>
-
-![Amazon MQ workshop lab 4 step 3](/images/broker-statistics-Step3.png)
+![Amazon MQ workshop Lab 4 step 2](/images/broker-statistics-Step2.png)
 
 </p></details><p/>
 
 
-4\. Click on the **Queues** link in the top navigation bar to get some detailed information about the existing queues and the main information like number of active consumers, number of pending messages, messages enqueued and messages dequeued. This page provides you also the function to **Purge** the entire queue, to **Delete** a queue or to **Send** a message to this queue.
-<details><summary>Screenshot step 4</summary><p>
+### 3. Log into the ActiveMQ Web console
 
-![Amazon MQ workshop lab 4 step 4](/images/broker-statistics-Step4.png)
+On the next page, click on **Manage ActiveMQ broker** and provide your credentials. After a successful login, you are forwarded to the overview page. Here you can find, among others, the information about the brokers up-time and used memory:
+
+<details><summary>Screenshot</summary><p>
+
+![Amazon MQ workshop Lab 4 step 3](/images/broker-statistics-Step3.png)
+
+</p></details><p/>
+
+### 4. Managing Queues
+
+Click on the **Queues** link in the top navigation bar to get some detailed information about the existing queues and some key information like number of active consumers, number of pending messages, messages enqueued and messages dequeued. This page also provides functions to `Purge` the entire queue, to `Delete` a queue or to `Send` a message to this queue.
+
+<details><summary>Screenshot</summary><p>
+
+![Amazon MQ workshop Lab 4 step 4](/images/broker-statistics-Step4.png)
 
 </p></details><p/>
 
 
-5\. Click on one of the queues, e.g. **queue.user1** to browse the queue content. Choose a queue which has some pending messages. On this page you can also **Delete** individual message, if you have to.
+Click on one of the queues, e.g. `queue.user1` to browse the queue content. Choose a queue which has some pending messages. On this page you can also `Delete` individual message, if you have to.
 
-If you don't have a queue with pending messages, just start a sender and send some messages into a queue, as you have done in lab 2.
-<details><summary>Screenshot step 5</summary><p>
+If you don't have a queue with pending messages, just start a sender and send some messages into a queue, as you have done in [Lab 2](/labs/lab-2.md).
 
-![Amazon MQ workshop lab 4 step 5](/images/broker-statistics-Step5.png)
+<details><summary>Screenshot</summary><p>
 
-</p></details><p/>
-
-
-6\. By clicking on one of the messages, you can see the details of this message, including the timestamp when the message was sent, the unique message id and the content of this message. From this page, you can also **Delete** this message or **Copy/Move** it into another queue.
-<details><summary>Screenshot step 6</summary><p>
-
-![Amazon MQ workshop lab 4 step 6](/images/broker-statistics-Step6.png)
+![Amazon MQ workshop Lab 4 step 5](/images/broker-statistics-Step5.png)
 
 </p></details><p/>
 
+By clicking on one of the messages, you can see the details of the message, including the timestamp when the message was sent, the unique message id and the content of the message. From this page, you can also **Delete** the message or **Copy/Move** it into another queue.
 
-7\. Click on the **Topics** link in the top navigation bar to get some detailed information about the existing topics and the main information like number of active consumers, messages enqueued and messages dequeued. This page provides you also the function to **Delete** a topic or to **Send** a message to this topic.
-<details><summary>Screenshot step 7</summary><p>
+<details><summary>Screenshot</summary><p>
 
-![Amazon MQ workshop lab 4 step 7](/images/broker-statistics-Step7.png)
+![Amazon MQ workshop Lab 4 step 6](/images/broker-statistics-Step6.png)
 
 </p></details><p/>
 
+### 4. Managing Topics
 
-8\. You may wondering about the different **ActiveMQ.Advisory.\*** topics. Apache Active MQ publishes different kind of events to the different topics which gives you the ability to react to these events. An example message from the **ActiveMQ.Advisory.Producer.Topic.workshop.topicA** topic could look like this one:
+Click on the **Topics** link in the top navigation bar to get some detailed information about the existing topics and some key information like number of active consumers, messages enqueued and messages dequeued. This page provides also the function to **Delete** a topic or to **Send** a message to a topic.
+
+<details><summary>Screenshot</summary><p>
+
+![Amazon MQ workshop Lab 4 step 7](/images/broker-statistics-Step7.png)
+
+</p></details><p/>
+
+You may be wondering about the different `ActiveMQ.Advisory.\` topics. Apache Active MQ publishes different kind of events to the different Advisory topics which gives you the ability to react to these events. An example message from the `ActiveMQ.Advisory.Producer.Topic.workshop.topicA` topic could look like this one:
 
 ```
 {
@@ -120,13 +127,18 @@ If you don't have a queue with pending messages, just start a sender and send so
 }
 ```
 
+Browse to the **Subscribers**, **Connections** and **Network** links in the top navigation bar to get additional information about the broker.
 
-9\. By browsing to the **Subscribers**, **Connections** and **Network** links in the top navigation bar, you can get some more detailed information about these. 
+By clicking on the `Send` link in the top navigation bar, you can easily send a message to a queue or topic of your choice.
 
+<details><summary>Screenshot</summary><p>
 
-10\. By clicking on the **Send** link in the top navigation bar, you can easily send a message to a queue or topic of your choice.
-<details><summary>Screenshot step 10</summary><p>
-
-![Amazon MQ workshop lab 4 step 10](/images/broker-statistics-Step10.png)
+![Amazon MQ workshop Lab 4 step 10](/images/broker-statistics-Step10.png)
 
 </p></details><p/>
+
+# Completion
+
+Congratulations, you've successfully completed Lab 4! You can move on to [Lab 5: Set-Up Amazon CloudWatch to Monitor Our Broker](/labs/lab-5.md)
+
+[Return the the Workshop Landing page](/README.md)
