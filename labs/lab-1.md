@@ -92,6 +92,6 @@ echo 'url="<failover openWire url>"' >> ~/.bashrc; source ~/.bashrc
 
 # Completion
 
-Congratulations, you've successfully completed Lab 7! You can move on to [Lab 2: Using Point-To-Point Messaging Using Queues](/labs/lab-2.md)
+Congratulations, you've successfully completed Lab 1! You can move on to [Lab 2: Using Point-To-Point Messaging Using Queues](/labs/lab-2.md)
 
 [Return the the Workshop Landing page](/README.md)
