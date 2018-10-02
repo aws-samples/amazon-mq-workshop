@@ -36,16 +36,16 @@ Each of the labs in this workshop are independent and you may choose to do some 
 
 * **[Lab 3: Using Publish-Subscribe Messaging Using Topics](/labs/lab-3.md)** - In this exercise you will learn how to achieve Publish-Subscribe messaging with Amazon MQ using topics. The behavior of a message topic is that a message published onto the topic will be received by all subscribers of that topic, so that there is 1:n relationship between sender and receivers for each published message.
 
-* **[Lab 4: Active MQ Broker Statistics](/labs/lab-4.md)** - Apache Active MQ comes with an embedded web console, which provides useful broker statistics. We will discover these statistics and learn a bit more about the web console features:
-  * How to create a new queue/topic
-  * How to purge all messages from one queue
-  * How to send a messages to a queue/topic using the web console
+* **[Lab 4: Testing a Broker Fail-Over](/labs/lab-4.md)** - Let's figure out how the broker fail-over in a Multi-AZ set-up works, what the impact for the clients is, and how long it will take to recover. We will have a sender and receiver running during this fail-over and observe their behavior.  
 
 * **[Lab 5: Set-Up Amazon CloudWatch to Monitor Our Broker](/labs/lab-5.md)** - In this exercise, we will have a closer look to broker, queue and topic metrics that are provides via CloudWatch metrics. We will also create a CloudWatch alarm which will trigger an e-mail as soon as there are messages in the **ActiveMQ.DLQ** queue. The **ActiveMQ.DLQ** queue is a special queue used by Amazon MQ to store messages that failed to be processed multiple times (so called "poison messages").  
 
 * **[Lab 6: Tighten up Security with Access Control](/labs/lab-6.md)** - Apache Active MQ provides out of the box a feature which allows to define fine grained access control policies per queue/topic. In this lab we will configure access control policies for a queue and topic and see how it works. 
 
-* **[Lab 7: Testing a Broker Fail-Over](/labs/lab-7.md)** - Let's figure out how the broker fail-over in a Multi-AZ set-up works, what the impact for the clients is, and how long it will take to recover. We will have a sender and receiver running during this fail-over and observe their behavior.  
+* **[Lab 7: Active MQ Broker Statistics](/labs/lab-7.md)** - Apache Active MQ comes with an embedded web console, which provides useful broker statistics. We will discover these statistics and learn a bit more about the web console features:
+  * How to create a new queue/topic
+  * How to purge all messages from one queue
+  * How to send a messages to a queue/topic using the web console
 
 * **[Lab 8: Protocol Interoperability](/labs/lab-8.md)** - In this exercise, you are connecting one of the message producers to the broker and start sending messages. You also connect one of the message consumers to the broker, using a different protocol. We will repeat set-up this with multiple protocol combinations to figure out which protocol conversions are supported by Amazon MQ.
 
