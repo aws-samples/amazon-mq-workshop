@@ -63,7 +63,7 @@ By clicking on one of the messages, you can see the details of the message, incl
 
 </p></details><p/>
 
-### 4. Managing Topics
+### 5. Managing Topics
 
 Click on the **Topics** link in the top navigation bar to get some detailed information about the existing topics and some key information like number of active consumers, messages enqueued and messages dequeued. This page provides also the function to **Delete** a topic or to **Send** a message to a topic.
 
