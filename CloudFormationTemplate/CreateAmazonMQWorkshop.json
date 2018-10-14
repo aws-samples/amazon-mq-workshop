@@ -1,16 +1,20 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "AWS CloudFormation template to launch resources for the Amazon MQ workshop.",
-
+  
   "Parameters": {
     "SSHKey": {
       "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instance.",
-      "Type": "AWS::EC2::KeyPair::KeyName"
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "MinLength": "1",
+      "ConstraintDescription": "The SSHKey is required!"
     },
     "CIDR": {
       "Description": "CIDR block, from which the access to the EC2 instance is allowed.",
       "Type": "String",
-      "Default": "0.0.0.0/0"
+      "Default": "0.0.0.0/0",
+      "MinLength": "1",
+      "ConstraintDescription": "The CIDR block is required!"
     }
   },
 
