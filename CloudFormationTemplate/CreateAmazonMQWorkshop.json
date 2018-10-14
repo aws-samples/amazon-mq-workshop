@@ -15,6 +15,20 @@
       "Default": "0.0.0.0/0",
       "MinLength": "1",
       "ConstraintDescription": "The CIDR block is required!"
+    },
+    "AmazonMQBrokerUser": {
+      "Description": "The user to access the Amazon MQ broker.",
+      "Type": "String",
+      "Default": "workshopUser",
+      "MinLength": "2",
+      "ConstraintDescription": "The Amazon MQ broker user is required !"
+    },
+    "AmazonMQBrokerPassword": {
+      "Description": "The password to access the Amazon MQ broker.",
+      "Type": "String",
+      "MinLength": "12",
+      "ConstraintDescription": "The Amazon MQ broker password is required !",
+      "NoEcho": true
     }
   },
 
@@ -301,6 +315,30 @@
             }
           }
         ]
+      }
+    },
+    "AmazonMQBroker": {
+      "Type": "AWS::AmazonMQ::Broker",
+      "Properties": {
+        "BrokerName": "workshopAmazonMQBroker",
+        "EngineType": "ActiveMQ",
+        "EngineVersion": "5.15.0",
+        "HostInstanceType": "mq.t2.micro",
+        "DeploymentMode": "ACTIVE_STANDBY_MULTI_AZ",
+        "PubliclyAccessible": true,
+        "AutoMinorVersionUpgrade": false,
+        "SecurityGroups": [{ "Ref": "AmazonMQSecurityGroup" }],
+        "SubnetIds": [{ "Ref": "PublicSubnet1" }, { "Ref": "PublicSubnet2" }],
+        "Logs": {
+          "Audit" : true,
+          "General" : true
+        },
+        "Users": [{
+          "ConsoleAccess" : true,
+          "Groups" : [ "admin" ],
+          "Username" : "workshopUser",
+          "Password" : "workshopPassword"
+        }]
       }
     },
     "EC2InstanceRole": {
