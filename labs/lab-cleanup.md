@@ -10,7 +10,6 @@ Before we finish this workshop, let's delete all resources we have created so th
 
 </p></details><p/>
 
-
 2\. Select the broker you created manually for this workshop and click **Delete**.
 <details><summary>Screenshot</summary><p>
 
@@ -18,14 +17,12 @@ Before we finish this workshop, let's delete all resources we have created so th
 
 </p></details><p/>
 
-
 3\. On the next screen, enter **delete** in the text field and click **Delete** again.
 <details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop cleanup step 3](/images/cleanup-Step3.png)
 
 </p></details><p/>
-
 
 4\. Navigate to the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack we have created earlier and choose **Actions -> Delete Stack**. On the next page, confirm it by clicking **Yes, delete**.
 
@@ -37,6 +34,6 @@ Before we finish this workshop, let's delete all resources we have created so th
 
 # Completion
 
-Congratulations, you've successfully cleaned up he workshop resources!
+Congratulations, you've successfully cleaned up the workshop resources!
 
 [Return the the Workshop Landing page](/README.md)
