@@ -43,7 +43,7 @@ In this lab you will create the Amazon MQ broker we will use during the workshop
 
 ### 5. Continue with the broker web console access configuration and scroll down:
 
-* Username: `workshop-user`
+* Username: `workshopUser`
 * Password: `<choose one>`
 
 <details><summary>Screenshot</summary><p>

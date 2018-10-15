@@ -1,123 +1,141 @@
-# Lab 7: Testing a Broker Fail-over
+# Lab 7: Active MQ Broker Statistics
 
-In this lab you will have a running sender and receiver producing and consuming messages while you issue a Broker reboot. You will see how long the clients are not able to send and receive messages before they successfully reconnect to the broker.
+In this lab, we will have a look at the statistics, Apache Active MQ is providing us through its web console.
 
-### 1. Navigate to the Amazon MQ Brokers page
+### Prerequisites
+You need to have done [Lab 2](/labs/lab-2.md) and [Lab 3](/labs/lab-3.md) to get statistics, or otherwise published and consumed messages on the broker. 
+
+### 1. Navigate to the Amazon MQ Brokers page.
+<details><summary>Screenshot</summary><p>
+
+![Amazon MQ workshop Lab 7 step 1](/images/amazon-mq-broker-overview.png)
+
+</p></details><p/>
+
+
+### 2. Get ActiveMQ Web console address
+
+Click on the name of the broker you created in [Lab 1](/labs/lab-1.md) and scroll a bit down to the **Connections** section. Here you find the links to the **ActiveMQ Web Console**. Only the link to the current primary broker will work. Try either link to find out which link is working at this time.
 
 <details><summary>Screenshot</summary><p>
 
-![Amazon MQ workshop lab 7 step 1](/images/amazon-mq-broker-overview.png)
+![Amazon MQ workshop Lab 7 step 2](/images/broker-statistics-Step2.png)
 
 </p></details><p/>
 
-### 2. Copy the Connection String
 
-Click on the name of the broker, you created in lab 1 and scroll a bit down to the **Connections** section. Copy the **OpenWire** fail-over connection url, by clicking on the **Copy failover string (Java)** link on the right site.
+### 3. Log into the ActiveMQ Web console
 
-<details><summary>Screenshot step 2</summary><p>
-
-![Amazon MQ workshop lab 7 step 2](/images/fail-over-Step2.png)
-
-</p></details><p/>
-
-### 3. Open an SSH session to your EC2 instance
-
-Open an SSH session to your EC2 instance and start a **tmux** session by running:
-
-```
-tmux
-```
-
-To split your terminal window into 2 individual screens, run the following commands:
-
-```
-CTRL + b "
-CTRL + b [arrow key up]
-```
-
-Run the following command from the top screen, to start the sender:
-
-``` bash
-java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type queue -destination workshop.queueA -name Sender-1
-```
-
-You should see a log output like the following:
-
-``` bash
-[ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617
-12.04.2018 12:00:58.369 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 1'
-12.04.2018 12:00:58.395 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 2'
-12.04.2018 12:00:58.419 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 3'
-...
-```
-
-Type `CTRL + b [arrow key down]` to switch to the bottom screen and run the following command to start the receiver:
-
-``` bash
-java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type queue -destination workshop.queueA
-```
-
-You should see a log output like the following:
-
-``` bash
-[ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617
-12.04.2018 12:01:03.672 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 1'
-12.04.2018 12:01:03.772 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 2'
-12.04.2018 12:01:03.673 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 3'
-...
-```
-
-Scroll to the top of your brokers details page and click on `Actions -> Reboot broker`.
+On the next page, click on **Manage ActiveMQ broker** and provide your credentials. After a successful login, you are forwarded to the overview page. Here you can find, among others, the information about the brokers up-time and used memory:
 
 <details><summary>Screenshot</summary><p>
 
-![Amazon MQ workshop lab 7 step 5](/images/fail-over-Step5.png)
+![Amazon MQ workshop Lab 7 step 3](/images/broker-statistics-Step3.png)
 
 </p></details><p/>
 
-Shortly after, you should see an exception in both consoles because the primary broker isn't reachable any 	more. After waiting a few more seconds, you should see a successful reconnect from your clients to the secondary broker, which is now the new primary one (compare the connection urls):
+### 4. Managing Queues
 
-The sender console log output should look similar to this one:
+Click on the **Queues** link in the top navigation bar to get some detailed information about the existing queues and some key information like number of active consumers, number of pending messages, messages enqueued and messages dequeued. This page also provides functions to `Purge` the entire queue, to `Delete` a queue or to `Send` a message to this queue.
 
-``` bash
-12.04.2018 12:02:59.869 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 4668'
-12.04.2018 12:02:59.895 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 4669'
-12.04.2018 12:02:59.919 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 4670'
-[ActiveMQ Transport: ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com/52.28.200.138:61617] WARN org.apache.activemq.transport.failover.FailoverTransport - Transport (ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617) failed , attempting to automatically reconnect: {}
-java.io.EOFException
-	at java.io.DataInputStream.readInt(DataInputStream.java:392)
-	at org.apache.activemq.openwire.OpenWireFormat.unmarshal(OpenWireFormat.java:268)
-	at org.apache.activemq.transport.tcp.TcpTransport.readCommand(TcpTransport.java:240)
-	at org.apache.activemq.transport.tcp.TcpTransport.doRun(TcpTransport.java:232)
-	at org.apache.activemq.transport.tcp.TcpTransport.run(TcpTransport.java:215)
-	at java.lang.Thread.run(Thread.java:748)
-[ActiveMQ Task-3] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully reconnected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:61617
-12.04.2018 12:03:11.534 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 4671'
-12.04.2018 12:03:11.670 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 4672'
-12.04.2018 12:03:11.783 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 4673'
+<details><summary>Screenshot</summary><p>
+
+![Amazon MQ workshop Lab 7 step 4](/images/broker-statistics-Step4.png)
+
+</p></details><p/>
+
+
+Click on one of the queues, e.g. `queue.user1` to browse the queue content. Choose a queue which has some pending messages. On this page you can also `Delete` individual message, if you have to.
+
+If you don't have a queue with pending messages, just start a sender and send some messages into a queue, as you have done in [Lab 2](/labs/lab-2.md).
+
+<details><summary>Screenshot</summary><p>
+
+![Amazon MQ workshop Lab 7 step 5](/images/broker-statistics-Step5.png)
+
+</p></details><p/>
+
+By clicking on one of the messages, you can see the details of the message, including the timestamp when the message was sent, the unique message id and the content of the message. From this page, you can also **Delete** the message or **Copy/Move** it into another queue.
+
+<details><summary>Screenshot</summary><p>
+
+![Amazon MQ workshop Lab 7 step 6](/images/broker-statistics-Step6.png)
+
+</p></details><p/>
+
+### 5. Managing Topics
+
+Click on the **Topics** link in the top navigation bar to get some detailed information about the existing topics and some key information like number of active consumers, messages enqueued and messages dequeued. This page provides also the function to **Delete** a topic or to **Send** a message to a topic.
+
+<details><summary>Screenshot</summary><p>
+
+![Amazon MQ workshop Lab 7 step 7](/images/broker-statistics-Step7.png)
+
+</p></details><p/>
+
+You may be wondering about the different `ActiveMQ.Advisory.\` topics. Apache Active MQ publishes different kind of events to the different Advisory topics which gives you the ability to react to these events. An example message from the `ActiveMQ.Advisory.Producer.Topic.workshop.topicA` topic could look like this one:
+
+```
+{
+  commandId = 0,
+  responseRequired = false,
+  messageId = ID:ip-10-0-1-207-33499-1523623744067-1:1:0:0:149,
+  originalDestination = null,
+  originalTransactionId = null,
+  producerId = ID:ip-10-0-1-207-33499-1523623744067-1:1:0:0,
+  destination = topic://ActiveMQ.Advisory.Producer.Topic.workshop.topicA,
+  transactionId = null,
+  expiration = 0,
+  timestamp = 0,
+  arrival = 0,
+  brokerInTime = 1523703346934,
+  brokerOutTime = 1523703346935,
+  correlationId = null,
+  replyTo = null,
+  persistent = false,
+  type = Advisory,
+  priority = 0,
+  groupID = null,
+  groupSequence = 0,
+  targetConsumerId = null,
+  compressed = false,
+  userID = null,
+  content = null,
+  marshalledProperties = org.apache.activemq.util.ByteSequence@1dfc39d,
+  dataStructure = ProducerInfo {
+    commandId = 4,
+    responseRequired = true,
+    producerId = ID:c4b301d0e35d-62410-1523703346186-1:1:1:1,
+    destination = topic://workshop.topicA,
+    brokerPath = null,
+    dispatchAsync = false,
+    windowSize = 0,
+    sentCount = 0
+  },
+  redeliveryCounter = 0,
+  size = 0,
+  properties = {
+    producerCount=1,
+    originBrokerName=workshop,
+    originBrokerURL=ssl://ip-10-0-1-207:61617,
+    originBrokerId=b-4e4bfd69-7b83-4a27-9faf-4684cfa80443
+  },
+  readOnlyProperties = true,
+  readOnlyBody = true,
+  droppable = false,
+  jmsXGroupFirstForConsumer = false
+}
 ```
 
-The receiver console log output should look similar to this one:
+Browse to the **Subscribers**, **Connections** and **Network** links in the top navigation bar to get additional information about the broker.
 
-``` bash
-12.04.2018 12:02:59.876 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 4668'
-12.04.2018 12:02:59.902 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 4669'
-12.04.2018 12:02:59.926 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 4670'
-[ActiveMQ Transport: ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com/52.28.200.138:61617] WARN org.apache.activemq.transport.failover.FailoverTransport - Transport (ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617) failed , attempting to automatically reconnect: {}
-java.io.EOFException
-	at java.io.DataInputStream.readInt(DataInputStream.java:392)
-	at org.apache.activemq.openwire.OpenWireFormat.unmarshal(OpenWireFormat.java:268)
-	at org.apache.activemq.transport.tcp.TcpTransport.readCommand(TcpTransport.java:240)
-	at org.apache.activemq.transport.tcp.TcpTransport.doRun(TcpTransport.java:232)
-	at org.apache.activemq.transport.tcp.TcpTransport.run(TcpTransport.java:215)
-	at java.lang.Thread.run(Thread.java:748)
-[ActiveMQ Task-3] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully reconnected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:61617
-12.04.2018 12:03:11.541 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 4671'
-12.04.2018 12:03:11.677 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 4672'
-12.04.2018 12:03:11.790 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 4673'
-```
+By clicking on the `Send` link in the top navigation bar, you can easily send a message to a queue or topic of your choice.
 
-Stop the sender and receiver by holding `CTRL + c` in each tmux screen. To terminate the active tmux screen, type `CTRL + d`.
+<details><summary>Screenshot</summary><p>
+
+![Amazon MQ workshop Lab 7 step 10](/images/broker-statistics-Step10.png)
+
+</p></details><p/>
 
 # Completion
 
