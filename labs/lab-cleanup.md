@@ -11,7 +11,7 @@ Before we finish this workshop, let's delete all resources we have created so th
 </p></details><p/>
 
 
-2\. Select the broker you created for this workshop and click **Delete**.
+2\. Select the broker you created manually for this workshop and click **Delete**.
 <details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop cleanup step 2](/images/cleanup-Step2.png)

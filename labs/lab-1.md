@@ -43,7 +43,7 @@ In this lab you will create the Amazon MQ broker we will use during the workshop
 
 ### 5. Continue with the broker web console access configuration and scroll down:
 
-* Username: `workshop-user`
+* Username: `workshopUser`
 * Password: `<choose one>`
 
 <details><summary>Screenshot</summary><p>
@@ -92,6 +92,6 @@ echo 'url="<failover openWire url>"' >> ~/.bashrc; source ~/.bashrc
 
 # Completion
 
-Congratulations, you've successfully completed Lab 7! You can move on to [Lab 2: Using Point-To-Point Messaging Using Queues](/labs/lab-2.md)
+Congratulations, you've successfully completed Lab 1! You can move on to [Lab 2: Using Point-To-Point Messaging Using Queues](/labs/lab-2.md)
 
 [Return the the Workshop Landing page](/README.md)
