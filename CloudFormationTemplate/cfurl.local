@@ -1,1 +1,0 @@
-https://console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/new?stackName=mq-workshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop-docker.json
