@@ -65,7 +65,7 @@ In this lab you will create the Amazon MQ broker we will use during the workshop
 
 </p></details><p/>
 
-### 7. Continue with the advanced settings as below and click **Create broker**.
+### 7. Look at the advanced settings
 
 * Security group(s): **{Stackname}-AmazonMQSecurityGroup-...**
 * Public accessibility: **Yes** (to be able to access the Apache ActiveMQ web console)
@@ -77,12 +77,13 @@ In this lab you will create the Amazon MQ broker we will use during the workshop
 
 </p></details><p/>
 
+** NOTE: DO NOT CLICK "CREATE BROKER". We will be using a broker that has alraedy been created for you since it takes up to  10 minutes for the broker to go into **Running** state and be ready to use. **
 
-### 8. It might take up to 10 minutes for the broker to go into **Running** state and be ready to use.
 
-### 9. Store Bash Variables
+### 8. Store Bash Variables
 
-Open an SSH session to the EC2 instance you have created during the set-up. To make it easier to run the commands in the following labs we store frequently used parameters like Amazon MQ broker user, password, etc. in Bash environment variables. Before you run the following commands, replace the values **<...>** with the value you have chosen.
+To make it easier to run the commands in the following labs we store frequently used parameters like Amazon MQ broker user, password, etc. in Bash environment variables. 
+Go to the Cloud9 IDE tab in the browser (or open a new one by clicking on the URL in the Output section of the CloudFormation stack). Select the terminal window at the bottom, and enter the following commands, replacing the values **<...>** with the value you have chosen during the creation of the stack.
 
 ``` bash
 echo 'user=<user>' >> ~/.bashrc; source ~/.bashrc

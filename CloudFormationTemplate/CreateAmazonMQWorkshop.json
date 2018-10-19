@@ -320,48 +320,6 @@
         }]
       }
     },
-    "EC2InstanceRole": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Service": [ "ec2.amazonaws.com" ]
-              },
-              "Action": [ "sts:AssumeRole" ]
-            }
-          ]
-        },
-        "Path": "/",
-        "Policies": [
-          {
-            "PolicyName": "AmazonMQWorkshopPolicy",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "s3:GetObject"
-                  ],
-                  "Resource": "arn:aws:s3:::cmr-amazon-mq-workshop/*"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    "EC2InstanceProfile" : {
-      "Type": "AWS::IAM::InstanceProfile",
-      "Properties": {
-        "Path": "/",
-        "Roles": [ { "Ref": "EC2InstanceRole" } ]
-      }
-    },
     "EC2Instance" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {

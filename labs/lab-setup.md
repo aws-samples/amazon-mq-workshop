@@ -35,7 +35,7 @@ On the following screen, "Specify Details", your Stack is pre-populated with the
 
 On the "Options" page, leave the defaults and click **Next**.
 
-On the "Review" page, verify your selections, then scroll to the bottom and select the checkbox **I acknowledge that AWS CloudFormation might create IAM resources**. Then click **Create** to launch your stack.
+On the "Review" page, verify your selections, then scroll to the bottom and click **Create** to launch your stack.
 
 <details><summary>Screenshot</summary><p>
 
@@ -45,7 +45,8 @@ On the "Review" page, verify your selections, then scroll to the bottom and sele
 
 Your stack will take about 3 minutes to launch and you can track its progress in the "Events" tab. When it is done creating, the status will change to "CREATE_COMPLETE".
 
-On the "Outputs" tab in CloudFormation, you can look-up the public IP address of your EC2 instance in the line "EC2IP". Use this to connect to your EC2 instance via SSH.
+On the "Outputs" tab in CloudFormation, you can look-up the public IP address of your EC2 instance in the line "EC2IP" and the URL to access the Cloud9 IDE in the line "Cloud9ConsoleUrl". Click on this URL to open the Cloud9 editor and enter *aws* as username and *mq* as password.
+It can take sometime to launch the IDE the first time.
 
 # Completion
 

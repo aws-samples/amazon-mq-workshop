@@ -2,9 +2,9 @@
 
 In this lab we will have a closer look at broker, queue and topic metrics provided via CloudWatch metrics. We also create a CloudWatch alarm which triggers an e-mail as soon as there are messages in the **ActiveMQ.DLQ** queue. The **ActiveMQ.DLQ** queue is a special queue used by Amazon MQ to store messages that failed to be processed multiple times (so called "poison messages").
 
-### 1. Open an SSH session to your EC2 instance 
+#Go to the Cloud9 IDE tab in the browser
 
-Run the following command from the ec2-user home directory to send a few message to a queue where no receiver is listening to:
+In the main pane, close the Welcome screen and add 1  terminal tab. Run the following command to send a few message to a queue where no receiver is listening to:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type queue -destination workshop.DLQTest -name Sender-1 -ttl 1000
