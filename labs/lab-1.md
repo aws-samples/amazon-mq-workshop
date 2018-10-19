@@ -77,7 +77,7 @@ In this lab you will create the Amazon MQ broker we will use during the workshop
 
 </p></details><p/>
 
-** NOTE: DO NOT CLICK "CREATE BROKER". We will be using a broker that has alraedy been created for you since it takes up to  10 minutes for the broker to go into **Running** state and be ready to use. **
+**NOTE: Do not click "Create Broker". We will be using a broker that has already been created for you since it takes up to  10 minutes for the broker to go into **Running** state and be ready to use.**
 
 
 ### 8. Store Bash Variables

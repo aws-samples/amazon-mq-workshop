@@ -33,7 +33,7 @@ All terminals shoul be in the `/workspace` directory.
 
 </p></details><p/>
 
-Run the following command start the sender. The sender name is added to the message to identify who is sending the message:
+Run the following command in the top-left terminal to start the sender. The sender name is added to the message to identify who is sending the message:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type queue -destination workshop.queueA -name Sender-1
@@ -49,15 +49,13 @@ You should see a log output like the following:
 ...
 ```
 
-Select the top right window. 
-
-Start a second sender. Now you have 2 clients sending messages to the same **queue**. Use a different name on order to distinguish the sender of the messages:
+Select the top-right terminal and start a second sender. Now you have 2 clients sending messages to the same **queue**. Use a different name on order to distinguish the sender of the messages:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type queue -destination workshop.queueA -name Sender-2
 ```
 
-Select the lower left window. Run the following command, to start the first receiver:
+Select the lower-left terminal. Run the following command, to start the first receiver:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type queue -destination workshop.queueA
@@ -75,7 +73,7 @@ You should see a log output like the following:
 ...
 ```
 
-Select the lower right window and start a second receiver. You now have 2 clients listening on the same **queue**:
+Select the lower-right terminal and start a second receiver. You now have 2 clients listening on the same **queue**:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type queue -destination workshop.queueA

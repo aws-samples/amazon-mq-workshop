@@ -33,7 +33,7 @@ All terminals shoul be in the `/workspace` directory.
 </p></details><p/>
 
 
-Select the top left terminal and run the following command to start the sender:
+Select the top-left terminal and run the following command to start the sender:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination demo.topicA -name Sender-1
@@ -49,7 +49,7 @@ You should see a log output like the following:
 ...
 ```
 
-Select the top right screen. Repeat the last command to start a second sender, so that there are 2 clients sending messages the same **topic**. Use a different **name** to distinguish the senders in the logs.
+Select the-top right terminal. Repeat the last command to start a second sender, so that there are 2 clients sending messages the same **topic**. Use a different **name** to distinguish the senders in the logs.
 
 Run `CTRL + b [arrow key down]`, `CTRL + b [arrow key left]` in your tmux session to select the bottom left one as active screen and run the following command to start the first receiver:
 
