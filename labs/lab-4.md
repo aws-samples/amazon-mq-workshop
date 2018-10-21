@@ -20,22 +20,18 @@ Click on the name of the broker, you created in lab 1 and scroll a bit down to t
 
 </p></details><p/>
 
-### 3. Open an SSH session to your EC2 instance
+### 3. Go to the Cloud9 IDE tab in the browser
 
-Open an SSH session to your EC2 instance and start a **tmux** session by running:
+In the main pane, close the Welcome screen and add 2  terminal tabs (click on + tab and select New Terminal. Reorganize them to have them one on top of the other or side by side.
+All terminals shoul be in the `/workspace` directory.
 
-```
-tmux
-```
+<details><summary>Screenshot</summary><p>
 
-To split your terminal window into 2 individual screens, run the following commands:
+![Amazon MQ workshop Lab 2 step 3](/images/c9-window.png)
 
-```
-CTRL + b "
-CTRL + b [arrow key up]
-```
+</p></details><p/>
 
-Run the following command from the top screen, to start the sender:
+Run the following command in one of the terminals to start the sender:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type queue -destination workshop.queueA -name Sender-1
@@ -51,7 +47,7 @@ You should see a log output like the following:
 ...
 ```
 
-Type `CTRL + b [arrow key down]` to switch to the bottom screen and run the following command to start the receiver:
+Select the other terminal and run the following command to start the receiver:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type queue -destination workshop.queueA
@@ -117,7 +113,7 @@ java.io.EOFException
 12.04.2018 12:03:11.790 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 4673'
 ```
 
-Stop the sender and receiver by holding `CTRL + c` in each tmux screen. To terminate the active tmux screen, type `CTRL + d`.
+Stop the sender and receiver by holding `CTRL + c` in each terminal.
 
 # Completion
 

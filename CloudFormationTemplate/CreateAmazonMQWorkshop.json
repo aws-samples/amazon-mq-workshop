@@ -6,64 +6,34 @@
     "SSHKey": {
       "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instance.",
       "Type": "AWS::EC2::KeyPair::KeyName",
-      "MinLength": "1",
+      "MinLength": 1,
       "ConstraintDescription": "The SSHKey is required!"
     },
     "CIDR": {
       "Description": "CIDR block, from which the access to the EC2 instance is allowed.",
       "Type": "String",
       "Default": "0.0.0.0/0",
-      "MinLength": "1",
+      "MinLength": 1,
+      "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
       "ConstraintDescription": "The CIDR block is required!"
     },
     "AmazonMQBrokerUser": {
       "Description": "The user to access the Amazon MQ broker.",
       "Type": "String",
       "Default": "workshopUser",
-      "MinLength": "2",
+      "MinLength": 2,
       "ConstraintDescription": "The Amazon MQ broker user is required !"
     },
     "AmazonMQBrokerPassword": {
       "Description": "The password to access the Amazon MQ broker.",
       "Type": "String",
-      "MinLength": "12",
+      "MinLength": 12,
       "ConstraintDescription": "The Amazon MQ broker password is required !",
       "NoEcho": true
-    }
-  },
-
-  "Mappings": {
-    "RegionMap": {
-      "us-east-1": {
-        "AMI": "ami-0ff8a91507f77f867"
-      },
-      "us-east-2": {
-        "AMI": "ami-0b59bfac6be064b78"
-      },
-      "us-west-1": {
-        "AMI": "ami-0bdb828fd58c52235"
-      },
-      "us-west-2": {
-        "AMI": "ami-a0cfeed8"
-      },
-      "ap-northeast-2": {
-        "AMI": "ami-0a10b2721688ce9d2"
-      },
-      "ap-southeast-1": {
-        "AMI": "ami-08569b978cc4dfa10"
-      },
-      "ap-southeast-2": {
-        "AMI": "ami-09b42976632b27e9b"
-      },
-      "ap-northeast-1": {
-        "AMI": "ami-06cd52961ce9f0d85"
-      },
-      "eu-central-1" : {
-        "AMI": "ami-0233214e13e500f77"
-      },
-      "eu-west-1": {
-        "AMI": "ami-047bb4163c506cd98"
-      }
+    },
+    "AMI": {
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+      "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
     }
   },
 
@@ -72,8 +42,8 @@
       "Type": "AWS::EC2::VPC",
       "Properties": {
         "CidrBlock": "10.42.0.0/16",
-        "EnableDnsSupport": "true",
-        "EnableDnsHostnames": "true",
+        "EnableDnsSupport": true,
+        "EnableDnsHostnames": true,
         "Tags": [
           {
             "Key": "Name",
@@ -239,8 +209,16 @@
         "SecurityGroupIngress": [
           {
             "IpProtocol": "tcp",
-            "FromPort": "22",
-            "ToPort": "22",
+            "FromPort": 22,
+            "ToPort": 22,
+            "Description": "SSH access",
+            "CidrIp": { "Ref": "CIDR" }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 8181,
+            "ToPort": 8181,
+            "Description": "C9 access",
             "CidrIp": { "Ref": "CIDR" }
           }
         ],
@@ -270,32 +248,32 @@
         "SecurityGroupIngress": [
           {
             "IpProtocol": "tcp",
-            "FromPort": "8162",
-            "ToPort": "8162",
+            "FromPort": 8162,
+            "ToPort": 8162,
             "CidrIp": { "Ref": "CIDR" }
           },
           {
             "IpProtocol": "tcp",
-            "FromPort": "61617",
-            "ToPort": "61617",
+            "FromPort": 61617,
+            "ToPort": 61617,
             "SourceSecurityGroupId" : { "Ref": "EC2SecurityGroup" }
           },
           {
             "IpProtocol": "tcp",
-            "FromPort": "5671",
-            "ToPort": "5671",
+            "FromPort": 5671,
+            "ToPort": 5671,
             "SourceSecurityGroupId" : { "Ref": "EC2SecurityGroup" }
           },
           {
             "IpProtocol": "tcp",
-            "FromPort": "61614",
-            "ToPort": "61614",
+            "FromPort": 61614,
+            "ToPort": 61614,
             "SourceSecurityGroupId" : { "Ref": "EC2SecurityGroup" }
           },
           {
             "IpProtocol": "tcp",
-            "FromPort": "8883",
-            "ToPort": "8883",
+            "FromPort": 8883,
+            "ToPort": 8883,
             "SourceSecurityGroupId" : { "Ref": "EC2SecurityGroup" }
           }
         ],
@@ -317,6 +295,7 @@
         ]
       }
     },
+
     "AmazonMQBroker": {
       "Type": "AWS::AmazonMQ::Broker",
       "Properties": {
@@ -336,63 +315,20 @@
         "Users": [{
           "ConsoleAccess" : true,
           "Groups" : [ "admin" ],
-          "Username" : "workshopUser",
-          "Password" : "workshopPassword"
+          "Username" : { "Ref" : "AmazonMQBrokerUser" },
+          "Password" : { "Ref" : "AmazonMQBrokerPassword" }
         }]
-      }
-    },
-    "EC2InstanceRole": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Service": [ "ec2.amazonaws.com" ]
-              },
-              "Action": [ "sts:AssumeRole" ]
-            }
-          ]
-        },
-        "Path": "/",
-        "Policies": [
-          {
-            "PolicyName": "AmazonMQWorkshopPolicy",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "s3:GetObject"
-                  ],
-                  "Resource": "arn:aws:s3:::cmr-amazon-mq-workshop/*"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    "EC2InstanceProfile" : {
-      "Type": "AWS::IAM::InstanceProfile",
-      "Properties": {
-        "Path": "/",
-        "Roles": [ { "Ref": "EC2InstanceRole" } ]
       }
     },
     "EC2Instance" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
-        "ImageId" : { "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "AMI" ]},
+        "ImageId" : { "Ref": "AMI" },
         "InstanceType": "t2.micro",
-        "IamInstanceProfile": { "Ref": "EC2InstanceProfile" },
         "KeyName" : { "Ref" : "SSHKey" },
         "NetworkInterfaces": [
           {
-            "AssociatePublicIpAddress": "true",
+            "AssociatePublicIpAddress": true,
             "DeviceIndex": "0",
             "GroupSet": [{ "Ref" : "EC2SecurityGroup" }],
             "SubnetId": { "Ref" : "PublicSubnet1" }
@@ -400,22 +336,16 @@
         ],
         "UserData": { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -xe\n",
-          "yum update -y\n",
-          "yum remove -y java-1.7.0\n",
-          "yum install -y java-1.8.0\n",
-          "yum install -y tmux\n",
-
-          "# Install the executables from the public S3 bucket\n",
-          "aws s3 cp s3://cmr-amazon-mq-workshop/amazon-mq-client.jar /home/ec2-user/\n",
-          "aws s3 cp s3://cmr-amazon-mq-workshop/stomp-client.jar /home/ec2-user/\n",
-          "aws s3 cp s3://cmr-amazon-mq-workshop/mqtt-client.jar /home/ec2-user/\n",
-          "aws s3 cp s3://cmr-amazon-mq-workshop/amqp-client.jar /home/ec2-user/\n",
-
-          "# set the correct file permission to be able to execute the jar\n",
-          "chmod +x /home/ec2-user/amazon-mq-client.jar\n",
-          "chmod +x /home/ec2-user/stomp-client.jar\n",
-          "chmod +x /home/ec2-user/mqtt-client.jar\n",
-          "chmod +x /home/ec2-user/amqp-client.jar\n"
+          "echo '/opt/aws/bin/cfn-signal --success true",
+          "  --stack ", { "Ref": "AWS::StackName" },
+          "  --resource EC2Instance" ,
+          "  --region ", { "Ref" : "AWS::Region" },
+          "' > signal.txt \n",
+          "echo 'Downloading and executing main script'\n",
+          "wget https://s3.amazonaws.com/amazon-mq-workshop/ec2-script-c9-docker.sh\n",
+          "chmod +x /ec2-script-c9-docker.sh\n",
+          "sudo -u ec2-user /ec2-script-c9-docker.sh\n",
+          "echo 'Completed main script install'\n"
         ]]}},
         "Tags": [
           {
@@ -433,14 +363,23 @@
             }
           }
         ]
+      },
+      "CreationPolicy": {
+          "ResourceSignal": {
+            "Count": 1,
+            "Timeout": "PT20M"
+          }
       }
     }
   },
-
   "Outputs": {
     "EC2IP": {
       "Value": { "Fn::GetAtt": ["EC2Instance", "PublicIp"]},
-      "Description": "The IP address of your EC2 instance."
-    }
+      "Description": "The IP address of your EC2 instance"
+    },
+    "Cloud9ConsoleURL": {
+        "Value": {"Fn::Join": ["", ["http://", { "Fn::GetAtt": ["EC2Instance", "PublicIp"]}, ":8181/"]]},
+        "Description": "The URL for the Cloud9 console"
+      }
   }
 }

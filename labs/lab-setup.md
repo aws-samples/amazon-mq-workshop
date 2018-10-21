@@ -4,16 +4,16 @@ To begin this workshop, **click one of the 'Deploy to AWS' buttons below for the
 
 Region | Launch Template
 ------------ | -------------
-**N. Virginia** (us-east-1) | [![Launch Amazon MQ Workshop Stack into N. Virginia with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3-eu-central-1.amazonaws.com/cmr-amazon-mq-workshop/CreateAmazonMQWorkshop.json)
-**Ohio** (us-east-2) | [![Launch Amazon MQ Workshop Stack into Ohio with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3-eu-central-1.amazonaws.com/cmr-amazon-mq-workshop/CreateAmazonMQWorkshop.json)
-**N. California** (us-west-1) | [![Launch Amazon MQ Workshop Stack into N. California with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=us-west-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3-eu-central-1.amazonaws.com/cmr-amazon-mq-workshop/CreateAmazonMQWorkshop.json)
-**Oregon** (us-west-2) | [![Launch Amazon MQ Workshop Stack into Oregon with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3-eu-central-1.amazonaws.com/cmr-amazon-mq-workshop/CreateAmazonMQWorkshop.json)
-**Seoul** (ap-northeast-2) | [![Launch Amazon MQ Workshop Stack into Seoul with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3-eu-central-1.amazonaws.com/cmr-amazon-mq-workshop/CreateAmazonMQWorkshop.json)
-**Singapore** (ap-southeast-1) | [![Launch Amazon MQ Workshop Stack into Singapore with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3-eu-central-1.amazonaws.com/cmr-amazon-mq-workshop/CreateAmazonMQWorkshop.json)
-**Sydney** (ap-southeast-2) | [![Launch Amazon MQ Workshop Stack into Sydney with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-2#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3-eu-central-1.amazonaws.com/cmr-amazon-mq-workshop/CreateAmazonMQWorkshop.json)
-**Tokyo** (ap-northeast-1) | [![Launch Amazon MQ Workshop Stack into Tokyo with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3-eu-central-1.amazonaws.com/cmr-amazon-mq-workshop/CreateAmazonMQWorkshop.json)
-**Frankfurt** (eu-central-1) | [![Launch Amazon MQ Workshop Stack into Frankfurt with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3-eu-central-1.amazonaws.com/cmr-amazon-mq-workshop/CreateAmazonMQWorkshop.json)
-**Ireland** (eu-west-1) | [![Launch Amazon MQ Workshop Stack into Ireland with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3-eu-central-1.amazonaws.com/cmr-amazon-mq-workshop/CreateAmazonMQWorkshop.json)
+**N. Virginia** (us-east-1) | [![Launch Amazon MQ Workshop Stack into N. Virginia with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop.json)
+**Ohio** (us-east-2) | [![Launch Amazon MQ Workshop Stack into Ohio with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop.json)
+**N. California** (us-west-1) | [![Launch Amazon MQ Workshop Stack into N. California with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=us-west-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop.json)
+**Oregon** (us-west-2) | [![Launch Amazon MQ Workshop Stack into Oregon with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop.json)
+**Seoul** (ap-northeast-2) | [![Launch Amazon MQ Workshop Stack into Seoul with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop.json)
+**Singapore** (ap-southeast-1) | [![Launch Amazon MQ Workshop Stack into Singapore with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop.json)
+**Sydney** (ap-southeast-2) | [![Launch Amazon MQ Workshop Stack into Sydney with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-2#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop.json)
+**Tokyo** (ap-northeast-1) | [![Launch Amazon MQ Workshop Stack into Tokyo with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop.json)
+**Frankfurt** (eu-central-1) | [![Launch Amazon MQ Workshop Stack into Frankfurt with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop.json)
+**Ireland** (eu-west-1) | [![Launch Amazon MQ Workshop Stack into Ireland with CloudFormation](/images/deploy-to-aws.png)](https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new?stackName=amazonmqworkshop&templateURL=https://s3.amazonaws.com/amazon-mq-workshop/CreateAmazonMQWorkshop.json)
 
 Once you have chosen a region and are inside the AWS CloudFormation Console, you should be on a screen titled "Select Template". We are providing CloudFormation with a template on your behalf, by providing a S3 template URL. Click the blue **Next** button to proceed.
 
@@ -35,7 +35,7 @@ On the following screen, "Specify Details", your Stack is pre-populated with the
 
 On the "Options" page, leave the defaults and click **Next**.
 
-On the "Review" page, verify your selections, then scroll to the bottom and select the checkbox **I acknowledge that AWS CloudFormation might create IAM resources**. Then click **Create** to launch your stack.
+On the "Review" page, verify your selections, then scroll to the bottom and click **Create** to launch your stack.
 
 <details><summary>Screenshot</summary><p>
 
@@ -45,7 +45,8 @@ On the "Review" page, verify your selections, then scroll to the bottom and sele
 
 Your stack will take about 3 minutes to launch and you can track its progress in the "Events" tab. When it is done creating, the status will change to "CREATE_COMPLETE".
 
-On the "Outputs" tab in CloudFormation, you can look-up the public IP address of your EC2 instance in the line "EC2IP". Use this to connect to your EC2 instance via SSH.
+On the "Outputs" tab in CloudFormation, you can look-up the public IP address of your EC2 instance in the line "EC2IP" and the URL to access the Cloud9 IDE in the line "Cloud9ConsoleUrl". Click on this URL to open the Cloud9 editor and enter *aws* as username and *mq* as password.
+It can take sometime to launch the IDE the first time.
 
 # Completion
 

@@ -112,7 +112,7 @@ Close this browser-tab and go back to the Edit broker page. From the **Revision*
 
 </p></details><p/>
 
-After the broker is again in the status `Running`, run the following command in an SSH session on your EC2 instance (first replace the parameter **<....>** with the value you have chosen):
+After the broker is again in the status `Running`, run the following command in a terminal tab in the Cloud9 IDE (first replace the parameter **<....>** with the value you have chosen):
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user user2 -password <user 2 password> -mode sender -type queue -destination queue.user1 -name user1
@@ -138,7 +138,7 @@ When you change the user from `user2` to `user1` and read from `queue.user1`, yo
 ```
 
 
-13\. Stop the sender by holding `CTRL + c` in the SSH session.
+13\. Stop the sender by holding `CTRL + c` in the terminal.
 
 # Completion
 

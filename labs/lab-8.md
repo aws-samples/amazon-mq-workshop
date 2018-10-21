@@ -2,41 +2,25 @@
 
 In this exercise, you connect one message producer to the broker and start sending messages. You then connect a message consumer to the broker using a different protocol. You repeat these steps with multiple protocol combinations to figure out which protocol conversions are supported by Amazon MQ.
 
-In your ec2-user home directory you find the following JARs:
+
+### 3. Go to the Cloud9 IDE tab in the browser
+
+In the main pane, close the Welcome screen and add 4  terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
+All terminals shoul be in the `/workspace` directory.
+
+<details><summary>Screenshot</summary><p>
+
+![Amazon MQ workshop Lab 2 step 3](/images/c9-window.png)
+
+</p></details><p/>
+
+In the `/workspace` directory you find the following JARs:
 * amazon-mq-client.jar (using the OpenWire protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/amazon-mq-client/src/main/java/com/aws/sample/amazonmq/AmazonMqClient.java)
 * amqp-client.jar (using the AMQP protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/amqp-client/src/main/java/com/aws/sample/amazonmq/AMQPClient.java)
 * mqtt-client.jar (using the MQTT protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/mqtt-client/src/main/java/com/aws/sample/amazonmq/MQTTClient.java)
 * stomp-client.jar (using the Stomp protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/stomp-client/src/main/java/com/aws/sample/amazonmq/StompClient.java)
 
-### 1. Open an SSH session to your EC2 instance
-
-Open an SSH session to your EC2 instance and start a new **tmux** session:
-
-```
-tmux
-```
-
-To split your terminal window into 4 individual screens, run the following commands:
-
-```
-CTRL + b "
-CTRL + b %
-CTRL + b [arrow key up]
-CTRL + b %
-CTRL + b [arrow key left]
-```
-
-`CTRL+b` will split your active screen horizontally and `CTRL+b %` will split your active screens vertically. With `CTRL+b [arrow key up|down|left|right]` you can navigate between the different screens to chose the one to work with.
-
-The top left screen should be your active screen now.
-
-<details><summary>Screenshot</summary><p>
-
-![Amazon MQ workshop lab 8 step 1](/images/tmux-session.png)
-
-</p></details><p/>
-
-Run the following command to start a sender using the `OpenWire` protocol:
+Run the following command to start a sender using the `OpenWire` protocol in the top-left terminal:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination workshop.topicA -name OpenWire
@@ -52,7 +36,7 @@ You should see a log output like the following:
 ...
 ```
 
-Type `CTRL + b [arrow key right]` to choose the upper right window. Run the following command to start a receiver using the `Stomp` protocol (first replace `<Stomp single connection url>` with your current broker value):
+Select the upper-right terminal. Run the following command to start a receiver using the `Stomp` protocol (first replace `<Stomp single connection url>` with your current broker value):
 
 > URL: This client doesn't support the failover connection url. You have to provide the Stomp connection url for the active broker, like `stomp+ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:61614`.
 
@@ -70,14 +54,7 @@ Successfully connected to stomp+ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.m
 ...
 ```
 
-Type  
-
-```
-CTRL + b [arrow key down]
-CTRL + b [arrow key left]
-```
-
-to choose the bottom left window. Run the following command to start a receiver using the **MQTT** protocol (first replace `<MQTT single connection url>` with your current broker value):
+Select the bottom-left terminal. Run the following command to start a receiver using the **MQTT** protocol (first replace `<MQTT single connection url>` with your current broker value):
 
   * URL: This client doesn't support the failover connection url and expects the scheme to be **ssl** instead of **mqtt+ssl**. You have to provide the MQTT connection url for the active broker, like **ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:8883**.
   * Type: MQTT is built for publish-subscribe and therefore, it only supports topics in Amazon MQ and not queues.
@@ -97,7 +74,7 @@ Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-c
 ...
 ```
 
-Type `CTRL + b [arrow key right]` to choose the bottom right window. Run the following command to start a receiver using the **AMQP** protocol (first replace **<AMQP failover connection url>** with your current broker value):
+Select the bottom-right terminal. Run the following command to start a receiver using the **AMQP** protocol (first replace **<AMQP failover connection url>** with your current broker value):
 
 > URL: This client does support the failover connection url, but not the scheme `amqp+ssl`. It expects the scheme in the form `amqps`. You have to provide the AMQP connection url like `failover:(amqps://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:5671,amqps://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:5671)`.
 
@@ -118,7 +95,7 @@ You should see a log output like the following:
 
 Feel free to try other combinations, using **AMQP**, **MQTT** or **Stomp** as sender protocol.
 
-Stop any running sender or receiver by holding `CTRL + c` in each tmux screen. To terminate the active tmux screen, type `CTRL + d`.
+Stop any running sender or receiver by holding `CTRL + c` in each terminal.
 
 
 # Completion
