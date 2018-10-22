@@ -54,6 +54,9 @@ In this lab you will create the Amazon MQ broker we will use during the workshop
 
 ### 6. Open the brokers advanced settings and choose the following settings. Scroll down afterwards.
 
+* Broker Configuration: `Create a new configuration with default values`
+* Logs: select `General` and `Audit`
+* Network and security: `Select existing VPC, subnet(s) and security group(s)`
 * Virtual Private Cloud (VPC): `{Stackname}-VPC`
 * Subnet(s): `{Stackname}-PublicSubnet1` and `{Stackname}-PublicSubnet2`
 
