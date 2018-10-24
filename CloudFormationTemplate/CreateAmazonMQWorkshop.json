@@ -3,12 +3,6 @@
   "Description": "AWS CloudFormation template to launch resources for the Amazon MQ workshop.",
   
   "Parameters": {
-    "SSHKey": {
-      "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instance.",
-      "Type": "AWS::EC2::KeyPair::KeyName",
-      "MinLength": 1,
-      "ConstraintDescription": "The SSHKey is required!"
-    },
     "CIDR": {
       "Description": "CIDR block, from which the access to the EC2 instance is allowed.",
       "Type": "String",
@@ -25,7 +19,7 @@
       "ConstraintDescription": "The Amazon MQ broker user is required !"
     },
     "AmazonMQBrokerPassword": {
-      "Description": "The password to access the Amazon MQ broker.",
+      "Description": "The password to access the Amazon MQ broker. Min 12 characters",
       "Type": "String",
       "MinLength": 12,
       "ConstraintDescription": "The Amazon MQ broker password is required !",
