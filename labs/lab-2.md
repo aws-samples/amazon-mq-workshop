@@ -67,9 +67,9 @@ java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode r
 
 You can see that multiple senders can send messages to the same queue, and multiple receivers can receive messages from the same queue. But you will also observe that each message is only **delivered to one receiver**, not both. You also observer that there is no direct relationship between sender and receiver. Try to stop/start the receiver to see what changes.
 
+### 3. Clean-up
 
-Stop the sender and receiver by holding `CTRL + c` in each terminal window. 
-
+Stop the sender and receiver by holding `CTRL + C` or  `CONTROL + C` in each terminal window. 
 
 # Completion
 

@@ -36,9 +36,12 @@ You should see a log output like the following:
 ...
 ```
 
-Select the-top right terminal. Repeat the last command to start a second sender, so that there are 2 clients sending messages the same **topic**. Use a different **name** to distinguish the senders in the logs.
+Select the-top right terminal and run the following command: 
 
-Run `CTRL + b [arrow key down]`, `CTRL + b [arrow key left]` in your tmux session to select the bottom left one as active screen and run the following command to start the first receiver:
+``` bash
+java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination demo.topicA -name Sender-2
+```
+
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type topic -destination demo.topicA
@@ -58,8 +61,9 @@ Repeat the last command in another terminal to start a second receiver, so that 
 
 You see that multiple senders can send messages to the same topic and multiple receivers can receive messages from the same topic. You also observe that each message is **delivered to all receivers**.
 
+### 3. Clean-up
 
-Stop the sender and receiver by holding `CTRL + c` in each terminal.
+Stop the sender and receiver by holding `CTRL + C` or `CONTROL + C` in each terminal.
 
 # Completion
 
