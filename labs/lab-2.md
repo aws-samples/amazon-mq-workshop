@@ -4,25 +4,11 @@ In this exercise you learn how to do Point-To-Point messaging with Amazon MQ usi
 
 You will find the source code of this client [here](/amazon-mq-client/src/main/java/com/aws/sample/amazonmq/AmazonMqClient.java).
 
-### 1. Navigate to the Amazon MQ Brokers page
+### 1. Prerequisites
 
-<details><summary>Screenshot</summary><p>
+You should have completed [Lab 1: Set-Up the Broker](/labs/lab-1.md) and have configured the environment variables in the Cloud9 terminal. 
 
-![Amazon MQ workshop Lab 2 step 1](/images/amazon-mq-broker-overview.png)
-
-</p></details><p/>
-
-### 2. Copy the Connection String
-
-Click on the name of the broker you created in [Lab 1](/labs/lab-1.md) and scroll down to the **Connections** section. Copy the `OpenWire` fail-over connection url, by clicking on the `Copy failover string (Java)` link on the right side.
-
-<details><summary>Screenshot</summary><p>
-
-![Amazon MQ workshop Lab 2 step 2](/images/point-to-point-Step2.png)
-
-</p></details><p/>
-
-### 3. Go to the Cloud9 IDE tab in the browser
+### 2. Go to the Cloud9 IDE tab in the browser
 
 In the main pane, close the Welcome screen and add 4  terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
 All terminals shoul be in the `/workspace` directory.

@@ -2,25 +2,11 @@
 
 In this lab you will have a running sender and receiver producing and consuming messages while you issue a Broker reboot. You will see how long the clients are not able to send and receive messages before they successfully reconnect to the broker.
 
-### 1. Navigate to the Amazon MQ Brokers page
+#### 1. Prerequisites
 
-<details><summary>Screenshot</summary><p>
+You should have completed [Lab 1: Set-Up the Broker](/labs/lab-1.md) and have configured the environment variables in the Cloud9 terminal. 
 
-![Amazon MQ workshop lab 4 step 1](/images/amazon-mq-broker-overview.png)
-
-</p></details><p/>
-
-### 2. Copy the Connection String
-
-Click on the name of the broker, you created in lab 1 and scroll a bit down to the **Connections** section. Copy the **OpenWire** fail-over connection url, by clicking on the **Copy failover string (Java)** link on the right site.
-
-<details><summary>Screenshot step 2</summary><p>
-
-![Amazon MQ workshop lab 4 step 2](/images/fail-over-Step2.png)
-
-</p></details><p/>
-
-### 3. Go to the Cloud9 IDE tab in the browser
+### 2. Go to the Cloud9 IDE tab in the browser
 
 In the main pane, close the Welcome screen and add 2  terminal tabs (click on + tab and select New Terminal. Reorganize them to have them one on top of the other or side by side.
 All terminals shoul be in the `/workspace` directory.
