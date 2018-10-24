@@ -319,7 +319,6 @@
       "Properties" : {
         "ImageId" : { "Ref": "AMI" },
         "InstanceType": "t2.micro",
-        "KeyName" : { "Ref" : "SSHKey" },
         "NetworkInterfaces": [
           {
             "AssociatePublicIpAddress": true,
