@@ -9,7 +9,7 @@ You should have completed [Lab 1: Set-Up the Broker](/labs/lab-1.md) and have co
 ### 2. Go to the Cloud9 IDE tab in the browser
 
 In the main pane, close the Welcome screen and add 2  terminal tabs (click on + tab and select New Terminal. Reorganize them to have them one on top of the other or side by side.
-All terminals shoul be in the `/workspace` directory.
+All terminals should be in the `/workspace` directory.
 
 <details><summary>Screenshot</summary><p>
 
@@ -99,7 +99,9 @@ java.io.EOFException
 12.04.2018 12:03:11.790 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 4673'
 ```
 
-Stop the sender and receiver by holding `CTRL + c` in each terminal.
+### 3. Clean-up
+
+Stop the sender and receiver by holding `CTRL + C` or `CONTROL + C` in each terminal.
 
 # Completion
 
