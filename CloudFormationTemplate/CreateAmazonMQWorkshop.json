@@ -293,7 +293,15 @@
     "AmazonMQBroker": {
       "Type": "AWS::AmazonMQ::Broker",
       "Properties": {
-        "BrokerName": "workshopAmazonMQBroker",
+        "BrokerName": { 
+          "Fn::Join": [ 
+            "-", 
+            [
+              { "Ref": "AWS::StackName" },
+              "Broker"
+            ]
+          ]
+        },
         "EngineType": "ActiveMQ",
         "EngineVersion": "5.15.0",
         "HostInstanceType": "mq.t2.micro",
