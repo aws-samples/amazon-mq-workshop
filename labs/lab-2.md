@@ -12,14 +12,14 @@ You should have an AmazonMQ broker running and have configured the necessary env
 
 To make it easier to run the commands in the following labs we store frequently used parameters like Amazon MQ broker user, password, etc. in Bash environment variables.
 
-Go to the AmazonMQ service in the AWS console, and click on the name of the broker (the one with a name starting with the stack name you created)
+Go to the [AmazonMQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one with a name starting with the stack name you created)
 
 Scroll down to the Connections section and click the **Copy failover string** link beside the OpenWire row 
 to copy the string to your clipboard.
 
 ![Copy failover link](/images/fail-over-Step2.png)
 
-Go to the CloudFormation service in the AWS Console and select the stack that you launched at the beginning of the workshop. In the Output tab shown in the lower part of the screen you will have a Cloud9ConsoleURL entry. Click on the URL and enter **aws** as username and **mq** as password. 
+Go to the [CloudFormation console](https://console.aws.amazon.com/cloudformation) and select the stack that you launched at the beginning of the workshop. In the Output tab shown in the lower part of the screen you will have a Cloud9ConsoleURL entry. Click on the URL and enter **aws** as username and **mq** as password. 
  Once the Cloud9 IDE has launched, select the terminal window at the bottom and enter the following commands, one at the time, replacing the values **<...>** with the value you have chosen during the creation of the stack.
 
 ``` bash
