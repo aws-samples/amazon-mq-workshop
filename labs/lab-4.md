@@ -4,7 +4,7 @@ In this lab you will have a running sender and receiver producing and consuming 
 
 ### 1. Prerequisites
 
-You should have an AmazonMQ broker running and configured the necessary environment variable as per the guide below.
+You should have an AmazonMQ broker running and have configured the necessary environment variable as per the guide below.
 
 <details><summary>Store environment variable</summary><p>
 
@@ -18,7 +18,7 @@ to copy the string to your clipboard.
 ![Copy failover link](/images/fail-over-Step2.png)
 
 Go to the CloudFormation service in the AWS Console and select the stack that you launched at the beginning of the workshop. In the Output tab shown in the lower part of the screen you will have a Cloud9ConsoleURL entry. Click on the URL and enter **aws** as username and **mq** as password. 
- Once the CLoud9 IDE has launched, select the terminal window at the bottom and enter the following commands, one at the time, replacing the values **<...>** with the value you have chosen during the creation of the stack.
+ Once the Cloud9 IDE has launched, select the terminal window at the bottom and enter the following commands, one at the time, replacing the values **<...>** with the value you have chosen during the creation of the stack.
 
 ``` bash
 export temp_url="<failover url>"
