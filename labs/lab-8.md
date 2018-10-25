@@ -38,7 +38,8 @@ You should see a log output like the following:
 
 Select the upper-right terminal. Run the following command to start a receiver using the `Stomp` protocol (first replace `<Stomp single connection url>` with your current broker value):
 
-> URL: This client doesn't support the failover connection url. You have to provide the Stomp connection url for the active broker, like `stomp+ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:61614`.
+**NOTES for STOMP client**
+* This client doesn't support the failover connection url. You have to provide the Stomp connection url for the active broker, like `stomp+ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:61614`.
 
 ``` bash
 java -jar stomp-client.jar -url '<Stomp single connection url>' -user $user -password $password -mode receiver -type topic -destination workshop.topicA
@@ -56,6 +57,7 @@ Successfully connected to stomp+ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.m
 
 Select the bottom-left terminal. Run the following command to start a receiver using the **MQTT** protocol (first replace `<MQTT single connection url>` with your current broker value):
 
+**NOTES for MQTT**:
   * URL: This client doesn't support the failover connection url and expects the scheme to be **ssl** instead of **mqtt+ssl**. You have to provide the MQTT connection url for the active broker, like **ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:8883**.
   * Type: MQTT is built for publish-subscribe and therefore, it only supports topics in Amazon MQ and not queues.
   * Destination: In MQTT, it's common to use a '/' as a seperator, instead of a '.' to define your queue name. Amazon MQ transforms by default all '/' to '.' in your queue name.
@@ -76,7 +78,8 @@ Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-c
 
 Select the bottom-right terminal. Run the following command to start a receiver using the **AMQP** protocol (first replace **<AMQP failover connection url>** with your current broker value):
 
-> URL: This client does support the failover connection url, but not the scheme `amqp+ssl`. It expects the scheme in the form `amqps`. You have to provide the AMQP connection url like `failover:(amqps://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:5671,amqps://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:5671)`.
+**NOTE for AMQP client**
+* Schema: This client supports the failover connection url, but not the scheme `amqp+ssl`. It expects the scheme in the form `amqps`. You have to provide the AMQP connection url like `failover:(amqps://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:5671,amqps://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:5671)`.
 
 ``` bash
 java -jar amqp-client.jar -url '<AMQP failover connection url>' -user $user -password $password -mode receiver -type topic -destination workshop.topicA
@@ -95,7 +98,7 @@ You should see a log output like the following:
 
 Feel free to try other combinations, using **AMQP**, **MQTT** or **Stomp** as sender protocol.
 
-Stop any running sender or receiver by holding `CTRL + c` in each terminal.
+Stop any running sender or receiver by holding `CTRL + C` or or  `CONTROL + C` in each terminal window.
 
 
 # Completion

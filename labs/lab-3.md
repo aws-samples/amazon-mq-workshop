@@ -6,12 +6,35 @@ You will find the source code of this client [here](/amazon-mq-client/src/main/j
 
 ### 1. Prerequisites
 
-You should have completed [Lab 1: Set-Up the Broker](/labs/lab-1.md) and have configured the environment variables in the Cloud9 terminal. 
+You should have an AmazonMQ broker running and configured the necessary environment variable as per the guide below.
+
+<details><summary>Store environment variable</summary><p>
+
+To make it easier to run the commands in the following labs we store frequently used parameters like Amazon MQ broker user, password, etc. in Bash environment variables.
+
+Go to the AmazonMQ service in the AWS console, and click on the name of the broker (the one with a name starting with the stack name you created)
+
+Scroll down to the Connections section and click the **Copy failover string** link beside the OpenWire row 
+to copy the string to your clipboard.
+
+![Copy failover link](/images/fail-over-Step2.png)
+
+Go to the CloudFormation service in the AWS Console and select the stack that you launched at the beginning of the workshop. In the Output tab shown in the lower part of the screen you will have a Cloud9ConsoleURL entry. Click on the URL and enter **aws** as username and **mq** as password. 
+ Once the CLoud9 IDE has launched, select the terminal window at the bottom and enter the following commands, one at the time, replacing the values **<...>** with the value you have chosen during the creation of the stack.
+
+``` bash
+export temp_url="<failover url>"
+echo "url=\"$temp_url\"" >> ~/.bashrc; source ~/.bashrc
+```
+
+**NOTE**: Ensure that all terminals windows that you will use for the workshop are crated after having run this step.
+
+</p></details><p/>
 
 ### 2. Go to the Cloud9 IDE tab in the browser
 
 In the main pane, close the Welcome screen and add 4  terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
-All terminals shoul be in the `/workspace` directory.
+All terminals should be in the `/workspace` directory.
 
 <details><summary>Screenshot</summary><p>
 
@@ -36,18 +59,19 @@ You should see a log output like the following:
 ...
 ```
 
-Select the-top right terminal and run the following command: 
+Select the-top right terminal and run the following command to start a second sender. This is the same as the previous command with a diffent name to distinguish the senders. 
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination demo.topicA -name Sender-2
 ```
 
+Select the bottom-left terminal and run the following command to start a receiver. 
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type topic -destination demo.topicA
 ```
 
-You should see a log output like the following:
+The receiver is starting receiving messages published on the topic by both senders and you should see a log output like the following:
 
 ``` bash
 [ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617

@@ -2,6 +2,8 @@
 
 In this lab you will tighten up the security configuration with access control policies, so that you control which user can send/receive messages from which queues/topics.
 
+### 1. Create new users
+
 Navigate to the Amazon MQ Brokers page.
 <details><summary>Screenshot</summary><p>
 
@@ -30,14 +32,10 @@ Create two users. One with the name and group `user1` and a second one with the 
 
 </p></details><p/>
 
-Update the user we have created during the broker set-up and apply the group **admin**.
-<details><summary>Screenshot</summary><p>
+### 2. Apply the changes
 
-![Amazon MQ workshop lab 6 step 4b](/images/security-set-up-Step4b.png)
-
-</p></details><p/>
-
-To apply these changes imediately, you have to reboot your broker. Go to the top of the page and choose `Actions -> Reboot broker`.
+In order to apply the modifications done to the broker configuration, such as adding users, the broker must be rebooted. 
+Go to the top of the page and choose `Actions -> Reboot broker`.
 
 <details><summary>Screenshot</summary><p>
 
@@ -45,7 +43,7 @@ To apply these changes imediately, you have to reboot your broker. Go to the top
 
 </p></details><p/>
 
-It takes a few minutes for the broker to finish the reboot and you should see the the status in the **Pending modifications** column to be cleared and not **Creation**.
+It takes a few minutes for the broker to finish the reboot. The reboot is done when the status in the **Pending modifications** column is empty.
 
 <details><summary>Screenshot</summary><p>
 
@@ -53,7 +51,9 @@ It takes a few minutes for the broker to finish the reboot and you should see th
 
 </p></details><p/>
 
-Go to the top of the page and click **Edit**.
+### 3. Edit the configuration
+
+Go to list of brokers and click on the name of your broker. Click **Edit** at the top of the page.
 
 <details><summary>Screenshot</summary><p>
 
@@ -61,7 +61,7 @@ Go to the top of the page and click **Edit**.
 
 </p></details><p/>
 
-To view and edit the latest configuration, just click the **View** link.
+To view and edit the latest configuration, just click the **Edit** link in the Configuration section. This will open a new tab where you can see the current configuration. 
 
 <details><summary>Screenshot</summary><p>
 
@@ -78,7 +78,7 @@ To view and edit the latest configuration, just click the **View** link.
 
 </p></details><p/>
 
-Scroll down to the element `<authorizationPlugin\>` and make the modify the content so that it looks as follows. Afterwards click **Save**, and confirm, to store the configuration changes.
+Scroll down to the element `<authorizationPlugin\>` and modify the content so that it looks as follows. Afterwards click **Save**, and confirm, to store the configuration changes. Make sure that the whole section is uncommented removing the opening and closing comments marks `<!--` and `--!>`. What this configuration does is to allow `user1` to manage, write and read from `queue.user1`, but not `user2`, who is allowed instead to a/r/w on `topic.user2`.
 
 ``` xml
     <authorizationPlugin>
@@ -105,40 +105,35 @@ Scroll down to the element `<authorizationPlugin\>` and make the modify the cont
 
 </p></details><p/>
 
-Close this browser-tab and go back to the Edit broker page. From the **Revision** drop down select the new revision you just created, and click **Schedule modifications**. On the next page, select **Immediately** and click on **Apply**.
+Close this browser-tab and go back to the Edit broker page. From the **Revision** drop down select the new revision you just created, and click **Schedule modifications**. On the next page, select **Immediately** and click on **Apply**. It might takes few minutes to restart the broker.
 <details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 6 step 11](/images/security-set-up-Step11.png)
 
 </p></details><p/>
 
-After the broker is again in the status `Running`, run the following command in a terminal tab in the Cloud9 IDE (first replace the parameter **<....>** with the value you have chosen):
+After the broker is again in the status `Running`, run the following command in a terminal tab in the Cloud9 IDE (replacing the parameter **<user 2 password>** with the value you have chosen) to start sending messages to `queue.user1` as `user2`.
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user user2 -password <user 2 password> -mode sender -type queue -destination queue.user1 -name user1
 ```
 
-You should see a log output like the following:
+You should see a log output like the following, indicating that `user2` is not authorized to write into this queue. 
 
 ``` bash
 [ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617
 Error: User user2 is not authorized to write to: queue://queue.user1
 ```
 
-This indicates that `user2` is not authorized to write into this queue. Try to see what happens if you read messages from this queue or read/write from/to another one.
-
-When you change the user from `user2` to `user1` and read from `queue.user1`, you should see the following log output which indicates that you can successfully write to `queue.user1`.
-
+Try now to send messages to the same queue as `user1`.
 ``` bash
-[ActiveMQ Task-1] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully connected to ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:61617
-12.04.2018 18:49:43.511 - Sender: sent '[queue://workshop.user1] [user1] Message number 1'
-12.04.2018 18:49:43.543 - Sender: sent '[queue://workshop.user1] [user1] Message number 2'
-12.04.2018 18:49:43.567 - Sender: sent '[queue://workshop.user1] [user1] Message number 3'
-...
+java -jar amazon-mq-client.jar -url $url -user user1 -password <user 1 password> -mode sender -type queue -destination queue.user1 -name user1
 ```
 
+As expected, `user1` can write on this queue. You can try a similar excercise with the topic `topic.user2`, verifying that `user1` cannot publish nor receive messages from the topic, while `user2` can (the commands can be found in [Lab 2](/labs/lab-2.md), but you will need to adapt the `-user` and `-password` parameters)
 
-13\. Stop the sender by holding `CTRL + c` in the terminal.
+
+13\. Stop the sender by holding `CTRL + C` or or  `CONTROL + C` in the terminal window.
 
 # Completion
 
