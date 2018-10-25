@@ -4,13 +4,13 @@ In this lab you will have a running sender and receiver producing and consuming 
 
 ### 1. Prerequisites
 
-You should have an AmazonMQ broker running and have configured the necessary environment variable as per the guide below.
+You should have an Amazon MQ broker running and have configured the necessary environment variable as per the guide below.
 
 <details><summary>Store environment variable</summary><p>
 
 To make it easier to run the commands in the following labs we store frequently used parameters like Amazon MQ broker user, password, etc. in Bash environment variables.
 
-Go to the [AmazonMQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one with a name starting with the stack name you created)
+Go to the [Amazon MQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one with a name starting with the stack name you created)
 
 Scroll down to the Connections section and click the **Copy failover string** link beside the OpenWire row 
 to copy the string to your clipboard.
