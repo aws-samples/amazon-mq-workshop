@@ -6,7 +6,7 @@ You will find the source code of this client [here](/amazon-mq-client/src/main/j
 
 ### 1. Prerequisites
 
-You should have an AmazonMQ broker running and have configured the necessary environment variable as per the guide below.
+You should have an Amazon MQ broker running and have configured the necessary environment variable as per the guide below.
 
 <details><summary>Store environment variable</summary><p>
 
