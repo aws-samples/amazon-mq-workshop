@@ -2,7 +2,7 @@
 
 In this lab we will have a closer look at broker, queue and topic metrics provided via CloudWatch metrics. We also create a CloudWatch alarm which triggers an e-mail as soon as there are messages in the **ActiveMQ.DLQ** queue. The **ActiveMQ.DLQ** queue is a special queue used by Amazon MQ to store messages that failed to be processed multiple times (so called "poison messages").
 
-#Go to the Cloud9 IDE tab in the browser
+### 1. Go to the Cloud9 IDE tab in the browser
 
 In the main pane, close the Welcome screen and add 1  terminal tab. Run the following command to send a few message to a queue where no receiver is listening to:
 
@@ -24,54 +24,48 @@ You should see a log output like the following:
 
 ### 2. Working with Amazon CloudWatch Metrics
 
+While we are waiting for the above producer to generate a meaningful amount of data points, let's explore the metrics available in CloudWatch for the AmazonMQ service.
+
 Navigate to the [Amazon CloudWatch console](https://console.aws.amazon.com/cloudwatch). Click on `Metrics` in the left navigation pane.
 
-<details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 5 step 2](/images/cloud-watch-Step2.png)
 
-</p></details><p/>
 
+AmazonMQ publishes metrics for the broker, such as Cpu Utilization, HeapUsage, NetworkOut. If you have an HA configuration with a primary and a secondary broker, you will have independent metrics for each instance.  
 Click on the **AmazonMQ** namespace and on **Broker Metrics** afterwards.
 
 > If you have multiple brokers running or already started a broker in the past, enter the name of your current broker in the search field and click enter, to filter the metrics for the workshop broker (primary and secondary).
 
-<details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 5 step 3](/images/cloud-watch-Step3.png)
 
-</p></details><p/>
 
 By selecting some of the metrics, e.g. `CpuUtilization`, you can plot the metric for a given time-frame. 
-<details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 5 step 4](/images/cloud-watch-Step4.png)
 
-</p></details><p/>
+AmazonMQ also publishes metrics for the Topics such as MemoryUsage, EnqueueCount (messages published by producers), DispatchCount (message delivered to consumers). 
 
-Go back to the AmazonMQ namespace by clicking on **AmazonMQ**. Click on `AmazonMQ > Topic Metrics by Broker` to navigate to the topic metrics.
-<details><summary>Screenshot</summary><p>
+Go back to the AmazonMQ namespace by clicking on **AmazonMQ**. Click on `AmazonMQ > Topic Metrics by Broker` to navigate to the topic metrics. In the filter put  the name of the topic you want to monitor, for example `TopicA`.
 
 ![Amazon MQ workshop lab 5 step 5](/images/cloud-watch-Step5.png)
 
-</p></details><p/>
 
-Go back to the AmazonMQ namespace by clicking on **AmazonMQ**. Click on `AmazonMQ > Queue Metrics by Broker` to navigate to the queue metrics.
-<details><summary>Screenshot</summary><p>
+AmazonMQ also publishes metrics for the Queues. Go back to the AmazonMQ namespace by clicking on **AmazonMQ**. Click on `AmazonMQ > Queue Metrics by Broker` to navigate to the queue metrics. You can use the filter to narrow the list of queues that are listed to select the one of interest, for example `queue1`.
 
 ![Amazon MQ workshop lab 5 step 6](/images/cloud-watch-Step6.png)
 
-</p></details><p/>
+### 3. Monitoring of an active queue
 
+By now the producer that we started at the beginning should have generated enough data. To inspect 
 Select the checkbox for the queue `ActiveMQ.DLQ` and the metric name `QueueSize` for both brokers. Then click the tab **Graphed metrics**.
-
-<details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 5 step 7](/images/cloud-watch-Step7.png)
 
-</p></details><p/>
 
 ### 3. Working with Amazon CloudWatch Alarms
+
 
 Click on the bell image for the first broker to create a new CloudWatch Alarm. Enter the following values:
 
@@ -80,11 +74,9 @@ Click on the bell image for the first broker to create a new CloudWatch Alarm. E
 * Whenever: `<see screenshot>`
 * Treat missing data as: `good`
 
-<details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 5 step 8](/images/cloud-watch-Step8.png)
 
-</p></details><p/>
 
 Continue with the configuration and the following values:
 
@@ -92,22 +84,18 @@ Continue with the configuration and the following values:
 * Send notification to: `<provide a name for a SNS topic>`
 * Email list: `<your e-mail address>`
 
-<details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 5 step 9](/images/cloud-watch-Step9.png)
 
-</p></details><p/>
 
 
 After you have confirmed your e-mail subscription...
 
-<details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 5 step 10](/images/cloud-watch-Step10.png)
 
-</p></details><p/>
 
-Stop the sender and receiver by holding `CTRL + c` in each SSH session.
+Stop the sender and receiver by holding `CTRL + C` or or  `CONTROL + C` in each terminal window.
 
 Wait a few seconds and you should receive a mail, triggered by CloudWatch Alarm.
 

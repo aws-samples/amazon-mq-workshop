@@ -21,10 +21,10 @@ The architecture for this workshop is the following:
 This section provides a list of prerequisites that are required to successfully complete the workshop.
 
 1. An AWS account and the proper rights to use Amazon CloudFormation, Amazon IAM, Amazon EC2, Amazon S3 and Amazon VPC.
-2. An AWS EC2 key pair in the region you are using for this workshop.
-3. An SSH client on your local machine.
 
 **Let's Begin! [Launch the CloudFormation Stack](/labs/lab-setup.md)**
+
+After the Cloud
 
 ## Lab Descriptions
 

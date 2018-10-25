@@ -26,7 +26,7 @@ Click on the name of the broker you created in [Lab 1](/labs/lab-1.md) and scrol
 
 ### 3. Log into the ActiveMQ Web console
 
-On the next page, click on **Manage ActiveMQ broker** and provide your credentials. After a successful login, you are forwarded to the overview page. Here you can find, among others, the information about the brokers up-time and used memory:
+On the next page, click on **Manage ActiveMQ broker** and provide the credentials for the Admin user that you entered when creating the broker or in the CloudFormation stack. After a successful login, you are forwarded to the overview page. Here you can find, among others, the information about the brokers up-time and used memory:
 
 <details><summary>Screenshot</summary><p>
 

@@ -80,17 +80,6 @@ In this lab you will create the Amazon MQ broker we will use during the workshop
 **NOTE: Do not click "Create Broker". We will be using a broker that has already been created for you since it takes up to  10 minutes for the broker to go into **Running** state and be ready to use.**
 
 
-### 8. Store Bash Variables
-
-To make it easier to run the commands in the following labs we store frequently used parameters like Amazon MQ broker user, password, etc. in Bash environment variables. 
-Go to the Cloud9 IDE tab in the browser (or open a new one by clicking on the URL in the Output section of the CloudFormation stack). Select the terminal window at the bottom, and enter the following commands, replacing the values **<...>** with the value you have chosen during the creation of the stack.
-
-``` bash
-echo 'user=<user>' >> ~/.bashrc; source ~/.bashrc
-echo 'password=<password>' >> ~/.bashrc; source ~/.bashrc
-echo 'url="<failover openWire url>"' >> ~/.bashrc; source ~/.bashrc
-```
-
 # Completion
 
 Congratulations, you've successfully completed Lab 1! You can move on to [Lab 2: Using Point-To-Point Messaging Using Queues](/labs/lab-2.md)
