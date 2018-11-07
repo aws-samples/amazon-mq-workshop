@@ -22,9 +22,9 @@ wget https://s3.amazonaws.com/amazon-mq-workshop/Dockerfile
 
 echo "user=$1" > bash_env_src
 echo "password=$2" >> bash_env_src
-
-sudo docker build -t cloud9 .
-sudo docker run -d -v /home/ec2-user/workspace:/workspace -p 8181:8181 cloud9 --auth aws:mq
+sudo `aws ecr get-login --no-include-email --region eu-west-1`
+sudo docker build -t cloud9amqws .
+sudo docker run -d -v /home/ec2-user/workspace:/cloud9/workspace -p 8180:8180 cloud9amqws --auth aws:mq
 
 # Signal CF 
 echo "Tell CloudFormation we're done ..."
