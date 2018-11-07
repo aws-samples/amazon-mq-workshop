@@ -210,8 +210,8 @@
           },
           {
             "IpProtocol": "tcp",
-            "FromPort": 8181,
-            "ToPort": 8181,
+            "FromPort": 8180,
+            "ToPort": 8180,
             "Description": "C9 access",
             "CidrIp": { "Ref": "CIDR" }
           }
@@ -322,11 +322,65 @@
         }]
       }
     },
+    "EC2InstanceProfile" : {
+      "Type" : "AWS::IAM::InstanceProfile",
+      "Properties" : {
+        "Path" : "/",
+        "Roles" : [
+          {
+            "Ref" : "GetECRTokenRole"
+          }
+        ]
+      }
+    },
+    "GetECRTokenPolicy" : {
+      "Type" : "AWS::IAM::Policy",
+      "Properties" : {
+        "PolicyName" : "GetECRTokenPolicy",
+        "PolicyDocument" : {
+          "Statement" : [
+            {
+              "Effect" : "Allow",
+              "Action" : [
+                "ecr:GetAuthorizationToken"
+              ],
+              "Resource" : "*"
+            }
+          ]
+        },
+        "Roles" : [
+          {
+            "Ref" : "GetECRTokenRole"
+          }
+        ]
+      }
+    },
+    "GetECRTokenRole" : {
+      "Type" : "AWS::IAM::Role",
+      "Properties" : {
+        "AssumeRolePolicyDocument": {
+          "Version" : "2012-10-17",
+          "Statement" : [
+            {
+              "Effect" : "Allow",
+              "Principal" : {
+                "Service" : ["ec2.amazonaws.com"]
+              },
+              "Action" : [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Path" : "/"
+      }
+    },
     "EC2Instance" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
         "ImageId" : { "Ref": "AMI" },
         "InstanceType": "t2.micro",
+        "IamInstanceProfile": { "Ref": "EC2InstanceProfile" },
         "NetworkInterfaces": [
           {
             "AssociatePublicIpAddress": true,
@@ -380,7 +434,7 @@
       "Description": "The IP address of your EC2 instance"
     },
     "Cloud9ConsoleURL": {
-        "Value": {"Fn::Join": ["", ["http://", { "Fn::GetAtt": ["EC2Instance", "PublicIp"]}, ":8181/"]]},
+        "Value": {"Fn::Join": ["", ["http://", { "Fn::GetAtt": ["EC2Instance", "PublicIp"]}, ":8180/"]]},
         "Description": "The URL for the Cloud9 console"
       }
   }
