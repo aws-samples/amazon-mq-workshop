@@ -3,7 +3,7 @@
 In this exercise, you connect one message producer to the broker and start sending messages. You then connect a message consumer to the broker using a different protocol. You repeat these steps with multiple protocol combinations to figure out which protocol conversions are supported by Amazon MQ.
 
 
-### 3. Go to the Cloud9 IDE tab in the browser
+### 1. Go to the Cloud9 IDE tab in the browser
 
 In the main pane, close the Welcome screen and add 4  terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
 All terminals shoul be in the `/workspace` directory.
@@ -36,7 +36,7 @@ You should see a log output like the following:
 ...
 ```
 
-Select the upper-right terminal. Run the following command to start a receiver using the `Stomp` protocol (first replace `<Stomp single connection url>` with your current broker value):
+Select the upper-right terminal. Run the following command to start a receiver using the `Stomp` protocol (first replace `<Stomp single connection url>` with your current broker value. You find this value on the details page of your Amazon MQ broker in the **Connections** section.):
 
 **NOTES for STOMP client**
 * This client doesn't support the failover connection url. You have to provide the Stomp connection url for the active broker, like `stomp+ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:61614`.
@@ -104,5 +104,6 @@ Stop any running sender or receiver by holding `CTRL + C` or or  `CONTROL + C` i
 # Completion
 
 Congratulations, you've successfully completed Lab 8! This is the last lab in the workshop.
+You can move on to [Workshop cleanup instructions](/labs/lab-cleanup.md)
 
 [Return the the Workshop Landing page](/README.md)

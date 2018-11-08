@@ -26,7 +26,7 @@ Click on the name of the broker you created in [Lab 1](/labs/lab-1.md) and scrol
 
 ### 3. Log into the ActiveMQ Web console
 
-On the next page, click on **Manage ActiveMQ broker** and provide the credentials for the Admin user that you entered when creating the broker or in the CloudFormation stack. After a successful login, you are forwarded to the overview page. Here you can find, among others, the information about the brokers up-time and used memory:
+On the next page, click on **Manage ActiveMQ broker** and provide the credentials for the user that you entered when creating the broker or in the CloudFormation stack. After a successful login, you are forwarded to the overview page. Here you can find, among others, the information about the brokers up-time and used memory:
 
 <details><summary>Screenshot</summary><p>
 
@@ -73,7 +73,7 @@ Click on the **Topics** link in the top navigation bar to get some detailed info
 
 </p></details><p/>
 
-You may be wondering about the different `ActiveMQ.Advisory.\` topics. Apache Active MQ publishes different kind of events to the different Advisory topics which gives you the ability to react to these events. An example message from the `ActiveMQ.Advisory.Producer.Topic.workshop.topicA` topic could look like this one:
+You may be wondering about the different `ActiveMQ.Advisory.` topics. Apache Active MQ publishes different kind of events to the different Advisory topics which gives you the ability to react to these events. An example message from the `ActiveMQ.Advisory.Producer.Topic.workshop.topicA` topic could look like this one:
 
 ```
 {

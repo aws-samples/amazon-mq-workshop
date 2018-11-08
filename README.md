@@ -20,17 +20,15 @@ The architecture for this workshop is the following:
 
 This section provides a list of prerequisites that are required to successfully complete the workshop.
 
-1. An AWS account and the proper rights to use Amazon CloudFormation, Amazon IAM, Amazon EC2, Amazon S3 and Amazon VPC.
+1. An AWS account and the proper rights to use Amazon MQ, Amazon CloudFormation, Amazon IAM, Amazon EC2, Amazon S3 and Amazon VPC.
 
 **Let's Begin! [Launch the CloudFormation Stack](/labs/lab-setup.md)**
-
-After the Cloud
 
 ## Lab Descriptions
 
 Each of the labs in this workshop are independent and you may choose to do some or all of them, and in any order that you prefer. Only the first lab is compulsory, where you learn how to set-up an Amazon MQ broker.
 
-* **[Lab 1: Broker Set-Up](/labs/lab-1.md)** - Here, we set-up an Amazon MQ broker as we have it done via the CloudFormation template. We will touch and explain almost all configuration options and when to use which one. In our workshop, we will use the Amazon MQ broker which we already have set up via the CloudFormation template.
+* **[Lab 1: Broker Set-Up (Optional)](/labs/lab-1.md)** - Here, we set-up an Amazon MQ broker as we have it done via the CloudFormation template. We will touch and explain almost all configuration options and when to use which one. In our workshop, we will use the Amazon MQ broker which we already have set up via the CloudFormation template.
 
 * **[Lab 2: Using Point-To-Point Messaging Using Queues](/labs/lab-2.md)** - In this exercise you will learn how to achieve Point-To-Point messaging with Amazon MQ using queues. The behavior of a message queue is that each message put onto the queue is consumed by only one receiver, so that there is a 1:1 relationship between sender and receiver for each published message.
 

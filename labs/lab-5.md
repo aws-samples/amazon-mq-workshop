@@ -4,7 +4,7 @@ In this lab we will have a closer look at broker, queue and topic metrics provid
 
 ### 1. Go to the Cloud9 IDE tab in the browser
 
-In the main pane, close the Welcome screen and add 1  terminal tab. Run the following command to send a few message to a queue where no receiver is listening to:
+Run the following command in one of the terminal windows to send a few message to a queue where no receiver is listening to:
 
 ``` bash
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type queue -destination workshop.DLQTest -name Sender-1 -ttl 1000
@@ -43,28 +43,30 @@ Click on the **AmazonMQ** namespace and on **Broker Metrics** afterwards.
 
 By selecting some of the metrics, e.g. `CpuUtilization`, you can plot the metric for a given time-frame. 
 
+> Make sure you selected a relative time interval in Amazon CloudWatch, e.g. last 2 hours.
+
 ![Amazon MQ workshop lab 5 step 4](/images/cloud-watch-Step4.png)
 
 AmazonMQ also publishes metrics for the Topics such as MemoryUsage, EnqueueCount (messages published by producers), DispatchCount (message delivered to consumers). 
 
-Go back to the AmazonMQ namespace by clicking on **AmazonMQ**. Click on `AmazonMQ > Topic Metrics by Broker` to navigate to the topic metrics. In the filter put  the name of the topic you want to monitor, for example `TopicA`.
+Go back to the AmazonMQ namespace by clicking on **AmazonMQ**. Click on `AmazonMQ > Topic Metrics by Broker` to navigate to the topic metrics. In the filter put  the name of the topic you want to monitor, for example `topicA`.
 
 ![Amazon MQ workshop lab 5 step 5](/images/cloud-watch-Step5.png)
 
 
-AmazonMQ also publishes metrics for the Queues. Go back to the AmazonMQ namespace by clicking on **AmazonMQ**. Click on `AmazonMQ > Queue Metrics by Broker` to navigate to the queue metrics. You can use the filter to narrow the list of queues that are listed to select the one of interest, for example `queue1`.
+AmazonMQ also publishes metrics for the Queues. Go back to the AmazonMQ namespace by clicking on **AmazonMQ**. Click on `AmazonMQ > Queue Metrics by Broker` to navigate to the queue metrics. You can use the filter to narrow the list of queues that are listed to select the one of interest, for example `queueA`.
 
 ![Amazon MQ workshop lab 5 step 6](/images/cloud-watch-Step6.png)
 
 ### 3. Monitoring of an active queue
 
-By now the producer that we started at the beginning should have generated enough data. To inspect 
-Select the checkbox for the queue `ActiveMQ.DLQ` and the metric name `QueueSize` for both brokers. Then click the tab **Graphed metrics**.
+By now the producer that we started at the beginning should have generated enough data. Stop the producer by holding `CTRL + C` or or  `CONTROL + C` in each terminal window.  
+To inspect the metric, select the checkbox for the queue `ActiveMQ.DLQ` and the metric name `QueueSize` for the broker(s). Then click the tab **Graphed metrics**.
 
 ![Amazon MQ workshop lab 5 step 7](/images/cloud-watch-Step7.png)
 
 
-### 3. Working with Amazon CloudWatch Alarms
+### 4. Working with Amazon CloudWatch Alarms
 
 
 Click on the bell image for the first broker to create a new CloudWatch Alarm. Enter the following values:
@@ -88,16 +90,13 @@ Continue with the configuration and the following values:
 ![Amazon MQ workshop lab 5 step 9](/images/cloud-watch-Step9.png)
 
 
+Then click **Create Alarm** to create the alarm. 
 
-After you have confirmed your e-mail subscription...
-
+If you are asked to **Confirm new email addresses**, click on **I will do it later** and navigate to your e-mail client.
 
 ![Amazon MQ workshop lab 5 step 10](/images/cloud-watch-Step10.png)
 
-
-Stop the sender and receiver by holding `CTRL + C` or or  `CONTROL + C` in each terminal window.
-
-Wait a few seconds and you should receive a mail, triggered by CloudWatch Alarm.
+After you have confirmed your e-mail subscription, wait a few seconds and you should receive a mail, triggered by CloudWatch Alarm.
 
 To learn more about metrics, please visit [Amazon CloudWatch Monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/mq-metricscollected.html).
 

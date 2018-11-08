@@ -1,4 +1,6 @@
-# Lab 1: Set-Up the Broker
+# Lab 1: Set-Up the Broker (Optional)
+
+> As we already created the Amazon MQ broker for our workshop in our [lab setup](/labs/lab-setup.md), this lab is optional. It guides you through the steps necessary, to create a new Amazon MQ broker.
 
 In this lab you will create the Amazon MQ broker we will use during the workshop.
 
