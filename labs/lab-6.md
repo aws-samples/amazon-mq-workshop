@@ -85,8 +85,8 @@ Scroll down to the element `<authorizationPlugin\>` and modify the content so th
       <map>
         <authorizationMap>
           <authorizationEntries>
-            <authorizationEntry admin="admin" queue="&gt;" read="admin" write="admin"/>
-            <authorizationEntry admin="admin" topic="&gt;" read="admin" write="admin"/>
+            <authorizationEntry admin="admin,activemq-webconsole" queue="&gt;" read="admin,activemq-webconsole" write="admin,activemq-webconsole"/>
+            <authorizationEntry admin="admin,activemq-webconsole" topic="&gt;" read="admin,activemq-webconsole" write="admin,activemq-webconsole"/>
             <authorizationEntry admin="admin,user1" queue="queue.user1" read="user1" write="user1"/>
             <authorizationEntry admin="admin,user2" read="user2" topic="topic.user2" write="user2"/>
             <authorizationEntry admin="admin,user1,user2" read="admin,user1,user2" topic="ActiveMQ.Advisory.&gt;" write="admin,user1,user2"/>
