@@ -83,7 +83,7 @@ Click on the bell image for the first broker to create a new CloudWatch Alarm. E
 Continue with the configuration and the following values:
 
 * Whenever this alarm: `State is ALARM`
-* Send notification to: `<provide a name for a SNS topic>`
+* Send notification to: Click **New List** and then enter `notifyMe` as the value for 'Enter a topic name...'
 * Email list: `<your e-mail address>`
 
 

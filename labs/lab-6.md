@@ -70,7 +70,7 @@ To view and edit the latest configuration, just click the **Edit** link in the C
 </p></details><p/>
 
 
-9\. On this page, you see the XML configuration of Active MQ. Click `Edit configuration` button in the top right corner.
+On this page, you see the XML configuration of Active MQ. Click `Edit configuration` button in the top right corner.
 
 <details><summary>Screenshot</summary><p>
 
@@ -105,7 +105,7 @@ Scroll down to the element `<authorizationPlugin\>` and modify the content so th
 
 </p></details><p/>
 
-Close this browser-tab and go back to the Edit broker page. From the **Revision** drop down select the new revision you just created, and click **Schedule modifications**. On the next page, select **Immediately** and click on **Apply**. It might takes few minutes to restart the broker.
+Close this browser-tab and go back to the Edit broker page. From the **Revision** drop down select the new revision you just created.  You may need to refresh your browser window to see the Revision.  Once the new Revision is selected, click **Schedule modifications**. On the next page, select **Immediately** and click on **Apply**. It might takes few minutes to restart the broker.
 <details><summary>Screenshot</summary><p>
 
 ![Amazon MQ workshop lab 6 step 11](/images/security-set-up-Step11.png)
