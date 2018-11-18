@@ -141,4 +141,4 @@ By clicking on the `Send` link in the top navigation bar, you can easily send a 
 
 Congratulations, you've successfully completed Lab 7! You can move on to [Lab 8: Protocol Interoperability](/labs/lab-8.md)
 
-[Return the the Workshop Landing page](/README.md)
+[Return to the Workshop Landing page](/README.md)

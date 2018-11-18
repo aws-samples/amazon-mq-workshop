@@ -89,4 +89,4 @@ In this lab you will create the Amazon MQ broker we will use during the workshop
 
 Congratulations, you've successfully completed Lab 1! You can move on to [Lab 2: Using Point-To-Point Messaging Using Queues](/labs/lab-2.md)
 
-[Return the the Workshop Landing page](/README.md)
+[Return to the Workshop Landing page](/README.md)

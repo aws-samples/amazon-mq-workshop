@@ -109,4 +109,4 @@ Stop any running sender or receiver by holding `CTRL + C` or or  `CONTROL + C` i
 Congratulations, you've successfully completed Lab 8! This is the last lab in the workshop.
 You can move on to [Workshop cleanup instructions](/labs/lab-cleanup.md)
 
-[Return the the Workshop Landing page](/README.md)
+[Return to the Workshop Landing page](/README.md)

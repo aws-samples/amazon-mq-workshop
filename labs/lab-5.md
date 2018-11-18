@@ -104,4 +104,4 @@ To learn more about metrics, please visit [Amazon CloudWatch Monitoring](https:/
 
 Congratulations, you've successfully completed Lab 5! You can move on to [Lab 6: Tighten up Security with Access Control](/labs/lab-6.md)
 
-[Return the the Workshop Landing page](/README.md)
+[Return to the Workshop Landing page](/README.md)

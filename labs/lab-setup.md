@@ -65,4 +65,4 @@ It can take sometime to launch the IDE the first time.
 
 Congratulations, you've successfully completed the workshop setup! You can move on to [Lab 1: Set-Up the Broker (Optional)](/labs/lab-1.md)
 
-[Return the the Workshop Landing page](/README.md)
+[Return to the Workshop Landing page](/README.md)

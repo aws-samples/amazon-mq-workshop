@@ -149,4 +149,4 @@ Stop the sender and receiver by holding `CTRL + C` or `CONTROL + C` in each term
 
 Congratulations, you've successfully completed Lab 4! You can move on to [Lab 5: Set-Up Amazon CloudWatch to Monitor Our Broker](/labs/lab-5.md)
 
-[Return the the Workshop Landing page](/README.md)
+[Return to the Workshop Landing page](/README.md)

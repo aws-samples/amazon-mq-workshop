@@ -15,4 +15,4 @@ Before we finish this workshop, let's delete all resources we have created so th
 
 Congratulations, you've successfully cleaned up he workshop resources!
 
-[Return the the Workshop Landing page](/README.md)
+[Return to the Workshop Landing page](/README.md)

@@ -93,4 +93,4 @@ Stop the sender and receiver by holding `CTRL + C` or `CONTROL + C` in each term
 
 Congratulations, you've successfully completed Lab 3! You can move on to [Lab 4: Active MQ Broker Statistics](/labs/lab-4.md)
 
-[Return the the Workshop Landing page](/README.md)
+[Return to the Workshop Landing page](/README.md)

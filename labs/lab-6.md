@@ -139,4 +139,4 @@ As expected, `user1` can write on this queue. You can try a similar excercise wi
 
 Congratulations, you've successfully completed Lab 6! You can move on to [Lab 7: Active MQ Broker Statistics](/labs/lab-7.md)
 
-[Return the the Workshop Landing page](/README.md)
+[Return to the Workshop Landing page](/README.md)

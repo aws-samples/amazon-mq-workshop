@@ -98,4 +98,4 @@ Stop the sender and receiver by holding `CTRL + C` or  `CONTROL + C` in each ter
 
 Congratulations, you've successfully completed Lab 2! You can move on to [Lab 3: Using Publish-Subscribe Messaging Using Topics](/labs/lab-3.md)
 
-[Return the the Workshop Landing page](/README.md)
+[Return to the Workshop Landing page](/README.md)
