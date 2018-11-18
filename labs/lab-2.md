@@ -27,7 +27,7 @@ export temp_url="<failover url>"
 echo "url=\"$temp_url\"" >> ~/.bashrc; source ~/.bashrc
 ```
 
-**NOTE**: Ensure that all terminals windows that you will use for the workshop are crated after having run this step.
+**NOTE**: Ensure that all terminals windows that you will use for the workshop are created after having run this step.
 
 </p></details><p/>
 
@@ -88,7 +88,7 @@ Select the lower-right terminal and start a second receiver. You now have 2 clie
 java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type queue -destination workshop.queueA
 ```
 
-You can see that multiple senders can send messages to the same queue, and multiple receivers can receive messages from the same queue. But you will also observe that each message is only **delivered to one receiver**, not both. You also observer that there is no direct relationship between sender and receiver. Try to stop/start the receiver to see what changes.
+You can see that multiple senders can send messages to the same queue, and multiple receivers can receive messages from the same queue. But you will also observe that each message is only **delivered to one receiver**, not both. You will also observe that there is no direct relationship between sender and receiver. Try to stop/start the receiver to see what changes.
 
 ### 3. Clean-up
 

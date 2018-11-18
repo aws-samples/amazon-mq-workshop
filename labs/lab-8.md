@@ -36,6 +36,9 @@ You should see a log output like the following:
 ...
 ```
 
+** Please note the broker host to which the client successfully connected.  This is the active broker used in following steps.**
+
+
 Select the upper-right terminal. Run the following command to start a receiver using the `Stomp` protocol (first replace `<Stomp single connection url>` with your current broker value. You find this value on the details page of your Amazon MQ broker in the **Connections** section.):
 
 **NOTES for STOMP client**
