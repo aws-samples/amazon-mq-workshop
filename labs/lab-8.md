@@ -6,7 +6,7 @@ In this exercise, you connect one message producer to the broker and start sendi
 ### 1. Go to the Cloud9 IDE tab in the browser
 
 In the main pane, close the Welcome screen and add 4  terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
-All terminals shoul be in the `/workspace` directory.
+All terminals should be in the `/workspace` directory.
 
 <details><summary>Screenshot</summary><p>
 
