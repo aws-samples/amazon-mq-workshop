@@ -2,7 +2,7 @@
 
 ## Overview of Workshop Labs
 
-The [Amazon MQ Workshop](http://aws.amazon.com/amazon-mq-workshop) introduces the relevant concepts and features of a message driven application using [Amazon MQ](https://aws.amazon.com/amazon-mq/). You will learn how to set-up an Amazon MQ broker and how to connect senders and receivers to exchange messages. This also includes using different protocols to demonstrate the protocol interoperability features Amazon MQ provides.
+The [Amazon MQ Workshop](/README.md) introduces the relevant concepts and features of a message driven application using [Amazon MQ](https://aws.amazon.com/amazon-mq/). You will learn how to set-up an Amazon MQ broker and how to connect senders and receivers to exchange messages. This also includes using different protocols to demonstrate the protocol interoperability features Amazon MQ provides.
 
 We will also dive into the security and monitoring features Apache Active MQ provides out of the box, and what Amazon MQ adds on top of them.  
 
