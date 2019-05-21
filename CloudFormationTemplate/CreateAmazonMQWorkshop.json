@@ -25,6 +25,20 @@
       "ConstraintDescription": "The Amazon MQ broker password is required !",
       "NoEcho": true
     },
+    "Cloud9User": {
+      "Description": "The username to access the Cloud9 instance",
+      "Type": "String",
+      "MinLength": 3,
+      "ConstraintDescription": "The Cloud9 username is requred!",
+      "NoEcho": true
+    },
+    "Cloud9Password": {
+      "Description": "The password to access the Amazon MQ broker. Min 6 characters",
+      "Type": "String",
+      "MinLength": 6,
+      "ConstraintDescription": "The Cloud9 password is required !",
+      "NoEcho": true
+    },
     "AMI": {
       "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
       "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
@@ -403,7 +417,7 @@
           "wget https://s3.amazonaws.com/amazon-mq-workshop/ec2-script-c9-docker.sh\n",
           "chmod +x /ec2-script-c9-docker.sh\n",
           "sudo -u ec2-user /ec2-script-c9-docker.sh ",{ "Ref": "AmazonMQBrokerUser" },
-          " ", { "Ref" : "AmazonMQBrokerPassword" }, "\n",
+          " ", { "Ref" : "AmazonMQBrokerPassword" }, " ", { "Ref": "Cloud9User" }, " ", { "Ref": "Cloud9Password" }, "\n",
           "echo 'Completed main script install'\n"
         ]]}},
         "Tags": [

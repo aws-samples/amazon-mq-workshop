@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mvn clean install
+#mvn clean install
 
 aws s3 cp --acl public-read CloudFormationTemplate/CreateAmazonMQWorkshop.json s3://amazon-mq-workshop/CreateAmazonMQWorkshop.json
 aws s3 cp --acl public-read CloudFormationTemplate/Dockerfile s3://amazon-mq-workshop/Dockerfile

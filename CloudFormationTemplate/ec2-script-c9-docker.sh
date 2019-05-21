@@ -24,11 +24,10 @@ echo "user=$1" > bash_env_src
 echo "password=$2" >> bash_env_src
 sudo `aws ecr get-login --no-include-email --registry-ids 416075262792 --region eu-west-1`
 sudo docker build -t cloud9amqws .
-sudo docker run -d -v /home/ec2-user/workspace:/cloud9/workspace -p 8180:8180 cloud9amqws --auth aws:mq
+sudo docker run -d -v /home/ec2-user/workspace:/cloud9/workspace -p 8180:8180 cloud9amqws --auth $3:$4
 
 # Signal CF 
 echo "Tell CloudFormation we're done ..."
 bash /signal.txt
 #sudo rm /ec2-script-c9-docker.sh
 #sudo rm /bash_env
-
