@@ -303,7 +303,7 @@
           ]
         },
         "EngineType": "ActiveMQ",
-        "EngineVersion": "5.15.0",
+        "EngineVersion": "5.15.9",
         "HostInstanceType": "mq.t2.micro",
         "DeploymentMode": "ACTIVE_STANDBY_MULTI_AZ",
         "PubliclyAccessible": true,
