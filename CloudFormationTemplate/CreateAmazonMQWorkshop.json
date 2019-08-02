@@ -1,8 +1,26 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "AWS CloudFormation template to launch resources for the Amazon MQ workshop.",
-  },
   
+  "Metadata" : {
+    "AWS::CloudFormation::Interface" : {
+      "ParameterGroups" : [
+        {
+          "Label" : { "default" : "General Configuration" },
+          "Parameters" : [ "AMI", "CIDR" ]
+        },        
+        {
+          "Label" : { "default" : "Broker Configuration" },
+          "Parameters" : [ "AmazonMQBrokerUser", "AmazonMQBrokerPassword" ]
+        },
+        {
+          "Label" : { "default":"Cloud9 Configuration" },
+          "Parameters" : [ "Cloud9User", "Cloud9Password" ]
+        }
+      ]
+    }
+  }, 
+
   "Parameters": {
     "CIDR": {
       "Description": "CIDR block, from which the access to the EC2 instance is allowed.",
