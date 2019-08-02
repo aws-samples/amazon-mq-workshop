@@ -17,7 +17,13 @@
           "Label" : { "default":"Cloud9 Configuration" },
           "Parameters" : [ "Cloud9User", "Cloud9Password" ]
         }
-      ]
+      ],
+      "ParameterLabels" : {
+        "AmazonMQBrokerUser" : { "default" : "Broker Username" },
+        "AmazonMQBrokerPassword" : { "default" : "Broker Password" },
+        "Cloud9User" : { "default" : "Cloud9 Username" },
+        "Cloud9Password" : { "default" : "Cloud9 Password" }        
+      }      
     }
   }, 
 
