@@ -56,7 +56,7 @@ Your stack will take sometime to launch, mostly due to the creation of the Amazo
 ## Cloud9 IDE
 
 It can take sometime to launch the IDE the first time.
-Once the creation has completed, you can click on your stack name (“amazonmqworkshop” or the custom name you chose instead) to check the details of your stack. Click on the “Outputs” tab and find the key “Cloud9ConsoleURL”. The assigned value is the URL to open the Cloud9 IDE. Open this URL in a new browser tab and enter “aws” as username and “mq” as password. It can take some time to launch the IDE the first time.
+Once the creation has completed, you can click on your stack name (“amazonmqworkshop” or the custom name you chose instead) to check the details of your stack. Click on the “Outputs” tab and find the key “Cloud9ConsoleURL”. The assigned value is the URL to open the Cloud9 IDE. Open this URL in a new browser tab and enter Cloud9 username (default: aws) and password (default: mq) as you entered when you are creating the cloudformation stack. It can take some time to launch the IDE the first time.
 
 # Completion
 

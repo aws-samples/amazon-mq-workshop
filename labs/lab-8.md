@@ -15,10 +15,10 @@ All terminals should be in the `/workspace` directory.
 </p></details><p/>
 
 In the `/workspace` directory you find the following JARs:
-* amazon-mq-client.jar (using the OpenWire protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/amazon-mq-client/src/main/java/com/aws/sample/amazonmq/AmazonMqClient.java)
-* amqp-client.jar (using the AMQP protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/amqp-client/src/main/java/com/aws/sample/amazonmq/AMQPClient.java)
-* mqtt-client.jar (using the MQTT protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/mqtt-client/src/main/java/com/aws/sample/amazonmq/MQTTClient.java)
-* stomp-client.jar (using the Stomp protocol) - [Source](https://github.com/muellerc/Amazon-MQ-Workshop/blob/master/stomp-client/src/main/java/com/aws/sample/amazonmq/StompClient.java)
+* amazon-mq-client.jar (using the OpenWire protocol) - [Source](https://github.com/aws-samples/amazon-mq-workshop/blob/master/amazon-mq-client/src/main/java/com/aws/sample/amazonmq/AmazonMqClient.java)
+* amqp-client.jar (using the AMQP protocol) - [Source](https://github.com/aws-samples/amazon-mq-workshop/blob/master/amqp-client/src/main/java/com/aws/sample/amazonmq/AMQPClient.java)
+* mqtt-client.jar (using the MQTT protocol) - [Source](https://github.com/aws-samples/amazon-mq-workshop/blob/master/mqtt-client/src/main/java/com/aws/sample/amazonmq/MQTTClient.java)
+* stomp-client.jar (using the Stomp protocol) - [Source](https://github.com/aws-samples/amazon-mq-workshop/blob/master/stomp-client/src/main/java/com/aws/sample/amazonmq/StompClient.java)
 
 Run the following command to start a sender using the `OpenWire` protocol in the top-left terminal:
 

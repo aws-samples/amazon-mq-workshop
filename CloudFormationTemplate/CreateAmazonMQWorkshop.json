@@ -1,6 +1,7 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "AWS CloudFormation template to launch resources for the Amazon MQ workshop.",
+  },
   
   "Parameters": {
     "CIDR": {
@@ -22,22 +23,19 @@
       "Description": "The password to access the Amazon MQ broker. Min 12 characters",
       "Type": "String",
       "MinLength": 12,
-      "ConstraintDescription": "The Amazon MQ broker password is required !",
-      "NoEcho": true
+      "ConstraintDescription": "The Amazon MQ broker password is required !"
     },
     "Cloud9User": {
       "Description": "The username to access the Cloud9 instance",
       "Type": "String",
       "MinLength": 3,
-      "ConstraintDescription": "The Cloud9 username is requred!",
-      "NoEcho": true
+      "ConstraintDescription": "The Cloud9 username is requred!"
     },
     "Cloud9Password": {
       "Description": "The password to access the Amazon MQ broker. Min 6 characters",
       "Type": "String",
       "MinLength": 6,
-      "ConstraintDescription": "The Cloud9 password is required !",
-      "NoEcho": true
+      "ConstraintDescription": "The Cloud9 password is required !"
     },
     "AMI": {
       "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
