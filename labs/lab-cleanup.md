@@ -13,6 +13,6 @@ Before we finish this workshop, let's delete all resources we have created so th
 
 # Completion
 
-Congratulations, you've successfully cleaned up he workshop resources!
+Congratulations, you've successfully cleaned up the workshop resources!
 
 [Return to the Workshop Landing page](/README.md)
