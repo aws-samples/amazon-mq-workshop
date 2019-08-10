@@ -47,19 +47,21 @@
       "Description": "The password to access the Amazon MQ broker. Min 12 characters",
       "Type": "String",
       "MinLength": 12,
-      "ConstraintDescription": "The Amazon MQ broker password is required !"
+      "ConstraintDescription": "The Amazon MQ broker password is required !",
+      "NoEcho": true
     },
     "Cloud9User": {
       "Description": "The username to access the Cloud9 instance",
       "Type": "String",
       "MinLength": 3,
-      "ConstraintDescription": "The Cloud9 username is requred!"
+      "ConstraintDescription": "The Cloud9 username is required!"
     },
     "Cloud9Password": {
       "Description": "The password to access the Amazon MQ broker. Min 6 characters",
       "Type": "String",
       "MinLength": 6,
-      "ConstraintDescription": "The Cloud9 password is required !"
+      "ConstraintDescription": "The Cloud9 password is required !",
+      "NoEcho": true
     },
     "AMI": {
       "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
