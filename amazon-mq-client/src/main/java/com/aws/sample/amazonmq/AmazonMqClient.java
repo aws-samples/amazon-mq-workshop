@@ -58,7 +58,6 @@ public class AmazonMqClient {
                 user = secrets.split(",")[0];
                 passwd = secrets.split(",")[1];
             }
-            System.out.println("user " + user + " Password " + passwd);
             Connection conn = connFact.createConnection(user, passwd);
             conn.setClientID("AmazonMQWorkshop-" + System.currentTimeMillis());
             conn.start();
@@ -135,7 +134,7 @@ public class AmazonMqClient {
         Options options = new Options();
         options.addOption("help", false, "Print the help message.");
         options.addOption("url", true, "The broker connection url.");
-        options.addOption("user", true, "The user to connect to the broker.");
+        options.addOption("user", false, "The user to connect to the broker.");
         options.addOption("password", false, "The password for the user.");
         options.addOption("mode", true, "Whether to act as 'sender' or 'receiver'");
         options.addOption("type", true, "Whether to use a queue or a topic.");
@@ -151,7 +150,7 @@ public class AmazonMqClient {
             printUsage(options);
         }
 
-        if (!(cmd.hasOption("url") && cmd.hasOption("user") && cmd.hasOption("password") && cmd.hasOption("type") && cmd.hasOption("mode") && cmd.hasOption("destination"))) {
+        if (!(cmd.hasOption("url") && cmd.hasOption("type") && cmd.hasOption("mode") && cmd.hasOption("destination"))) {
             printUsage(options);
         }
 
