@@ -24,6 +24,11 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClientBuilder;
+import com.amazonaws.services.simplesystemsmanagement.model.GetParameterRequest;
+import com.amazonaws.services.simplesystemsmanagement.model.GetParameterResult;
+
 class WrapInt {
     public int v = 0;
 }
@@ -46,7 +51,15 @@ public class AmazonMqClient {
         registerShutdownHook(count, ds, interval);
 
         try {
-            Connection conn = connFact.createConnection(cmd.getOptionValue("user"), cmd.getOptionValue("password"));
+            String user = cmd.getOptionValue("user");
+            String passwd = cmd.getOptionValue("password");
+            String secrets = getUserPassword("MQBrokerUserPassword");
+            if (secrets!=null && !secrets.isEmpty()) {
+                user = secrets.split(",")[0];
+                passwd = secrets.split(",")[1];
+            }
+            System.out.println("user " + user + " Password " + passwd);
+            Connection conn = connFact.createConnection(user, passwd);
             conn.setClientID("AmazonMQWorkshop-" + System.currentTimeMillis());
             conn.start();
 
@@ -123,7 +136,7 @@ public class AmazonMqClient {
         options.addOption("help", false, "Print the help message.");
         options.addOption("url", true, "The broker connection url.");
         options.addOption("user", true, "The user to connect to the broker.");
-        options.addOption("password", true, "The password for the user.");
+        options.addOption("password", false, "The password for the user.");
         options.addOption("mode", true, "Whether to act as 'sender' or 'receiver'");
         options.addOption("type", true, "Whether to use a queue or a topic.");
         options.addOption("destination", true, "The name of the queue or topic");
@@ -162,5 +175,11 @@ public class AmazonMqClient {
             }
         });
         Runtime.getRuntime().addShutdownHook(shutdown);
+    }
+    
+    public static String getUserPassword(String key) {
+        GetParameterResult parameterResult = AWSSimpleSystemsManagementClientBuilder.defaultClient().getParameter(new GetParameterRequest()
+            .withName(key));
+        return parameterResult.getParameter().getValue();
     }
 }
