@@ -19,6 +19,11 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClientBuilder;
+import com.amazonaws.services.simplesystemsmanagement.model.GetParameterRequest;
+import com.amazonaws.services.simplesystemsmanagement.model.GetParameterResult;
+
 class WrapInt {
     public int v = 0;
 }
@@ -39,11 +44,24 @@ public class MQTTClient {
         String[] url = cmd.getOptionValue("url").split("://");
         MqttClient client = null;
         try {
+            String user = null;
+            String password = null;
+            String secrets = null;            
+            if (cmd.hasOption("user") && cmd.hasOption("password")) {
+                user = cmd.getOptionValue("user");
+                password = cmd.getOptionValue("password");                
+            } else {
+                secrets = getUserPassword("MQBrokerUserPassword");
+                if (secrets!=null && !secrets.isEmpty()) {
+                    user = secrets.split(",")[0];
+                    password = secrets.split(",")[1];
+                }
+            }            
             MqttConnectOptions options = new MqttConnectOptions();
             options.setCleanSession(false);
             options.setAutomaticReconnect(true);
-            options.setUserName(cmd.getOptionValue("user"));
-            options.setPassword(cmd.getOptionValue("password").toCharArray());
+            options.setUserName(user);
+            options.setPassword(password.toCharArray());
             client = new MqttClient("ssl://" + url[1], name, new MemoryPersistence());
 
             String mqttTopic = cmd.getOptionValue("destination");
@@ -123,7 +141,7 @@ public class MQTTClient {
             printUsage(options);
         }
 
-        if (!(cmd.hasOption("url") && cmd.hasOption("user") && cmd.hasOption("password") && cmd.hasOption("mode") && cmd.hasOption("destination"))) {
+        if (!(cmd.hasOption("url") && cmd.hasOption("mode") && cmd.hasOption("destination"))) {
             printUsage(options);
         }
 
@@ -148,4 +166,9 @@ public class MQTTClient {
         });
         Runtime.getRuntime().addShutdownHook(shutdown);
     }
+    public static String getUserPassword(String key) {
+        GetParameterResult parameterResult = AWSSimpleSystemsManagementClientBuilder.defaultClient().getParameter(new GetParameterRequest()
+            .withName(key));
+        return parameterResult.getParameter().getValue();
+    }    
 }

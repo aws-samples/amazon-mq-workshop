@@ -24,6 +24,11 @@ import org.apache.commons.cli.ParseException;
 import org.apache.qpid.jms.JmsConnection;
 import org.apache.qpid.jms.JmsConnectionFactory;
 
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClientBuilder;
+import com.amazonaws.services.simplesystemsmanagement.model.GetParameterRequest;
+import com.amazonaws.services.simplesystemsmanagement.model.GetParameterResult;
+
 class WrapInt {
     public int v = 0;
 }
@@ -42,9 +47,21 @@ public class AMQPClient {
         int deliveryMode = cmd.hasOption("notPersistent") ? DeliveryMode.NON_PERSISTENT : DeliveryMode.PERSISTENT;
         registerShutdownHook(count, ds, interval);
 
-        JmsConnectionFactory connFact = new JmsConnectionFactory(cmd.getOptionValue("user"), cmd.getOptionValue("password"), cmd.getOptionValue("url"));
-
         try {
+            String user = null;
+            String password = null;
+            String secrets = null;            
+            if (cmd.hasOption("user") && cmd.hasOption("password")) {
+                user = cmd.getOptionValue("user");
+                password = cmd.getOptionValue("password");                
+            } else {
+                secrets = getUserPassword("MQBrokerUserPassword");
+                if (secrets!=null && !secrets.isEmpty()) {
+                    user = secrets.split(",")[0];
+                    password = secrets.split(",")[1];
+                }
+            }
+            JmsConnectionFactory connFact = new JmsConnectionFactory(user, password, cmd.getOptionValue("url"));
             JmsConnection conn = (JmsConnection) connFact.createConnection();
             conn.setClientID("AmazonMQWorkshop-" + System.currentTimeMillis());
             conn.start();
@@ -136,7 +153,7 @@ public class AMQPClient {
             printUsage(options);
         }
 
-        if (!(cmd.hasOption("url") && cmd.hasOption("user") && cmd.hasOption("password") && cmd.hasOption("type") && cmd.hasOption("mode") && cmd.hasOption("destination"))) {
+        if (!(cmd.hasOption("url") && cmd.hasOption("type") && cmd.hasOption("mode") && cmd.hasOption("destination"))) {
             printUsage(options);
         }
 
@@ -161,4 +178,9 @@ public class AMQPClient {
         });
         Runtime.getRuntime().addShutdownHook(shutdown);
     }
+    public static String getUserPassword(String key) {
+        GetParameterResult parameterResult = AWSSimpleSystemsManagementClientBuilder.defaultClient().getParameter(new GetParameterRequest()
+            .withName(key));
+        return parameterResult.getParameter().getValue();
+    }    
 }

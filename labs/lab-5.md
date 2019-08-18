@@ -7,7 +7,7 @@ In this lab we will have a closer look at broker, queue and topic metrics provid
 Run the following command in one of the terminal windows to send a few message to a queue where no receiver is listening to:
 
 ``` bash
-java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type queue -destination workshop.DLQTest -name Sender-1 -ttl 1000
+java -jar ./bin/amazon-mq-client.jar -url $url -mode sender -type queue -destination workshop.DLQTest -name Sender-1 -ttl 1000
 ```
 
 > Note the `ttl` option. This means the message has a life time of only 1 second. All messages which are not consumed before the ttl expires are moved to the **ActiveMQ.DLQ** queue by default.

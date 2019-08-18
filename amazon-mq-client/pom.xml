@@ -78,7 +78,7 @@
                     <resource>
                       <directory>target</directory>
                         <includes>
-                          <include>amazon-mq-client.jar</include>
+                          <include>${project.artifactId}.${project.packaging}</include>
                         </includes>                      
                     </resource>
                   </resources>              

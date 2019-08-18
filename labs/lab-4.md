@@ -43,7 +43,7 @@ All terminals should be in the `/workspace` directory.
 Run the following command in one of the terminals to start the sender:
 
 ``` bash
-java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type queue -destination workshop.queueA -name Sender-1
+java -jar ./bin/amazon-mq-client.jar -url $url -mode sender -type queue -destination workshop.queueA -name Sender-1
 ```
 
 You should see a log output like the following:
@@ -59,7 +59,7 @@ You should see a log output like the following:
 Select the other terminal and run the following command to start the receiver:
 
 ``` bash
-java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type queue -destination workshop.queueA
+java -jar ./bin/amazon-mq-client.jar -url $url -mode receiver -type queue -destination workshop.queueA
 ```
 
 You should see a log output like the following:

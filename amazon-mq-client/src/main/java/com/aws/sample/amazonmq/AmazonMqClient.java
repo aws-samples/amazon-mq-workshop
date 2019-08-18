@@ -51,14 +51,20 @@ public class AmazonMqClient {
         registerShutdownHook(count, ds, interval);
 
         try {
-            String user = cmd.getOptionValue("user");
-            String passwd = cmd.getOptionValue("password");
-            String secrets = getUserPassword("MQBrokerUserPassword");
-            if (secrets!=null && !secrets.isEmpty()) {
-                user = secrets.split(",")[0];
-                passwd = secrets.split(",")[1];
+            String user = null;
+            String password = null;
+            String secrets = null;    
+            if (cmd.hasOption("user") && cmd.hasOption("password")) {
+                user = cmd.getOptionValue("user");
+                password = cmd.getOptionValue("password");                
+          } else {
+                secrets = getUserPassword("MQBrokerUserPassword");
+                if (secrets!=null && !secrets.isEmpty()) {
+                    user = secrets.split(",")[0];
+                    password = secrets.split(",")[1];
+                }
             }
-            Connection conn = connFact.createConnection(user, passwd);
+            Connection conn = connFact.createConnection(user, password);
             conn.setClientID("AmazonMQWorkshop-" + System.currentTimeMillis());
             conn.start();
 
@@ -134,8 +140,8 @@ public class AmazonMqClient {
         Options options = new Options();
         options.addOption("help", false, "Print the help message.");
         options.addOption("url", true, "The broker connection url.");
-        options.addOption("user", false, "The user to connect to the broker.");
-        options.addOption("password", false, "The password for the user.");
+        options.addOption("user", true, "The user to connect to the broker.");
+        options.addOption("password", true, "The password for the user.");
         options.addOption("mode", true, "Whether to act as 'sender' or 'receiver'");
         options.addOption("type", true, "Whether to use a queue or a topic.");
         options.addOption("destination", true, "The name of the queue or topic");

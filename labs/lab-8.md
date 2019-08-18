@@ -23,7 +23,7 @@ In the `/workspace` directory you find the following JARs:
 Run the following command to start a sender using the `OpenWire` protocol in the top-left terminal:
 
 ``` bash
-java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination workshop.topicA -name OpenWire
+java -jar ./bin/amazon-mq-client.jar -url $url -mode sender -type topic -destination workshop.topicA -name OpenWire
 ```
 
 You should see a log output like the following:
@@ -45,7 +45,7 @@ Select the upper-right terminal. Run the following command to start a receiver u
 * This client doesn't support the failover connection url. You have to provide the Stomp connection url for the active broker, like `stomp+ssl://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:61614`.
 
 ``` bash
-java -jar stomp-client.jar -url '<Stomp single connection url>' -user $user -password $password -mode receiver -type topic -destination workshop.topicA
+java -jar ./bin/stomp-client.jar -url '<Stomp single connection url>' -mode receiver -type topic -destination workshop.topicA
 ```
 
 You should see a log output like the following:
@@ -66,7 +66,7 @@ Select the bottom-left terminal. Run the following command to start a receiver u
   * Destination: In MQTT, it's common to use a '/' as a seperator, instead of a '.' to define your queue name. Amazon MQ transforms by default all '/' to '.' in your queue name.
 
 ``` bash
-java -jar mqtt-client.jar -url '<MQTT single connection url>' -user $user -password $password -mode receiver -destination workshop/topicA
+java -jar ./bin/mqtt-client.jar -url '<MQTT single connection url>' -mode receiver -destination workshop/topicA
 ```
 
 You should see a log output like the following:
@@ -85,7 +85,7 @@ Select the bottom-right terminal. Run the following command to start a receiver 
 * Schema: This client supports the failover connection url, but not the scheme `amqp+ssl`. It expects the scheme in the form `amqps`. You have to provide the AMQP connection url like `failover:(amqps://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-1.mq.eu-central-1.amazonaws.com:5671,amqps://b-4e4bfd69-7b83-4a27-9faf-4684cfa80443-2.mq.eu-central-1.amazonaws.com:5671)`.
 
 ``` bash
-java -jar amqp-client.jar -url '<AMQP failover connection url>' -user $user -password $password -mode receiver -type topic -destination workshop.topicA
+java -jar ./bin/amqp-client.jar -url '<AMQP failover connection url>' -mode receiver -type topic -destination workshop.topicA
 ```
 
 You should see a log output like the following:

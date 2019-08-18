@@ -56,8 +56,7 @@ Your stack will take sometime to launch, mostly due to the creation of the Amazo
 ## Cloud9 IDE
 
 It can take sometime to launch the IDE the first time.
-Once the creation has completed, you can click on your stack name (“amazonmqworkshop” or the custom name you chose instead) to check the details of your stack. Click on the “Outputs” tab and find the key “Cloud9ConsoleURL”. The assigned value is the URL to open the Cloud9 IDE. Open this URL in a new browser tab and enter Cloud9 username and password as you entered when you are creating the cloudformation stack. It can take some time to launch the IDE the first time.
-
+Once the creation has completed, you can click on your stack name (“amazonmqworkshop” or the custom name you chose instead) to check the details of your stack. Cloud9 IDE instance has been setup as part of the stack. Navigate to Cloud9 service and look for MQClient workspace and click on OpenIDE to open the workspace.
 # Completion
 
 Congratulations, you've successfully completed the workshop setup! You can move on to [Lab 1: Set-Up the Broker (Optional)](/labs/lab-1.md)

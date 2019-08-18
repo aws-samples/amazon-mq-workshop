@@ -46,7 +46,7 @@ All terminals should be in the `/workspace` directory.
 Select the top-left terminal and run the following command to start the sender:
 
 ``` bash
-java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination demo.topicA -name Sender-1
+java -jar ./bin/amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination demo.topicA -name Sender-1
 ```
 
 You should see a log output like the following:
@@ -62,13 +62,13 @@ You should see a log output like the following:
 Select the-top right terminal and run the following command to start a second sender. This is the same as the previous command with a diffent name to distinguish the senders. 
 
 ``` bash
-java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination demo.topicA -name Sender-2
+java -jar ./bin/amazon-mq-client.jar -url $url -user $user -password $password -mode sender -type topic -destination demo.topicA -name Sender-2
 ```
 
 Select the bottom-left terminal and run the following command to start a receiver. 
 
 ``` bash
-java -jar amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type topic -destination demo.topicA
+java -jar ./bin/amazon-mq-client.jar -url $url -user $user -password $password -mode receiver -type topic -destination demo.topicA
 ```
 
 The receiver is starting receiving messages published on the topic by both senders and you should see a log output like the following:

@@ -115,7 +115,7 @@ Close this browser-tab and go back to the Edit broker page. From the **Revision*
 After the broker is again in the status `Running`, run the following command in a terminal tab in the Cloud9 IDE (replacing the parameter **<user 2 password>** with the value you have chosen) to start sending messages to `queue.user1` as `user2`.
 
 ``` bash
-java -jar amazon-mq-client.jar -url $url -user user2 -password <user 2 password> -mode sender -type queue -destination queue.user1 -name user2
+java -jar ./bin/amazon-mq-client.jar -url $url -user user2 -password <user 2 password> -mode sender -type queue -destination queue.user1 -name user2
 ```
 
 You should see a log output like the following, indicating that `user2` is not authorized to write into this queue. 
@@ -127,7 +127,7 @@ Error: User user2 is not authorized to write to: queue://queue.user1
 
 Try now to send messages to the same queue as `user1`.
 ``` bash
-java -jar amazon-mq-client.jar -url $url -user user1 -password <user 1 password> -mode sender -type queue -destination queue.user1 -name user1
+java -jar ./bin/amazon-mq-client.jar -url $url -user user1 -password <user 1 password> -mode sender -type queue -destination queue.user1 -name user1
 ```
 
 As expected, `user1` can write on this queue. You can try a similar excercise with the topic `topic.user2`, verifying that `user1` cannot publish nor receive messages from the topic, while `user2` can (the commands can be found in [Lab 2](/labs/lab-2.md), but you will need to adapt the `-user` and `-password` parameters)

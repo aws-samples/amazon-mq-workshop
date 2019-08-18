@@ -20,6 +20,11 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClientBuilder;
+import com.amazonaws.services.simplesystemsmanagement.model.GetParameterRequest;
+import com.amazonaws.services.simplesystemsmanagement.model.GetParameterResult;
+
 class WrapInt {
     public int v = 0;
 }
@@ -41,10 +46,23 @@ public class StompClient {
         String[] url = cmd.getOptionValue("url").split("://");
         String[] hostAndPort = url[1].split(":");
         try {
+            String user = null;
+            String password = null;
+            String secrets = null;            
+            if (cmd.hasOption("user") && cmd.hasOption("password")) {
+                user = cmd.getOptionValue("user");
+                password = cmd.getOptionValue("password");                
+            } else {
+                secrets = getUserPassword("MQBrokerUserPassword");
+                if (secrets!=null && !secrets.isEmpty()) {
+                    user = secrets.split(",")[0];
+                    password = secrets.split(",")[1];
+                }
+            }
             SocketFactory factory = SSLSocketFactory.getDefault();
             Socket socket = factory.createSocket(hostAndPort[0], Integer.parseInt(hostAndPort[1]));
             connection.open(socket);
-            connection.connect(cmd.getOptionValue("user"), cmd.getOptionValue("password"), name);
+            connection.connect(user, password, name);
             System.out.println(String.format("Successfully connected to %s", cmd.getOptionValue("url")));
 
             if (cmd.getOptionValue("mode").contentEquals("sender")) {
@@ -134,4 +152,9 @@ public class StompClient {
         });
         Runtime.getRuntime().addShutdownHook(shutdown);
     }
+    public static String getUserPassword(String key) {
+        GetParameterResult parameterResult = AWSSimpleSystemsManagementClientBuilder.defaultClient().getParameter(new GetParameterRequest()
+            .withName(key));
+        return parameterResult.getParameter().getValue();
+    }    
 }
