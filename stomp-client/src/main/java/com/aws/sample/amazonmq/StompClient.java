@@ -127,7 +127,7 @@ public class StompClient {
             printUsage(options);
         }
 
-        if (!(cmd.hasOption("url") && cmd.hasOption("user") && cmd.hasOption("password") && cmd.hasOption("mode") && cmd.hasOption("destination"))) {
+        if (!(cmd.hasOption("url") && cmd.hasOption("mode") && cmd.hasOption("destination"))) {
             printUsage(options);
         }
 

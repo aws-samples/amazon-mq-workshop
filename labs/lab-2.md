@@ -36,7 +36,9 @@ echo "url=\"$temp_url\"" >> ~/.bashrc; source ~/.bashrc
 ### 2. Go to the Cloud9 IDE tab in the browser
 
 In the main pane, close the Welcome screen and add 4  terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
-All terminals should be in the `/workspace` directory.
+All terminals should be in the `/environment/amazon-mq-workshop` directory.
+
+**NOTE**: In order to split the windows into a chequered pattern, on the 2nd and 4th terminal windows, right click and select "Split Pane in Two Columns"
 
 <details><summary>Screenshot</summary><p>
 
