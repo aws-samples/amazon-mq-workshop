@@ -5,8 +5,8 @@ In this exercise, you connect one message producer to the broker and start sendi
 
 ### 1. Go to the Cloud9 IDE tab in the browser
 
-In the main pane, close the Welcome screen and add 4  terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
-All terminals should be in the `/workspace` directory.
+In the main pane, close the Welcome screen and add 4 terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
+All terminals should be in the `/environment/amazon-mq-workshop` directory.
 
 <details><summary>Screenshot</summary><p>
 
@@ -14,7 +14,7 @@ All terminals should be in the `/workspace` directory.
 
 </p></details><p/>
 
-In the `/workspace` directory you find the following JARs:
+In the `/environment/amazon-mq-workshop/bin` directory you find the following JARs:
 * amazon-mq-client.jar (using the OpenWire protocol) - [Source](https://github.com/aws-samples/amazon-mq-workshop/blob/master/amazon-mq-client/src/main/java/com/aws/sample/amazonmq/AmazonMqClient.java)
 * amqp-client.jar (using the AMQP protocol) - [Source](https://github.com/aws-samples/amazon-mq-workshop/blob/master/amqp-client/src/main/java/com/aws/sample/amazonmq/AMQPClient.java)
 * mqtt-client.jar (using the MQTT protocol) - [Source](https://github.com/aws-samples/amazon-mq-workshop/blob/master/mqtt-client/src/main/java/com/aws/sample/amazonmq/MQTTClient.java)

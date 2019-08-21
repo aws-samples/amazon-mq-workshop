@@ -20,7 +20,7 @@ The architecture for this workshop is the following:
 
 This section provides a list of prerequisites that are required to successfully complete the workshop.
 
-1. An AWS account and the proper rights to use Amazon MQ, Amazon CloudFormation, Amazon IAM, Amazon EC2, Amazon S3 and Amazon VPC.
+1. An AWS account and the proper rights to use Amazon MQ, Amazon CloudFormation, Amazon IAM, AWS Cloud9, Amazon S3 and Amazon VPC.
 
 **Let's Begin! [Launch the CloudFormation Stack](/labs/lab-setup.md)**
 

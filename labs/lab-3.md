@@ -10,7 +10,7 @@ You should have an Amazon MQ broker running and have configured the necessary en
 
 <details><summary>Store environment variable</summary><p>
 
-To make it easier to run the commands in the following labs we store frequently used parameters like Amazon MQ broker user, password, etc. in Bash environment variables.
+To make it easier to run the commands in the following labs we store frequently used parameters like the Amazon MQ broker url in Bash environment variable.
 
 Go to the [AmazonMQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one with a name starting with the stack name you created)
 
@@ -21,10 +21,10 @@ to copy the string to your clipboard.
 
 Go to the AWS Console home, find Cloud9 service, open the service console. You should see a pre-built workspace named MQClient. Click on "Open IDE". 
 Once the IDE is launched, you should see a bash shell window opened with the workshop github repository synced to amazon-mq-workshop folder.
-In the bash shell, type the following commands (one at a time).
+In the bash shell, type the following commands one at a time (make sure you replace <failover url> with the failover url you copied below).
 
 ``` bash
-cd ~/amazon-mq-workshop
+cd ~/environment/amazon-mq-workshop
 ./setup.sh
 export temp_url="<failover url>"
 echo "url=\"$temp_url\"" >> ~/.bashrc; source ~/.bashrc

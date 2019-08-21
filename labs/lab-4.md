@@ -8,7 +8,7 @@ You should have an Amazon MQ broker running and have configured the necessary en
 
 <details><summary>Store environment variable</summary><p>
 
-To make it easier to run the commands in the following labs we store frequently used parameters like Amazon MQ broker user, password, etc. in Bash environment variables.
+To make it easier to run the commands in the following labs we store frequently used parameters like the Amazon MQ broker url in Bash environment variable.
 
 Go to the [Amazon MQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one with a name starting with the stack name you created)
 
@@ -17,10 +17,13 @@ to copy the string to your clipboard.
 
 ![Copy failover link](/images/fail-over-Step2.png)
 
-Go to the [CloudFormation console](https://console.aws.amazon.com/cloudformation) and select the stack that you launched at the beginning of the workshop. In the Output tab shown in the lower part of the screen you will have a Cloud9ConsoleURL entry. Click on the URL and enter **aws** as username and **mq** as password. 
- Once the Cloud9 IDE has launched, select the terminal window at the bottom and enter the following commands, one at the time, replacing the values **<...>** with the value you have chosen during the creation of the stack.
+Go to the AWS Console home, find Cloud9 service, open the service console. You should see a pre-built workspace named MQClient. Click on "Open IDE". 
+Once the IDE is launched, you should see a bash shell window opened with the workshop github repository synced to amazon-mq-workshop folder.
+In the bash shell, type the following commands one at a time (make sure you replace <failover url> with the failover url you copied below).
 
 ``` bash
+cd ~/environment/amazon-mq-workshop
+./setup.sh
 export temp_url="<failover url>"
 echo "url=\"$temp_url\"" >> ~/.bashrc; source ~/.bashrc
 ```
@@ -31,8 +34,8 @@ echo "url=\"$temp_url\"" >> ~/.bashrc; source ~/.bashrc
 
 ### 2. Go to the Cloud9 IDE tab in the browser
 
-In the main pane, close the Welcome screen and add 2  terminal tabs (click on + tab and select New Terminal. Reorganize them to have them one on top of the other or side by side.
-All terminals should be in the `/workspace` directory.
+In the main pane, close the Welcome screen and add 4  terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
+All terminals should be in the `/environment/amazon-mq-workshop` directory.
 
 <details><summary>Screenshot</summary><p>
 
