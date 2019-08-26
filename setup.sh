@@ -12,7 +12,8 @@ mkdir ~/environment/activemq-perftest/reports
 userPassword=`aws ssm get-parameter --name "MQBrokerUserPassword" | grep Value`
 brokerUser=`echo $userPassword | sed 's/"//g' | sed 's/Value://g' | cut -d',' -f1 | sed 's/ //g'`
 brokerPassword=`echo $userPassword | sed 's/"//g' | sed 's/Value://g' | cut -d',' -f2`
-printf "\nfactory.brokerURL=$url\n" >> ~/environment/amazon-mq-workshop/openwire-producer.properties
+source ~/.bashrc
+printf "\nfactory.brokerURL=\"$url\"\n" >> ~/environment/amazon-mq-workshop/openwire-producer.properties
 printf "factory.userName=$brokerUser\n" >> ~/environment/amazon-mq-workshop/openwire-producer.properties
 printf "factory.password=$brokerPassword\n" >> ~/environment/amazon-mq-workshop/openwire-producer.properties
 printf "\nfactory.brokerURL=$url\n" >> ~/environment/amazon-mq-workshop/openwire-consumer.properties
