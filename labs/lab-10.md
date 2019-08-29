@@ -78,15 +78,6 @@ In the ```reports``` directory you should see an xml file with more detailed thr
 
 Each of the report files captures exact test and broker environment. Keeping these files around will help you to compare performance between different test cases and how a set of settings have impacted performance.
 
-The previous test showcases a normal scenarios where producers and consumers are running at the same time at least both at the same rates.
-
-Now let's see what happens if you run only the producer without a consumer running.
-
-```
-mvn activemq-perf:producer -DsysTest.propsConfigFile=openwire-producer.properties 
-```
-
-
 ### 3. Resources
 
   - https://activemq.apache.org/activemq-performance-module-users-manual

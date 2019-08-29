@@ -106,7 +106,6 @@ Stop any running sender or receiver by holding `CTRL + C` or or  `CONTROL + C` i
 
 # Completion
 
-Congratulations, you've successfully completed Lab 8! This is the last lab in the workshop.
-You can move on to [Workshop cleanup instructions](/labs/lab-cleanup.md)
+Congratulations, you've successfully completed Lab 8! You can move on to [Lab 9: Network of Brokers](/labs/lab-9.md)
 
 [Return to the Workshop Landing page](/README.md)
