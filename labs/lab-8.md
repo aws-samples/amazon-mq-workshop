@@ -1,7 +1,35 @@
 # Lab 8: Protocol Interoperability
 
-In this exercise, you connect one message producer to the broker and start sending messages. You then connect a message consumer to the broker using a different protocol. You repeat these steps with multiple protocol combinations to figure out which protocol conversions are supported by Amazon MQ.
+## APIs and Protocols
 
+Before we start this lab, it is important to understand the difference between an API and a Protocol. The following diagram explains how they are related.
+
+(/images/amazon-mq-protocols.png)
+
+### Wire Protocol
+
+A wire protocol is akin to a language that a broker speaks to another broker or a client. OpenWire is a wire protocol that ActiveMQ uses. AMQP is another wire protocol that is popular with many providers. A transport protocol envelops a wire protocol, adds routing, reliability and flow control.
+
+For example a common wire protocol AMQP transports over TCP using SSL for security. ActiveMQ's default wire protocol is OpenWire transports over TCP using SSL.
+
+| Protocol | Type | Description |
+| -------- | ---- | ----------- |
+| OpenWire | Binary | Default protocol for AmazonMQ. Provides best performance |
+| AMQP     | Binary | Industry standard protocol. Provides interoperability with other providers |
+| STOMP    | Text | Designed with portability in mind. Best for implementing interfaces in virtually any programming language |
+| WebSockets | Text | Popular messaging protocol for web programming |
+
+AWS recommends using binary protocols for when message throughput is critical. OpenWire offers two encoding schemes for its binary protocol. Loose and tight encoding where the later is more CPU intensive.
+
+### Client Library
+
+A client library is an implementation of a given wire protocol. There are client libraries available for AMQP, OpenWire, STOMP, and Web sockets. Applications written using a client library for a given protocol sacrifice portability. For example, application written using OpenWire library cannot speak to AMQP brokers.
+
+### JMS API
+
+The JMS API implementation for a client library provides a common API for JVM based languages. Thus removes dependency on a specific protocol or client library. The JMS 1.1 API had been existence since 2002. The revised JMS 2.0 API in 2013.
+
+In this exercise, you connect one message producer to the broker and start sending messages. You then connect a message consumer to the broker using a different protocol. You repeat these steps with multiple protocol combinations to figure out which protocol conversions are supported by Amazon MQ.
 
 ### 1. Go to the Cloud9 IDE tab in the browser
 

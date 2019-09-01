@@ -82,3 +82,8 @@ Each of the report files captures exact test and broker environment. Keeping the
 
   - https://activemq.apache.org/activemq-performance-module-users-manual
 
+# Completion
+
+Congratulations, you've successfully completed Lab 10! You can move on to [Lab 11: Ployglot programming](/labs/lab-10.md)
+
+[Return to the Workshop Landing page](/README.md)
