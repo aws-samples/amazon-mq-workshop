@@ -4,7 +4,7 @@
 
 Before we start this lab, it is important to understand the difference between an API and a Protocol. The following diagram explains how they are related.
 
-(/images/amazon-mq-protocols.png)
+![JMS API and Wire Protocols](/images/amazon-mq-protocols.png)
 
 ### Wire Protocol
 
