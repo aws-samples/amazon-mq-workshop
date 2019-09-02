@@ -52,6 +52,8 @@ echo "mesh3url=\"$temp3_url\"" >> ~/.bashrc;
 source ~/.bashrc
 ./setup.sh
 ```
+</details>
+
 
 ## Scenario 1 : Produce/Consume to/from same broker
 
@@ -59,9 +61,9 @@ source ~/.bashrc
 
 ## TTL Concepts
 
-[Message TTL](/images/nob-message-ttl.png)
+![Message TTL](/images/nob-message-ttl.png)
 
-[ConsumerTTL](/images/nob-consumer-ttl.png)
+![ConsumerTTL](/images/nob-consumer-ttl.png)
 
 ## Scenario 3 : duplex
 
