@@ -1,6 +1,6 @@
 # Lab 10: Performance testing
 
-In this exercise you will learn how to do Performance Testing using ActiveMQ Mavem Plug-in. This tool was written and maintained by Apache ActiveMQ team. This is one of the many tools available for performance testing. 
+In this exercise you will learn how to do Performance Testing using ActiveMQ Maven Plug-in. This tool was written and maintained by Apache ActiveMQ team. This is one of the many tools available for performance testing. 
 
 At the end of this lab, in the **References** section, you can see a list of additional tools that you can use to do Performance Testing with AmazonMQ.
 

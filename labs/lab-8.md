@@ -29,6 +29,19 @@ A client library is an implementation of a given wire protocol. There are client
 
 The JMS API implementation for a client library provides a common API for JVM based languages. Thus removes dependency on a specific protocol or client library. The JMS 1.1 API had been existence since 2002. The revised JMS 2.0 API in 2013.
 
+### Samples
+
+The sample programs included in this workshop are built using various protocol provider libraries.
+
+| Sample | Protocol | Provider |
+| -------- | ---- | ----------- |
+| amazon-mq-client.jar | OpenWire | [JMS 1.1 API using ActiveMq client library](https://mvnrepository.com/artifact/org.apache.activemq/activemq-client/5.15.9)|
+| amqp-client.jar | AMQP | [JMS 1.1 API using Apache Qpid client library](https://mvnrepository.com/artifact/org.apache.qpid/qpid-jms-client/0.45.0). This library supports JMS 2.0 as well. |
+| mqtt-client.jar | MQTT | [Paho MQTT Library](https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.1) |
+| stomp-client.jar | STOMP | [Active MQ STOMP Client library](https://mvnrepository.com/artifact/org.apache.activemq/activemq-stomp/5.15.9) |
+
+# Lab
+
 In this exercise, you connect one message producer to the broker and start sending messages. You then connect a message consumer to the broker using a different protocol. You repeat these steps with multiple protocol combinations to figure out which protocol conversions are supported by Amazon MQ.
 
 ### 1. Go to the Cloud9 IDE tab in the browser
@@ -131,6 +144,9 @@ Feel free to try other combinations, using **AMQP**, **MQTT** or **Stomp** as se
 
 Stop any running sender or receiver by holding `CTRL + C` or or  `CONTROL + C` in each terminal window.
 
+# References
+
+[Amazon MQ Cross Language client APIs and Example code](http://activemq.apache.org/cross-language-clients.html)
 
 # Completion
 
