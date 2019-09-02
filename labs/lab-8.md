@@ -19,11 +19,11 @@ For example a common wire protocol AMQP transports over TCP using SSL for securi
 | STOMP    | Text | Designed with portability in mind. Best for implementing interfaces in virtually any programming language |
 | WebSockets | Text | Popular messaging protocol for web programming |
 
-AWS recommends using binary protocols for when message throughput is critical. OpenWire offers two encoding schemes for its binary protocol. Loose and tight encoding where the later is more CPU intensive.
+AWS recommends using binary protocols for when message throughput is critical. 
 
 ### Client Library
 
-A client library is an implementation of a given wire protocol. There are client libraries available for AMQP, OpenWire, STOMP, and Web sockets. Applications written using a client library for a given protocol sacrifice portability. For example, application written using OpenWire library cannot speak to AMQP brokers.
+A client library is an implementation of a given wire protocol. There are client libraries available for AMQP, OpenWire, STOMP, and Web sockets. You can have a client using OpenWire endpoint and another client using AMQP endpoint connected to same broker producing and consuming messages.
 
 ### JMS API
 

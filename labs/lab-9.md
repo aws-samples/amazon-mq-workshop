@@ -1,6 +1,6 @@
 # Lab 9: Network of Brokers
 
-In order to provide massive scalability, Amazon MQ supports a feature known as Network of Brokers. In this configuration you can connect multiple single or dual instance brokers into a newtwork using a topology.
+In order to provide massive scalability, Amazon MQ supports a feature known as Network of Brokers. In this configuration you can connect multiple single or dual instance brokers into a network using a topology.
 
 There are no predefined rules for connecting brokers, [there are a few topology patterns described in AWS documentation](https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/network-of-brokers.html#nob-topologies)..
 
@@ -31,7 +31,7 @@ To make it easier to run the commands in the following labs we store frequently 
 Go to the [AmazonMQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one with a name starting with the stack name you created)
 
 :white_check_mark: Scroll down to the Connections section and click the **Copy failover string** link beside the OpenWire row 
-to copy the string to your clipboard.
+to copy the string to your clipboard. You need to **repeat this 3 more times** for capturing and saving broker failover urls for the brokers in Mesh network.
 
 ![Copy failover link](/images/fail-over-Step2.png)
 
@@ -42,9 +42,30 @@ In the bash shell, type the following commands one at a time (make sure you repl
 ``` bash
 cd ~/environment/amazon-mq-workshop
 export temp_url="<failover url>"
-echo "url=\"$temp_url\"" >> ~/.bashrc; source ~/.bashrc
+export temp1_url="<failover url>"
+export temp2_url="<failover url>"
+export temp3_url="<failover url>"
+echo "perfurl=\"$temp_url\"" >> ~/.bashrc; 
+echo "mesh1url=\"$temp1_url\"" >> ~/.bashrc; 
+echo "mesh2url=\"$temp2_url\"" >> ~/.bashrc; 
+echo "mesh3url=\"$temp3_url\"" >> ~/.bashrc; 
+source ~/.bashrc
 ./setup.sh
 ```
+
+## Scenario 1 : Produce/Consume to/from same broker
+
+## Scenario 2 : Produce to Broker 1 and Consume from Broker 2
+
+## TTL Concepts
+
+[Message TTL](/images/nob-message-ttl.png)
+
+[ConsumerTTL](/images/nob-consumer-ttl.png)
+
+## Scenario 3 : duplex
+
+## Scenario 4 : conduitSubscriptions
 
 # Completion
 
