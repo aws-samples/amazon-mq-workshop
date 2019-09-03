@@ -1,10 +1,7 @@
 sequenceDiagram
-    alt duplex = false
     Broker1->>Broker2: messageTTL = 1
     Broker2->>Broker3: messageTTL = 2
-    end
-    alt duplex=true
     Broker3->>Broker2: messageTTL = 3
     Broker2->>Broker1: messageTTL = 4
-    end
+
     

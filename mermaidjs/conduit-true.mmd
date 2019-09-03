@@ -1,0 +1,6 @@
+graph TD
+   Producer1-. Queue:\\TEST.FOO, 60 messages .->Broker1
+   Broker1-->Broker2
+   Broker1-. Queue:\\TEST.FOO, 30 messages .->Consumer1
+   Broker2-. Queue:\\TEST.FOO, 15 messages .->Consumer2
+   Broker2-. Queue:\\TEST.FOO, 15 messages .->Consumer3

@@ -54,16 +54,50 @@ source ~/.bashrc
 ```
 </details>
 
+## Network Connectors
+
+Each network connector establishes a connection from one broker to another in a specific direction. A network connector from Broker1 to Broker2, propogates messages from Broker1 to Broker2.
+
+Network connectors can be established from Broker2 to Broker1 to allow flow of messages from Broker2 to Broker1. 
+
+There is an attribute ```duplex``` when set to ```true``` allows a bidirectional flow of messages on the same network connector. If this flag is set to ```false``` (default), the direction of messages is considered unidirectional.
+
+The ```duplex``` flag is useful when network connections are traversing a firewall and is common in **Hub and Spoke** broker topology.
+
+For each broker we can configure multiple network connectors. Each network connector in a broker can be configured to include or exclude specific destinations. This would be helpful to distribute the queue/topic load across multiple connectors.
+
+## Conduit Subscriptions
+
+In the networkConnector configuration you should have noticed an attribute named ```conduitSubscriptions```. This setting specifies how the messages are distributed. By default AmazonMQ sets this to ```false```
+
+![conduitSubscriptions enabled](/images/nob-conduit-true.png)
+
+When ```conduitSubscriptions``` set to ```true```, taking an example (see above diagram), when Producer1 sends 60 messages to Broker1, Broker1 sees two connections, one for Broker1 and another for Consumer1. So it distributes 60 messages, 30 each for Broker1 and rest 30 for Consumer1. 
+
+For Broker2, since there are two consumers, each consumer receives 15 messages each. This is an uneven distribution of messages.
+
+In order to distribute the messages evenly among all subscriptions, ```conduitSubscriptions``` should set to ```false``` (default in AmazonMQ).
+
+![conduitSubscriptions disabled](/images/nob-conduit-false.png)
+
+When ```conduitSubscriptions``` set to ```true```, taking an example (see above diagram), when Producer1 sends 60 messages to Broker1, Broker1 sees three connections, one consumer for Broker1 and two consumers on Broker2 and distributes messages equally among all consumers. So each consumer receives 20 messages each.
+
+## TTL Concepts
+
+
+
+### messageTTL
+
+
+![Message TTL](/images/nob-message-ttl.png)
+
+### consumerTTL
+
+![ConsumerTTL](/images/nob-consumer-ttl.png)
 
 ## Scenario 1 : Produce/Consume to/from same broker
 
 ## Scenario 2 : Produce to Broker 1 and Consume from Broker 2
-
-## TTL Concepts
-
-![Message TTL](/images/nob-message-ttl.png)
-
-![ConsumerTTL](/images/nob-consumer-ttl.png)
 
 ## Scenario 3 : duplex
 
