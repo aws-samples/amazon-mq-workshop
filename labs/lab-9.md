@@ -72,9 +72,7 @@ In the networkConnector configuration you should have noticed an attribute named
 
 ![conduitSubscriptions enabled](/images/nob-conduit-true.png)
 
-When ```conduitSubscriptions``` set to ```true```, taking an example (see above diagram), when Producer1 sends 60 messages to Broker1, Broker1 sees two connections, one for Broker1 and another for Consumer1. So it distributes 60 messages, 30 each for Broker1 and rest 30 for Consumer1. 
-
-For Broker2, since there are two consumers, each consumer receives 15 messages each. This is an uneven distribution of messages.
+When ```conduitSubscriptions``` set to ```true```, taking an example (see above diagram), when Producer1 sends 60 messages to Broker1, Broker1 sees two connections, one for Broker1 and another for Consumer1. So it distributes 60 messages, 30 each for Broker1 and rest 30 for Consumer1. For Broker2, since there are two consumers, each consumer receives 15 messages each. This is an uneven distribution of messages.
 
 In order to distribute the messages evenly among all subscriptions, ```conduitSubscriptions``` should set to ```false``` (default in AmazonMQ).
 
@@ -84,24 +82,28 @@ When ```conduitSubscriptions``` set to ```true```, taking an example (see above 
 
 ## TTL Concepts
 
+TTL or Time to live setting (not to confused with a given message expiry) for Network of Brokers, means number of hops/brokers a given message or subscriptions can pass through.
 
+**messageTTL**, **consumerTTL** and **networkTTL**. Setting **networkTTL** sets both **messageTTL** and **consumerTTL**. For flexibility and clarity, it is better to set **messageTTL** and **consumerTTL** separately.
 
 ### messageTTL
 
+**messageTTL** needs to be set to number of hops to be propogated by the brokers in the network. The following diagram shows an example of messageTTl of 4 in a mesh of 3 brokers.
 
 ![Message TTL](/images/nob-message-ttl.png)
 
 ### consumerTTL
 
+**consumerTTL** needs to be set to number of brokers that a subscription to be propogated by brokers in the network. The following diagram shows an example of consumerTTL of 2 in a mesh of 3 brokers.
+
 ![ConsumerTTL](/images/nob-consumer-ttl.png)
 
-## Scenario 1 : Produce/Consume to/from same broker
 
-## Scenario 2 : Produce to Broker 1 and Consume from Broker 2
+## Scenario 1 : Produce to Broker 1 and Consume from Broker 2
 
-## Scenario 3 : duplex
+## Scenario 2 : Consumer Load Balancing (conduitSubscriptions)
 
-## Scenario 4 : conduitSubscriptions
+## Scenario 3 : Producer Load Balancing (concentrating producers)
 
 # Completion
 
