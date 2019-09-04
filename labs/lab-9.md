@@ -1,14 +1,14 @@
 # Lab 9: Network of Brokers
 
-In order to provide massive scalability, Amazon MQ supports a feature known as Network of Brokers. In this configuration you can connect multiple single or dual instance brokers into a network using a topology.
+In order to provide massive scalability, Amazon MQ supports a feature known as Network of Brokers. In this configuration you can connect multiple single or active/standby broker into a network using a topology.
 
-There are no predefined rules for connecting brokers, [there are a few topology patterns described in AWS documentation](https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/network-of-brokers.html#nob-topologies)..
+While there are many different topologies for connecting brokers - [there are a few topology patterns described in AWS documentation](https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/network-of-brokers.html#nob-topologies)..
 
-If you are running an Advanced Lab (by either choosing advanced or all as Lab Type when delpoying the CloudFormation), the default mesh broker topology is deployed with active/standby instance configuration.
+If you are running an Advanced Lab (by either choosing advanced or all as Lab Type when delpoying the CloudFormation), the default mesh broker topology is deployed with active/standby broker configuration.
 
 In the Mesh topology, Broker 1 and Broker 2, Broker 2 and Broker 3, Broker 1 and Broker 3 are connected with each other using OpenWire Transports.
 
-Go to AWS Console, Open console for Amazon MQ, find one of the mesh brokers, the name of the broker is CloudFormation stack name-Broker(1, 2 or 3).
+Go to AWS Console, Open console for Amazon MQ, find one of the mesh brokers, the name of the broker is CloudFormation {Stackname}-Broker1, {Stackname}-Broker2 or {Stackname}-Broker3).
 
 In the broker details page, you should see "Configuration revision", under this click on the link to open Broker Configuration. 
 
@@ -22,7 +22,7 @@ In the XML broker configuration, look for ```<networkConnectors>```. In this XML
 
 Each broker can accept connections from clients. In order to scale, client connections can be divided across the three brokers in the mesh.
 
-When a producer sends messages to say Broker 1, the messages can be consumed from Broker 2 or from Broker 3. This helps to distribute the load from clients across brokers in Mesh. 
+Because these brokers are all connected using network connectors, when a producer sends messages to say Broker 1, the messages can be consumed from Broker 2 or from Broker 3. This helps to distribute the load from clients across brokers in Mesh. 
 
 ## Network Connectors
 
@@ -52,13 +52,13 @@ When ```conduitSubscriptions``` set to ```true```, taking an example (see above 
 
 ## TTL Concepts
 
-TTL or Time to live setting (not to confused with a given message expiry) for Network of Brokers, means number of hops/brokers a given message or subscriptions can pass through.
+TTL or Time to live setting (not to confused with a given message expiry) for Network of Brokers, means number of hops/brokers a given message or subscriptions can pass through before consumed.
 
 **messageTTL**, **consumerTTL** and **networkTTL**. Setting **networkTTL** sets both **messageTTL** and **consumerTTL**. For flexibility and clarity, it is better to set **messageTTL** and **consumerTTL** separately.
 
 ### messageTTL
 
-**messageTTL** needs to be set to number of hops to be propogated by the brokers in the network. The following diagram shows an example of messageTTl of 4 in a mesh of 3 brokers.
+**messageTTL** controls how far actual messages are allowed to propagate before they have to be consumed locally. The following diagram shows an example of messageTTl of 4 in a mesh of 3 brokers.
 
 ![Message TTL](/images/nob-message-ttl.png)
 
@@ -76,7 +76,7 @@ For the Advanced Lab, You should have a mq.m5.large instance running for perform
 
 To make it easier to run the commands in the following labs we store frequently used parameters like the Amazon MQ broker url in Bash environment variable.
 
-Go to the [AmazonMQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one with a name starting with the stack name you created)
+Go to the [AmazonMQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one prefixed with CloudFormation stack name you created)
 
 :white_check_mark: Scroll down to the Connections section and click the **Copy failover string** link beside the OpenWire row 
 to copy the string to your clipboard. You need to **repeat this 3 more times** for capturing and saving broker failover urls for the brokers in Mesh network.

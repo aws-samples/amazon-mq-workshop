@@ -4,3 +4,4 @@ In all the labs earlier, we used examples programs written in Java programming l
 
 Amazon MQ client applications that either to produce or consume messages, can be written in multiple languages. Most popular of them all is Java, as the ecosystem supports a popular messaging abstraction specification called JMS, Java Messaging Specification.
 
+In this Lab, we will use .Net client written in C# running on Windows.  
