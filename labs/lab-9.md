@@ -10,49 +10,19 @@ In the Mesh topology, Broker 1 and Broker 2, Broker 2 and Broker 3, Broker 1 and
 
 Go to AWS Console, Open console for Amazon MQ, find one of the mesh brokers, the name of the broker is CloudFormation stack name-Broker(1, 2 or 3).
 
-In the broker details page, you should see "Configuration revision", under this click on the link to open Broker Configuration. An example screenshot is shown below.
+In the broker details page, you should see "Configuration revision", under this click on the link to open Broker Configuration. 
+
+<details><summary>An example screenshot is shown below</summary><p>
 
 ![Mesh Broker Configuration](/images/mesh-broker-config.png)
+
+</details>
 
 In the XML broker configuration, look for ```<networkConnectors>```. In this XML item, you will see **four** ```<networkConnector>``` blocks. Two for queues and Two for topics. For each queue and topic, a set of ```<networkConnector>``` items each for connection from the current broker and two other brokers in the mesh.
 
 Each broker can accept connections from clients. In order to scale, client connections can be divided across the three brokers in the mesh.
 
 When a producer sends messages to say Broker 1, the messages can be consumed from Broker 2 or from Broker 3. This helps to distribute the load from clients across brokers in Mesh. 
-
-### :white_check_mark: 1. Prerequisites
-
-For the Advanced Lab, You should have a mq.m5.large instance running for performance testing. In addition, you should also see a set of 3 brokers setup in a Mesh configuration. 
-
-<details><summary>Store environment variable</summary><p>
-
-To make it easier to run the commands in the following labs we store frequently used parameters like the Amazon MQ broker url in Bash environment variable.
-
-Go to the [AmazonMQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one with a name starting with the stack name you created)
-
-:white_check_mark: Scroll down to the Connections section and click the **Copy failover string** link beside the OpenWire row 
-to copy the string to your clipboard. You need to **repeat this 3 more times** for capturing and saving broker failover urls for the brokers in Mesh network.
-
-![Copy failover link](/images/fail-over-Step2.png)
-
-:white_check_mark: Go to the AWS Console home, find Cloud9 service, open the service console. You should see a pre-built workspace named MQClient. Click on "Open IDE". 
-Once the IDE is launched, you should see a bash shell window opened with the workshop github repository synced to amazon-mq-workshop folder.
-In the bash shell, type the following commands one at a time (make sure you replace <failover url> with the failover url you copied below).
-
-``` bash
-cd ~/environment/amazon-mq-workshop
-export temp_url="<failover url>"
-export temp1_url="<failover url>"
-export temp2_url="<failover url>"
-export temp3_url="<failover url>"
-echo "perfurl=\"$temp_url\"" >> ~/.bashrc; 
-echo "mesh1url=\"$temp1_url\"" >> ~/.bashrc; 
-echo "mesh2url=\"$temp2_url\"" >> ~/.bashrc; 
-echo "mesh3url=\"$temp3_url\"" >> ~/.bashrc; 
-source ~/.bashrc
-./setup.sh
-```
-</details>
 
 ## Network Connectors
 
@@ -98,12 +68,45 @@ TTL or Time to live setting (not to confused with a given message expiry) for Ne
 
 ![ConsumerTTL](/images/nob-consumer-ttl.png)
 
+### :white_check_mark: 1. Prerequisites
 
-## Scenario 1 : Produce to Broker 1 and Consume from Broker 2
+For the Advanced Lab, You should have a mq.m5.large instance running for performance testing. In addition, you should also see a set of 3 brokers setup in a Mesh configuration. 
+
+<details><summary>Store environment variable</summary><p>
+
+To make it easier to run the commands in the following labs we store frequently used parameters like the Amazon MQ broker url in Bash environment variable.
+
+Go to the [AmazonMQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one with a name starting with the stack name you created)
+
+:white_check_mark: Scroll down to the Connections section and click the **Copy failover string** link beside the OpenWire row 
+to copy the string to your clipboard. You need to **repeat this 3 more times** for capturing and saving broker failover urls for the brokers in Mesh network.
+
+![Copy failover link](/images/fail-over-Step2.png)
+
+:white_check_mark: Go to the AWS Console home, find Cloud9 service, open the service console. You should see a pre-built workspace named MQClient. Click on "Open IDE". 
+Once the IDE is launched, you should see a bash shell window opened with the workshop github repository synced to amazon-mq-workshop folder.
+In the bash shell, type the following commands one at a time (make sure you replace <failover url> with the failover url you copied below).
+
+``` bash
+cd ~/environment/amazon-mq-workshop
+export temp_url="<failover url>"
+export temp1_url="<failover url>"
+export temp2_url="<failover url>"
+export temp3_url="<failover url>"
+echo "perfurl=\"$temp_url\"" >> ~/.bashrc; 
+echo "mesh1url=\"$temp1_url\"" >> ~/.bashrc; 
+echo "mesh2url=\"$temp2_url\"" >> ~/.bashrc; 
+echo "mesh3url=\"$temp3_url\"" >> ~/.bashrc; 
+source ~/.bashrc
+./setup.sh
+```
+</details>
+
+## Scenario 1 : Produce to one broker and Consume from another
 
 ## Scenario 2 : Consumer Load Balancing (conduitSubscriptions)
 
-## Scenario 3 : Producer Load Balancing (concentrating producers)
+## Scenario 3 : Producer Load Balancing (Concentrating producers)
 
 # Completion
 
