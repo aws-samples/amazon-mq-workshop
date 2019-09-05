@@ -642,6 +642,9 @@ Resources:
                        </excludedDestinations>
                     </networkConnector>
                  </networkConnectors>
+                 <transportConnectors>
+                    <transportConnector name="openwire" rebalanceClusterClients="true" updateClusterClients="true"/>
+                 </transportConnectors>                 
               </broker>
       Description: Generated configuration to build a network of brokers.
       EngineType: ACTIVEMQ
@@ -953,6 +956,9 @@ Resources:
                        </excludedDestinations>
                     </networkConnector>
                  </networkConnectors>
+                 <transportConnectors>
+                    <transportConnector name="openwire" rebalanceClusterClients="true" updateClusterClients="true"/>
+                 </transportConnectors>
               </broker>
       Description: Generated configuration to build a network of brokers.
       EngineType: ACTIVEMQ
@@ -1264,6 +1270,9 @@ Resources:
                        </excludedDestinations>
                     </networkConnector>
                  </networkConnectors>
+                 <transportConnectors>
+                    <transportConnector name="openwire" rebalanceClusterClients="true" updateClusterClients="true"/>
+                 </transportConnectors>                 
               </broker>
       Description: Generated configuration to build a network of brokers.
       EngineType: ACTIVEMQ

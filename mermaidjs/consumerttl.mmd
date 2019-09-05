@@ -1,12 +1,6 @@
 graph LR
-    B1[Broker1]-->B2[Broker2]
-    B2[Broker2]-->B1[Broker1]
-    B2[Broker2]-->B3[Broker3]
-    B3[Broker3]-->B2[Broker2]
-    B3[Broker3]-->B1[Broker1]
-    B1[Broker1]-->B3[Broker3]
     C1[Consumer1]
     C1-->B1[Broker1];
     C1-. consumerTTL = 1 .->B2[Broker2]
-    C1-. consumerTTL = 2 .->B3[Broker3]
+    C1-. consumerTTL = 1 .->B3[Broker3]
     
