@@ -26,7 +26,7 @@ In the XML broker configuration, look for ```<networkConnectors>```. In this XML
 
 Each networkConnector establishes a connection from one broker to another in a specific direction. A networkConnector from Broker1 to Broker2, propogates messages from Broker1 to Broker2. In order for Broker2 to send messages to Broker1, either add an explicit networkConnector from Broker2 to Broker1 or mark the Broker1 to Broker2 networkConnector with **duplex** attribute. There are two key points here for you to remember:
 
-> In a network of brokers, messages flow between brokers on using networkConnectors only when a consumer demands them. The messages do not flow to other brokers if no consumer is available. For example, when producer sends messages to Broker1, if no consumer exists on Broker2 or Broker3, the messages remain in Broker1. 
+> In a network of brokers, messages flow between brokers on using networkConnectors only when a consumer demands them. The messages do not flow to other brokers if no consumer is available. For example, when producer sends messages to Broker1, if no consumer exists on Broker2 or Broker3, the messages remain in Broker1. However there is a special configuration ```staticallyIncludedDestinations``` which if set with specific destinations, brokers will forward messages even without a consumer.
 
 >The **duplex** attribute on networkConnector essentially establishes a two-way connection on the same port. This would be useful when network connections are traversing a firewall and is common in **Hub and Spoke** broker topology. In a Mesh topology, it is recommended to use explicit unidirectional networkConnector as it allows flexibility to include or exclude destinations.
 
@@ -41,13 +41,13 @@ Producers can be load balanced across the network of brokers, by concentrating t
 
 In the networkConnector configuration you should have noticed an attribute named ```conduitSubscriptions```. This setting specifies how the messages are distributed. **By default AmazonMQ sets ```conduitSubscriptions``` to ```false```**
 
-![conduitSubscriptions enabled](/images/nob-conduit-true.png)
+![conduitSubscriptions enabled](/images/nob-conduit-true.png = 320x240)
 
 When ```conduitSubscriptions``` set to ```true```, taking an example (see above diagram), when Producer1 sends 60 messages to Broker1, Broker1 sees two connections, one for Broker1 and another for Consumer1. So it distributes 60 messages, 30 each for Broker1 and rest 30 for Consumer1. For Broker2, since there are two consumers, each consumer receives 15 messages each. This is an uneven distribution of messages.
 
 In order to distribute the messages evenly among all subscriptions, ```conduitSubscriptions``` should set to ```false``` (default in AmazonMQ).
 
-![conduitSubscriptions disabled](/images/nob-conduit-false.png)
+![conduitSubscriptions disabled](/images/nob-conduit-false.png = 320x240)
 
 When ```conduitSubscriptions``` set to ```false```, taking an example (see above diagram), when Producer1 sends 60 messages to Broker1, Broker1 sees three connections, one consumer for Broker1 and two consumers on Broker2 and distributes messages equally among all consumers. So each consumer receives 20 messages each.
 
@@ -55,10 +55,9 @@ When ```conduitSubscriptions``` set to ```false```, taking an example (see above
 
 When an active/standby broker configured within a Network of Brokers, the standby broker is redundant till active broker fails. In addition, in a Network of Brokers, if both active and standby brokers fail, other brokers in the network can share the load. The client connections to the failed broker can be automatically rebalanced to other brokers **without a change in application code or configuration**. The same applies when you add new brokers to the existing network. This feature is controlled by the following attributes in **transportConnector**. Both of the settings must be set to true to rebalance connections when a new broker is added or a broker fails.
 
-| Attribute | Description |
-| --------- | ----------- |
-| updateClusterClients = true | This informs clients about new broker joining the network. Application code then choose to connect to new broker. |
-| rebalanceClusterClients = true | This automatically disconnects the client connection and reconnects the client to an active broker |
+>`updateClusterClients = true` - This informs clients about new broker joining the network. Application code then choose to connect to new broker.
+`rebalanceClusterClients = true` - This automatically disconnects the client connection and reconnects the client to an active broker.
+
 
 ### :white_check_mark: 1. Prerequisites
 
