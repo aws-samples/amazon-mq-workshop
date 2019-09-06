@@ -4,7 +4,7 @@ In this exercise you will learn how to do Performance Testing using ActiveMQ Mav
 
 At the end of this lab, in the **References** section, you can see a list of additional tools that you can use to do Performance Testing with AmazonMQ.
 
-As you have learnt in the previous labs, AmazonMQ supports a variety of features. Point-To-Point queues, Publish/Subscribe topics, Network of Brokers. In addition it also supports Transacted sessions, Message Groups, Prefetch buffers, to name a few. One of the most important tuning parameters in AmazonMQ is ```concurrentStoreAndDispatchQueues``` queues and ```concurrentStoreAndDispatchTopics``` for topics.
+As you have learnt in the previous labs, AmazonMQ supports a variety of features. Point-To-Point queues, Publish/Subscribe topics, Network of Brokers. In addition, it also supports Transacted sessions, Message Groups, Prefetch buffers, to name a few. One of the most important tuning parameters in AmazonMQ is ```concurrentStoreAndDispatchQueues``` queues and ```concurrentStoreAndDispatchTopics``` for topics.
 
 ## Concurrent Store and Dispatch
 
@@ -12,7 +12,7 @@ Concurrent store and dispatch is a strategy that facilitates high rates of messa
 
 When a producer is sending messages to broker and if the consumers can also consume messages at the same or higher rate (a.k.a **fast consumer**), then setting the ```concurrentStoreAndDispatchQueues``` (or ```concurrentStoreAndDispatchTopics```) to **true**  (default) will increase throughput (compared to having this set to **false**). When this setting is set to **true**, Broker sends messages directly from producer to consumer, once consumer acknowledges message receipt, Broker commits the messages to disk.
 
-However when producers are sending messages at a higher rate than consumers, then this flag should be set to **false**. In this case, Broker secures the message to disk first and when the consumer is ready, it delivers the message. Since there is a disk i/o occurring before message delivery, this option incurs a performance penalty.
+However, when producers are sending messages at a higher rate than consumers, then this flag should be set to **false**. In this case, Broker secures the message to disk first and when the consumer is ready, it delivers the message. Since there is a disk i/o occurring before message delivery, this option incurs a performance penalty.
 
 ## 1. Prerequisites
 
@@ -28,7 +28,7 @@ The ```pom.xml``` file is the build script. The ```src/main/resources``` folder 
 
 Each properties file sets up different test case and you can keep these files to compare and contrast different features or for tuning the AmazonMQ environment to find an optimal configuration for your application.
 
-For this lab, we prepared two test configuration files ```openwire-producer.properties``` and ```openwire-consumer.properties```. Both fiels can be found under ```~/environment/amazon-mq-workshop``` folder.
+For this lab, we prepared two test configuration files ```openwire-producer.properties``` and ```openwire-consumer.properties```. Both files can be found under ```~/environment/amazon-mq-workshop``` folder.
 
 Copy these two files from using the following command
 
@@ -42,7 +42,7 @@ Now we are all set to run the performance test and view the results. Since the d
 ```
 cd ~/environment/activemq-perftest
 ```
-You can run each test case by running the following command one each for producer and consumer. Open two terminal windows, run the first command (consumer) in one terminal and the second commond (producer) in a different terminal.
+You can run each test case by running the following command one each for producer and consumer. Open two terminal windows, run the first command (consumer) in one terminal and the second command (producer) in a different terminal.
 
 ```
 mvn activemq-perf:consumer -DsysTest.propsConfigFile=openwire-consumer.properties 
@@ -50,7 +50,7 @@ mvn activemq-perf:producer -DsysTest.propsConfigFile=openwire-producer.propertie
 ```
 Once each of the above tests complete, they provide a summary of the tests in stdout as shown below. Your results may vary. The following output is from a test we performed and shown below as a sample output.
 
-```System Average Throughtput``` and ```System Total Clients``` are the most useful metrics.
+```System Average Throughput``` and ```System Total Clients``` are the most useful metrics.
 
 In the ```reports``` directory you should see an xml file with more detailed throughput metrics. In the ```JmsProducer1234_numClients1_numDests1_all.xml``` file for example, ```jmsClientSettings``` and ```jmsFactorySettings``` captures different broker switches.
 
@@ -67,7 +67,7 @@ System Average Throughput: 317.87
 
 From this test, the average throughput for a producer is around 318 messages per sec for 5 clients. Keep in mind that the broker instance is a mq.m5.large. You can get higher throughput with more clients and a larger broker instance. This test demonstrates the concept of running **fast** consumers while producing messages.
 
-Now lets see another test that demonstrates what happens if there is only a producer without a consumer. The performance degrades relatively in comparison with the previous test.
+Now let's see another test that demonstrates what happens if there is only a producer without a consumer. The performance degrades relatively in comparison with the previous test.
 
 ```
 mvn activemq-perf:producer -DsysTest.propsConfigFile=openwire-producer.properties 
@@ -85,7 +85,7 @@ System Average Throughput: 71.66
 
 As you can see the average performance is **5 times** slower compared relatively to running consumers and producers at the same time in the earlier test.
 
-Now lets see how the ```concurrentStoreAndDispatchQueues``` setting you learned earlier help in cases where producers are producing messages while consumers are unable to keep up (or not available)
+Now let's see how the ```concurrentStoreAndDispatchQueues``` setting you learned earlier help in cases where producers are producing messages while consumers are unable to keep up (or not available)
 
 Open AWS Console, go AmazonMQ Console, open the {StackName}-Broker details, open Configuration of the broker, click on **Edit Configuration** (right hand corner)
 
@@ -128,7 +128,7 @@ System Average Throughput: 163.77333333333334
 
 If your workload contains consumers that are slower than producers, you get better performance using ```concurrentStoreAndDispatchQueues = false```.
 
-On the other hand if your consumers can keep up with producers, you get significantly better performance using ```concurrentStoreAndDispatchQueues = true```. Keep in mind that this is the default for AmazonMQ.
+On the other hand, if your consumers can keep up with producers, you get significantly better performance using ```concurrentStoreAndDispatchQueues = true```. Keep in mind that this is the default for AmazonMQ.
 
 ### 3. Resources
 
@@ -136,6 +136,6 @@ On the other hand if your consumers can keep up with producers, you get signific
 
 # Completion
 
-Congratulations, you've successfully completed Lab 10! You can move on to [Lab 11: Ployglot programming](/labs/lab-11.md)
+Congratulations, you've successfully completed Lab 10! You can move on to [Lab 11: Polyglot programming](/labs/lab-11.md)
 
 [Return to the Workshop Landing page](/README.md)

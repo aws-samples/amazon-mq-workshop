@@ -37,7 +37,7 @@ AmazonMQDotNet.exe --url <BROKER_URL> --mode sender --type queue --destination N
 AmazonMQDotNet.exe --url <BROKER_URL> --mode receiver --type queue --destination NMS.Q 
 ```
 
-For running C# programs you need mono , which can be installed by logging in as root and following these [instructions](https://www.mono-project.com/download/stable/#download-lin-centos)
+For running C# programs, you need mono runtime which can be installed by logging in as root and following these [instructions](https://www.mono-project.com/download/stable/#download-lin-centos)
 
 ### Linux executable can be built on Windows machine
 
@@ -64,10 +64,8 @@ AmazonMQDotNet --url <BROKER_URL> --mode receiver --type queue --destination NMS
 
 Congratulations, you've successfully completed this Workshop! Please check again later as we add more labs and improve content in the existing labs. If you find any problems running this workshop or have suggestions for improvement, please raise an issue on Github.
 
-Thank you!.
+Thank you!
 
 [Return to the Workshop Landing page](/README.md)
-
-
 
 
