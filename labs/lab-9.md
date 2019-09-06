@@ -1,6 +1,6 @@
 # Lab 9: Network of Brokers
 
-In this exercise, you will learn about two critical aspects of large enterprise scale messaging systems. **High Availability** and **Connection Scaling**. In Lab 10, you will learn about **Message Scaling**. First we will cover some key concepts which will help set the stage and then we will dive into those concepts using a few exercises.
+In this exercise, you will learn about two critical aspects of large enterprise scale messaging systems. **High Availability** and **Connection Scaling**. First we will cover some key concepts which will help set the stage and then we will dive into those concepts using a few exercises.
 
 ## Introduction
 
@@ -8,7 +8,7 @@ In order to provide massive scalability, Amazon MQ supports a feature known as N
 
 While there are many different topologies for connecting brokers - [there are a few topology patterns described in AWS documentation](https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/network-of-brokers.html#nob-topologies).
 
-If you are running an Advanced Lab (by either choosing **advanced** or **all** as Lab Type when deploying the CloudFormation), the default mesh broker topology is deployed with active/standby broker configuration.
+If you are running the **advanced** Lab (by either choosing **advanced** or **all** as Lab Type when deploying the CloudFormation), the default mesh broker topology is deployed with active/standby broker configuration.
 
 In the Mesh topology, Broker 1 and Broker 2, Broker 2 and Broker 3, Broker 1 and Broker 3 are connected with each other using OpenWire network connectors. Please follow the instructions below to understand how Broker network is configured in a Mesh topology. 
 
@@ -26,7 +26,7 @@ In the XML broker configuration, look for ```<networkConnectors>```. In this XML
 
 Each networkConnector establishes a connection from one broker to another in a specific direction. A networkConnector from Broker1 to Broker2, propogates messages from Broker1 to Broker2. In order for Broker2 to send messages to Broker1, either add an explicit networkConnector from Broker2 to Broker1 or mark the Broker1 to Broker2 networkConnector with **duplex** attribute. There are two key points here for you to remember:
 
-> In a network of brokers, messages flow between brokers on using networkConnectors only when a consumer demands them. The messages do not flow to other brokers if no consumer is available. For example, when producer sends messages to Broker1, if no consumer exists on Broker2 or Broker3, the messages remain in Broker1. However there is a special configuration ```staticallyIncludedDestinations``` which if set with specific destinations, brokers will forward messages even without a consumer.
+>In a network of brokers, messages flow between brokers on using networkConnectors only when a consumer demands them. The messages do not flow to other brokers if no consumer is available. For example, when producer sends messages to Broker1, if no consumer exists on Broker2 or Broker3, the messages remain in Broker1. However there is a special configuration ```staticallyIncludedDestinations``` which if set with specific destinations, brokers will forward messages to those destinations even without a consumer.
 
 >The **duplex** attribute on networkConnector essentially establishes a two-way connection on the same port. This would be useful when network connections are traversing a firewall and is common in **Hub and Spoke** broker topology. In a Mesh topology, it is recommended to use explicit unidirectional networkConnector as it allows flexibility to include or exclude destinations.
 
@@ -43,8 +43,6 @@ In the networkConnector configuration you should have noticed an attribute named
 
 ![conduitSubscriptions enabled](/images/nob-conduit-true.png)
 
-<img src="./images/nob-conduit-true" width="320" height="240">
-
 When ```conduitSubscriptions``` set to ```true```, taking an example (see above diagram), when Producer1 sends 60 messages to Broker1, Broker1 sees two connections, one for Broker1 and another for Consumer1. So it distributes 60 messages, 30 each for Broker1 and rest 30 for Consumer1. For Broker2, since there are two consumers, each consumer receives 15 messages each. This is an uneven distribution of messages.
 
 In order to distribute the messages evenly among all subscriptions, ```conduitSubscriptions``` should set to ```false``` (default in AmazonMQ).
@@ -57,9 +55,8 @@ When ```conduitSubscriptions``` set to ```false```, taking an example (see above
 
 When an active/standby broker configured within a Network of Brokers, the standby broker is redundant till active broker fails. In addition, in a Network of Brokers, if both active and standby brokers fail, other brokers in the network can share the load. The client connections to the failed broker can be automatically rebalanced to other brokers **without a change in application code or configuration**. The same applies when you add new brokers to the existing network. This feature is controlled by the following attributes in **transportConnector**. Both of the settings must be set to true to rebalance connections when a new broker is added or a broker fails.
 
->`updateClusterClients = true` - This informs clients about new broker joining the network. Application code then choose to connect to new broker.
-`rebalanceClusterClients = true` - This automatically disconnects the client connection and reconnects the client to an active broker.
-
+>```updateClusterClients = true``` - This informs clients about new broker joining the network. Application code then choose to connect to new broker.
+```rebalanceClusterClients = true``` - This automatically disconnects the client connection and reconnects the client to an active broker.
 
 ### :white_check_mark: 1. Prerequisites
 
@@ -97,7 +94,7 @@ source ~/.bashrc
 
 ### 2. Go to the Cloud9 IDE tab in the browser
 
-In the main pane, close the Welcome screen and add 4  terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
+In the main pane, close the Welcome screen and add 4 terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
 All terminals should be in the `/environment/amazon-mq-workshop` directory.
 
 **NOTE**: In order to split the windows into a chequered pattern, on the 2nd and 4th terminal windows, right click and select "Split Pane in Two Columns" and navigate to the projects root directory by running 'cd amazon-mq-workshop' 
@@ -146,7 +143,7 @@ This is a simple demonstration to have two producers on one broker and two consu
 
 ## Scenario 3 : High Availability
 
-The following block uses the two settings we discussed above. This was already added to the CloudFormation script. 
+The following block uses the two settings we discussed above (shown here for your reference). This was already added to the CloudFormation script.
 
 ```
   <transportConnectors>
@@ -156,7 +153,9 @@ The following block uses the two settings we discussed above. This was already a
 
 Assuming that you left the producers and consumers running. If not, start them again. 
 
-Now, Go to AWS Console, Open AmazonMQ console, pick Broker1 (or any broker) and reboot the broker. Now notice the applications running in the terminals, you should have noticed that client connections are automatically rebalanced to available brokers. Once the rebooted broker is in Running state, the client connections get rebalanced again.  
+Now, Go to AWS Console, Open AmazonMQ console, pick Broker1 (or any broker) and reboot the broker. Now notice the applications running in the terminals, you should have noticed that client connections are automatically updated to available broker's URL and rebalanced to available brokers. Once the rebooted broker is in Running state, the client connections get rebalanced again. This is very powerful feature as you can simply add more brokers into the network using CloudFormation and clients get rebalanced.
+
+If your application need a way to handle the interruption and resumption of connections, you can implement a [TransportListener](https://activemq.apache.org/maven/apidocs/src-html/org/apache/activemq/transport/TransportListener.html#line.33)
 
 # Completion
 

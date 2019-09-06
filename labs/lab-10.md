@@ -42,41 +42,93 @@ Now we are all set to run the performance test and view the results. Since the d
 ```
 cd ~/environment/activemq-perftest
 ```
-You can run each test case by running the following command one each for producer and consumer. Open two terminal windows, run the first command in one terminal and the second commond in a different terminal.
+You can run each test case by running the following command one each for producer and consumer. Open two terminal windows, run the first command (consumer) in one terminal and the second commond (producer) in a different terminal.
 
 ```
 mvn activemq-perf:consumer -DsysTest.propsConfigFile=openwire-consumer.properties 
 mvn activemq-perf:producer -DsysTest.propsConfigFile=openwire-producer.properties 
 ```
-Once each of the above tests complete, they provide a summary of the tests in stdout as shown below.
+Once each of the above tests complete, they provide a summary of the tests in stdout as shown below. Your results may vary. The following output is from a test we performed and shown below as a sample output.
 
 ```System Average Throughtput``` and ```System Total Clients``` are the most useful metrics.
+
+In the ```reports``` directory you should see an xml file with more detailed throughput metrics. In the ```JmsProducer1234_numClients1_numDests1_all.xml``` file for example, ```jmsClientSettings``` and ```jmsFactorySettings``` captures different broker switches.
+
+Each of the report files captures exact test and broker environment. Keeping these files around will help you to compare performance between different test cases and how a set of settings have impacted performance.
+
 
 ```
 #########################################
 ####    SYSTEM THROUGHPUT SUMMARY    ####
 #########################################
-System Total Throughput: 19116
-System Total Clients: 1
-System Average Throughput: 63.72
-System Average Throughput Excluding Min/Max: 63.38
-System Average Client Throughput: 63.72
-System Average Client Throughput Excluding Min/Max: 63.38
-Min Client Throughput Per Sample: clientName=JmsProducer12340, value=26
-Max Client Throughput Per Sample: clientName=JmsProducer12340, value=76
-Min Client Total Throughput: clientName=JmsProducer12340, value=19116
-Max Client Total Throughput: clientName=JmsProducer12340, value=19116
-Min Average Client Throughput: clientName=JmsProducer12340, value=63.72
-Max Average Client Throughput: clientName=JmsProducer12340, value=63.72
-Min Average Client Throughput Excluding Min/Max: clientName=JmsProducer12340, value=63.38
-Max Average Client Throughput Excluding Min/Max: clientName=JmsProducer12340, value=63.38
+System Total Clients: 5
+System Average Throughput: 317.87
 ```
 
-From this test, the average throughput for a producer is around 64 messages per sec for 1 client. Keep in mind that the broker instance is a t2.micro. Don't pay attention to the numbers.
+From this test, the average throughput for a producer is around 318 messages per sec for 5 clients. Keep in mind that the broker instance is a mq.m5.large. You can get higher throughput with more clients and a larger broker instance. This test demonstrates the concept of running **fast** consumers while producing messages.
 
-In the ```reports``` directory you should see an xml file with more detailed throughput metrics. In the ```JmsProducer1234_numClients1_numDests1_all.xml``` file for example, ```jmsClientSettings``` and ```jmsFactorySettings``` captures different broker switches.
+Now lets see another test that demonstrates what happens if there is only a producer without a consumer. The performance degrades relatively in comparison with the previous test.
 
-Each of the report files captures exact test and broker environment. Keeping these files around will help you to compare performance between different test cases and how a set of settings have impacted performance.
+```
+mvn activemq-perf:producer -DsysTest.propsConfigFile=openwire-producer.properties 
+```
+
+Once the above test finishes you should see the output something like below
+
+```
+#########################################
+####    SYSTEM THROUGHPUT SUMMARY    ####
+#########################################
+System Total Clients: 5
+System Average Throughput: 71.66
+```
+
+As you can see the average performance is **5 times** slower compared relatively to running consumers and producers at the same time in the earlier test.
+
+Now lets see how the ```concurrentStoreAndDispatchQueues``` setting you learned earlier help in cases where producers are producing messages while consumers are unable to keep up (or not available)
+
+Open AWS Console, go AmazonMQ Console, open the {StackName}-Broker details, open Configuration of the broker, click on **Edit Configuration** (right hand corner)
+
+In the XML configuration, you should see a commented XML block as shown below. Remove ```<!--``` and ```-->``` to uncomment the setting.
+
+```
+  <!--
+  <persistenceAdapter>
+    <kahaDB  concurrentStoreAndDispatchQueues="false"/>
+  </persistenceAdapter>
+  -->
+```
+
+Save the configuration, small popup appears to ask for Description, give "Test concurrentStoreAndDispatchQueues" as description.
+
+Now go back to AmazonMQ console, select the {StackName}-Broker, click on Edit. Once the Edit screen opens, go to Configuration block, click on "Revision 1" dropdown, select "Revision 2".
+
+At the bottom of the page, you should see **Schedule modifications**, on the next screen, select **Immediately" (to apply the changes now) and click Apply.
+
+Now broker applies your configuration changes and reboots broker. Wait for about 5 minutes for the broker to get to **Running** state,
+
+Run the following test to see how the ```concurrentStoreAndDispatchQueues = false``` helps when there are slow consumers (or no consumers) and fast producers. You can also experiment with a consumer with 1 or 2 clients and a producer with 5 clients. 
+
+
+```
+mvn activemq-perf:producer -DsysTest.propsConfigFile=openwire-producer.properties 
+```
+
+When there are no consumers (worst case), see the results from the above test, 5 producers performed at about **2.2 times** faster than same test case with ```concurrentStoreAndDispatchQueues = true```
+
+```
+#########################################
+####    SYSTEM THROUGHPUT SUMMARY    ####
+#########################################
+System Total Clients: 5
+System Average Throughput: 163.77333333333334
+```
+
+### Conclusion
+
+If your workload contains consumers that are slower than producers, you get better performance using ```concurrentStoreAndDispatchQueues = false```.
+
+On the other hand if your consumers can keep up with producers, you get significantly better performance using ```concurrentStoreAndDispatchQueues = true```. Keep in mind that this is the default for AmazonMQ.
 
 ### 3. Resources
 
