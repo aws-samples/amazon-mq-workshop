@@ -136,6 +136,6 @@ On the other hand if your consumers can keep up with producers, you get signific
 
 # Completion
 
-Congratulations, you've successfully completed Lab 10! You can move on to [Lab 11: Ployglot programming](/labs/lab-10.md)
+Congratulations, you've successfully completed Lab 10! You can move on to [Lab 11: Ployglot programming](/labs/lab-11.md)
 
 [Return to the Workshop Landing page](/README.md)
