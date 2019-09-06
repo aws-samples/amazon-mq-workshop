@@ -41,13 +41,15 @@ Producers can be load balanced across the network of brokers, by concentrating t
 
 In the networkConnector configuration you should have noticed an attribute named ```conduitSubscriptions```. This setting specifies how the messages are distributed. **By default AmazonMQ sets ```conduitSubscriptions``` to ```false```**
 
-![conduitSubscriptions enabled](/images/nob-conduit-true.png =100)
+![conduitSubscriptions enabled](/images/nob-conduit-true.png)
+
+<img src="/images/nob-conduit-true" width="100" height="100">
 
 When ```conduitSubscriptions``` set to ```true```, taking an example (see above diagram), when Producer1 sends 60 messages to Broker1, Broker1 sees two connections, one for Broker1 and another for Consumer1. So it distributes 60 messages, 30 each for Broker1 and rest 30 for Consumer1. For Broker2, since there are two consumers, each consumer receives 15 messages each. This is an uneven distribution of messages.
 
 In order to distribute the messages evenly among all subscriptions, ```conduitSubscriptions``` should set to ```false``` (default in AmazonMQ).
 
-![conduitSubscriptions disabled](/images/nob-conduit-false.png =100)
+![conduitSubscriptions disabled](/images/nob-conduit-false.png)
 
 When ```conduitSubscriptions``` set to ```false```, taking an example (see above diagram), when Producer1 sends 60 messages to Broker1, Broker1 sees three connections, one consumer for Broker1 and two consumers on Broker2 and distributes messages equally among all consumers. So each consumer receives 20 messages each.
 
