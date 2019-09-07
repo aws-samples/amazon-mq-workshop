@@ -85,7 +85,7 @@ The receiver is starting receiving messages published on the topic by both sende
 
 Repeat the last command in another terminal to start a second receiver, so that there are 2 clients listening on the same **topic**.
 
-You see that multiple senders can send messages to the same topic and multiple receivers can receive messages from the same topic. You also observe that each message is **delivered to all receivers**.
+>You see that multiple senders can send messages to the same topic and multiple receivers can receive messages from the same topic. You also observe that each message is **delivered to all receivers**.
 
 ### 3. Clean-up
 

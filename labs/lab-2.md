@@ -26,8 +26,9 @@ In the bash shell, type the following commands one at a time (make sure you repl
 ``` bash
 cd ~/environment/amazon-mq-workshop
 export temp_url="<failover url>"
-echo "url=\"$temp_url\"" >> ~/.bashrc; source ~/.bashrc
+echo "url=\"$temp_url\"" >> ~/.bashrc 
 ./setup.sh
+source ~/.bashrc
 ```
 
 **NOTE**: Ensure that all terminals windows that you will use for the workshop are created after having run this step.

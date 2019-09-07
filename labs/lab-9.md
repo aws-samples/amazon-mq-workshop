@@ -156,6 +156,91 @@ Assuming that you left the producers and consumers running. If not, start them a
 
 Now, go to AWS Console, Open AmazonMQ console, pick Broker1 (or any broker) and reboot the broker. Now notice the applications running in the terminals, you should have noticed that client connections are automatically updated to available broker's URL and rebalanced to available brokers. Once the rebooted broker is in Running state, the client connections get rebalanced again. This is very powerful feature as you can simply add more brokers into the network using CloudFormation and clients get rebalanced.
 
+An example output shown below. The connections automatically rebalance between available brokers.
+
+### Output from Sender
+
+```
+[ActiveMQ Transport: ssl://b-6b42ffae-aed6-48cf-9b70-05817d4f7e1b-1.mq.us-east-1.amazonaws.com/10.42.1.21:61617] WARN org.apache.activemq.transport.failover.FailoverTransport - Transport (nio+ssl://b-6b42ffae-aed6-48cf-9b70-05817d4f7e1b-1.mq.us-east-1.amazonaws.com:61617) failed , attempting to automatically reconnect: {}
+java.io.EOFException
+        at java.io.DataInputStream.readInt(DataInputStream.java:392)
+        at org.apache.activemq.openwire.OpenWireFormat.unmarshal(OpenWireFormat.java:268)
+        at org.apache.activemq.transport.tcp.TcpTransport.readCommand(TcpTransport.java:240)
+        at org.apache.activemq.transport.tcp.TcpTransport.doRun(TcpTransport.java:232)
+        at org.apache.activemq.transport.tcp.TcpTransport.run(TcpTransport.java:215)
+        at java.lang.Thread.run(Thread.java:748)
+[ActiveMQ Task-3] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully reconnected to nio+ssl://b-3f5547ed-5874-4ee7-ae65-2033dfe309fa-1.mq.us-east-1.amazonaws.com:61617
+07.09.2019 18:05:19.589 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 267'
+07.09.2019 18:05:20.603 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 268'
+07.09.2019 18:05:21.617 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 269'
+07.09.2019 18:05:22.640 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 270'
+07.09.2019 18:05:23.651 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 271'
+07.09.2019 18:05:24.970 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 272'
+07.09.2019 18:05:25.981 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 273'
+07.09.2019 18:05:27.2 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 274'
+07.09.2019 18:05:28.17 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 275'
+07.09.2019 18:05:29.28 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 276'
+07.09.2019 18:05:30.40 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 277'
+07.09.2019 18:05:31.55 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 278'
+07.09.2019 18:05:32.65 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 279'
+07.09.2019 18:05:33.75 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 280'
+07.09.2019 18:05:34.86 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 281'
+[ActiveMQ Task-4] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully reconnected to nio+ssl://b-6c8721b5-7112-40ba-a7bf-ae2d06091f3a-1.mq.us-east-1.amazonaws.com:61617
+07.09.2019 18:05:35.109 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 282'
+07.09.2019 18:05:36.126 - Sender: sent '[queue://workshop.queueA] [Sender-1] Message number 283'
+```
+
+### Output from receiver 1
+
+```
+07.09.2019 18:05:18.512 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 266'
+[ActiveMQ Transport: ssl://b-6b42ffae-aed6-48cf-9b70-05817d4f7e1b-1.mq.us-east-1.amazonaws.com/10.42.1.21:61617] WARN org.apache.activemq.transport.failover.FailoverTransport - Transport (ssl://b-6b42ffae-aed6-48cf-9b70-05817d4f7e1b-1.mq.us-east-1.amazonaws.com:61617) failed , attempting to automatically reconnect: {}
+java.io.EOFException
+        at java.io.DataInputStream.readInt(DataInputStream.java:392)
+        at org.apache.activemq.openwire.OpenWireFormat.unmarshal(OpenWireFormat.java:268)
+        at org.apache.activemq.transport.tcp.TcpTransport.readCommand(TcpTransport.java:240)
+        at org.apache.activemq.transport.tcp.TcpTransport.doRun(TcpTransport.java:232)
+        at org.apache.activemq.transport.tcp.TcpTransport.run(TcpTransport.java:215)
+        at java.lang.Thread.run(Thread.java:748)
+[ActiveMQ Task-3] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully reconnected to nio+ssl://b-6c8721b5-7112-40ba-a7bf-ae2d06091f3a-1.mq.us-east-1.amazonaws.com:61617
+07.09.2019 18:05:20.599 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 268'
+07.09.2019 18:05:22.626 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 270'
+07.09.2019 18:05:24.659 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 272'
+07.09.2019 18:05:26.989 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 274'
+07.09.2019 18:05:29.23 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 276'
+07.09.2019 18:05:31.46 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 278'
+07.09.2019 18:05:33.71 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 280'
+[ActiveMQ Task-4] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully reconnected to nio+ssl://b-3f5547ed-5874-4ee7-ae65-2033dfe309fa-1.mq.us-east-1.amazonaws.com:61617
+07.09.2019 18:05:36.117 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 283'
+07.09.2019 18:05:38.158 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 285'
+```
+
+### Output from receiver 2
+```
+07.09.2019 18:05:17.497 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 265'
+[ActiveMQ Transport: ssl://b-6b42ffae-aed6-48cf-9b70-05817d4f7e1b-1.mq.us-east-1.amazonaws.com/10.42.1.21:61617] WARN org.apache.activemq.transport.failover.FailoverTransport - Transport (nio+ssl://b-6b42ffae-aed6-48cf-9b70-05817d4f7e1b-1.mq.us-east-1.amazonaws.com:61617) failed , attempting to automatically reconnect: {}
+java.io.EOFException
+        at java.io.DataInputStream.readInt(DataInputStream.java:392)
+        at org.apache.activemq.openwire.OpenWireFormat.unmarshal(OpenWireFormat.java:268)
+        at org.apache.activemq.transport.tcp.TcpTransport.readCommand(TcpTransport.java:240)
+        at org.apache.activemq.transport.tcp.TcpTransport.doRun(TcpTransport.java:232)
+        at org.apache.activemq.transport.tcp.TcpTransport.run(TcpTransport.java:215)
+        at java.lang.Thread.run(Thread.java:748)
+[ActiveMQ Task-3] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully reconnected to nio+ssl://b-6c8721b5-7112-40ba-a7bf-ae2d06091f3a-1.mq.us-east-1.amazonaws.com:61617
+07.09.2019 18:05:19.638 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 267'
+07.09.2019 18:05:21.610 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 269'
+07.09.2019 18:05:23.647 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 271'
+07.09.2019 18:05:25.976 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 273'
+07.09.2019 18:05:28.9 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 275'
+07.09.2019 18:05:30.36 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 277'
+07.09.2019 18:05:32.61 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 279'
+07.09.2019 18:05:34.82 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 281'
+[ActiveMQ Task-4] INFO org.apache.activemq.transport.failover.FailoverTransport - Successfully reconnected to nio+ssl://b-3f5547ed-5874-4ee7-ae65-2033dfe309fa-1.mq.us-east-1.amazonaws.com:61617
+07.09.2019 18:05:35.99 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 282'
+07.09.2019 18:05:37.133 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 284'
+07.09.2019 18:05:39.181 - Receiver: received '[queue://workshop.queueA] [Sender-1] Message number 286'
+```
+
 If your application needs a way to handle the interruption and resumption of connections, you can implement a [TransportListener](https://activemq.apache.org/maven/apidocs/src-html/org/apache/activemq/transport/TransportListener.html#line.33)
 
 # Completion

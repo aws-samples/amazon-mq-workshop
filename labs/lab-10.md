@@ -16,11 +16,11 @@ However, when producers are sending messages at a higher rate than consumers, th
 
 ## 1. Prerequisites
 
-In Lab 2, you should have run the ```setup.sh``` this script installs Amazon Corretto JDK 8 and Maven build tool. If you haven't run the Lab 2, then you should run the setup script in order to do this Lab.
+In Lab 9, you should have run the ```setup.sh``` this script installs Amazon Corretto JDK 8 and Maven build tool. If you haven't run the Lab 9, then you should run the setup script in order to do this Lab.
 
 ## 2. Open MQClient Cloud9 IDE
 
-In the Cloud9 workspace, open a terminal, type ```cd ~/activemq-perftest```
+In the Cloud9 workspace, open a terminal, type ```cd ~/environment/activemq-perftest```
 
 In this folder you should see ```src``` folder, ```pom.xml``` and ```readme.html```. The ```readme.html``` file is the manual that contains all the options and commands for running the performance test. 
 

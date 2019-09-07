@@ -13,9 +13,12 @@ userPassword=`aws ssm get-parameter --name "MQBrokerUserPassword" | grep Value`
 brokerUser=`echo $userPassword | sed 's/"//g' | sed 's/Value://g' | cut -d',' -f1 | sed 's/ //g'`
 brokerPassword=`echo $userPassword | sed 's/"//g' | sed 's/Value://g' | cut -d',' -f2`
 source ~/.bashrc
-printf "\nfactory.brokerURL=\"$perfurl\"\n" >> ~/environment/amazon-mq-workshop/openwire-producer.properties
+if [! -z $perfurl]; 
+then
+printf "\nfactory.brokerURL=$perfurl\n" >> ~/environment/amazon-mq-workshop/openwire-producer.properties
 printf "factory.userName=$brokerUser\n" >> ~/environment/amazon-mq-workshop/openwire-producer.properties
 printf "factory.password=$brokerPassword\n" >> ~/environment/amazon-mq-workshop/openwire-producer.properties
-printf "\nfactory.brokerURL=$url\n" >> ~/environment/amazon-mq-workshop/openwire-consumer.properties
+printf "\nfactory.brokerURL=$perfurl\n" >> ~/environment/amazon-mq-workshop/openwire-consumer.properties
 printf "factory.userName=$brokerUser\n" >> ~/environment/amazon-mq-workshop/openwire-consumer.properties
 printf "factory.password=$brokerPassword\n" >> ~/environment/amazon-mq-workshop/openwire-consumer.properties
+fi
