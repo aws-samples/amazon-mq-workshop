@@ -1,16 +1,19 @@
 #!/bin/bash
 cd ~/environment
 java_version=`java -version |& awk -F '"' '/version/ {print $2}'`
-if [[ "$java_version" > "1.7" ]]; then
+if [[ "$java_version" =~ .*1\.8.*  ]]; then
     echo "Java is up to date"
 else 
     echo "Updating java to 1.8"
     wget https://d3pxv6yz143wms.cloudfront.net/8.222.10.1/java-1.8.0-amazon-corretto-devel-1.8.0_222.b10-1.x86_64.rpm > /dev/null 2>&1
     sudo yum localinstall -y java-1.8.0-amazon-corretto-devel-1.8.0_222.b10-1.x86_64.rpm > /dev/null 2>&1
-    echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))" >> ~/.bashrc
 fi
+
+echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))" >> ~/.bashrc
+source ~/.bashrc
+
 mvn_version=`mvn -version |& awk '/Apache Maven/ {print $3 }'`
-if [[ "$mvn_version" > "3.5" ]]; then
+if [[ "$mvn_version" =~ .*3\.6.* ]]; then
     echo "Maven is up to date"
 else 
     echo "Updating maven to 3.6"
@@ -37,7 +40,7 @@ else
     brokerUser=`echo $userPassword | sed 's/"//g' | sed 's/Value://g' | cut -d',' -f1 | sed 's/ //g'`
     brokerPassword=`echo $userPassword | sed 's/"//g' | sed 's/Value://g' | cut -d',' -f2`
 fi
-source ~/.bashrc
+
 if [[ ! -z $perfurl ]]; 
 then
 printf "\nfactory.brokerURL=$perfurl\n" >> ~/environment/amazon-mq-workshop/openwire-producer.properties
