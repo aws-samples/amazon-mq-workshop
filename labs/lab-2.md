@@ -31,7 +31,7 @@ echo "url=\"$temp_url\"" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-**NOTE**: Ensure that all terminals windows that you will use for the workshop are created after having run this step.
+:white_check_mark: **NOTE**: Ensure that all terminals windows that you will use for the workshop are created after having run this step.
 
 </p></details><p/>
 

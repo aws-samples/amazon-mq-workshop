@@ -93,6 +93,8 @@ source ~/.bashrc
 ```
 </details>
 
+:white_check_mark: **NOTE**: Ensure that all terminals windows that you will use for the workshop are created after having run this step.
+
 ### 2. Go to the Cloud9 IDE tab in the browser
 
 In the main pane, close the Welcome screen and add 4 terminal tabs (click on + tab and select New Terminal. Reorganize them in a chequered pattern using the mouse and select the top left terminal.
