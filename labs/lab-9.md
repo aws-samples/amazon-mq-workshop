@@ -35,7 +35,7 @@ Because these brokers are all connected using network connectors, when a produce
 
 ## Producer Load Balancing
 
-Producers can be load balanced across the network of brokers, by concentrating them on a set of brokers in the network. For example, in a Mesh network of 3 brokers, all producers can be connected to Broker1 and all consumers can be connected to Broker3, leaving Broker2 as a redundant instance in case either Broker1 or Broker3 are unavailable.
+Producers can be load balanced across the network of brokers, by concentrating them on a set of brokers in the network. For example, in a Mesh network of 3 brokers, producers can be spread across Broker1 and Broker2. The consumers can be connected to Broker3.
 
 ## Consumer Load Balancing
 
@@ -129,11 +129,15 @@ Now you should notice that messages are being distributed equally among two rece
 
 ## Scenario 2 : Producer Load Balancing 
 
-Run the following command in two terminals to start 2 producers to Broker1. Once this is done, give a couple of seconds to start the flow of messages, run the 2nd command to start 1 consumer on Broker2 and another on Broker3 in other two terminals. 
+Run and repeat the following command in two separate terminals to start 2 producers connecting to Broker1. 
 
 ``` bash
 java -jar ./bin/amazon-mq-client.jar -url $mesh1url -mode sender -type queue -destination workshop.queueA -name Sender-1
 ```
+
+Run the following two commands to start receivers in two separate terminals each connecting to Broker2 and Broker3.
+
+
 ``` bash
 java -jar ./bin/amazon-mq-client.jar -url $mesh2url -mode receiver -type queue -destination workshop.queueA 
 ```
@@ -152,7 +156,7 @@ The following block uses the two settings we discussed above (shown here for you
   </transportConnectors>
 ```
 
-Assuming that you left the producers and consumers running. If not, start them again. 
+Assuming that you left the producers and consumers running from the previous Scenario. If not, start them again as per instructions in Scenario 2. 
 
 Now, go to AWS Console, Open AmazonMQ console, pick Broker1 (or any broker) and reboot the broker. Now notice the applications running in the terminals, you should have noticed that client connections are automatically updated to available broker's URL and rebalanced to available brokers. Once the rebooted broker is in Running state, the client connections get rebalanced again. This is very powerful feature as you can simply add more brokers into the network using CloudFormation and clients get rebalanced.
 
