@@ -4,7 +4,7 @@ In this exercise you learn how to do Point-To-Point messaging with Amazon MQ usi
 
 You will find the source code of this client [here](/amazon-mq-client/src/main/java/com/aws/sample/amazonmq/AmazonMqClient.java).
 
-### 1. Prerequisites
+### :white_check_mark: 1. Prerequisites
 
 You should have an Amazon MQ broker running and have configured the necessary environment variable as per the guide below.
 
@@ -14,22 +14,24 @@ To make it easier to run the commands in the following labs we store frequently 
 
 Go to the [AmazonMQ console](https://console.aws.amazon.com/amazon-mq), and click on the name of the broker (the one with a name starting with the stack name you created)
 
-Scroll down to the Connections section and click the **Copy failover string** link beside the OpenWire row 
+:white_check_mark: Scroll down to the Connections section and click the **Copy failover string** link beside the OpenWire row 
 to copy the string to your clipboard.
 
 ![Copy failover link](/images/fail-over-Step2.png)
 
-Go to the AWS Console home, find Cloud9 service, open the service console. You should see a pre-built workspace named MQClient. Click on "Open IDE". 
+:white_check_mark: Go to the AWS Console home, find Cloud9 service, open the service console. You should see a pre-built workspace named MQClient. Click on "Open IDE". 
 Once the IDE is launched, you should see a bash shell window opened with the workshop github repository synced to amazon-mq-workshop folder.
 In the bash shell, type the following commands one at a time (make sure you replace <failover url> with the failover url you copied below).
 
 ``` bash
 cd ~/environment/amazon-mq-workshop
-./setup.sh
 export temp_url="<failover url>"
-echo "url=\"$temp_url\"" >> ~/.bashrc; source ~/.bashrc
+echo "url=\"$temp_url\"" >> ~/.bashrc 
+./setup.sh
+source ~/.bashrc
 ```
-**NOTE**: Ensure that all terminals windows that you will use for the workshop are created after having run this step.
+
+:white_check_mark: **NOTE**: Ensure that all terminals windows that you will use for the workshop are created after having run this step.
 
 </p></details><p/>
 

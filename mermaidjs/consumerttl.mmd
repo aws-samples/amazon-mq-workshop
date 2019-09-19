@@ -1,0 +1,6 @@
+graph LR
+    C1[Consumer1]
+    C1-->B1[Broker1];
+    C1-. consumerTTL = 1 .->B2[Broker2]
+    C1-. consumerTTL = 1 .->B3[Broker3]
+    

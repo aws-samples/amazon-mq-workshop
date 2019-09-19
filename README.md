@@ -47,6 +47,11 @@ Each of the labs in this workshop are independent and you may choose to do some 
 
 * **[Lab 8: Protocol Interoperability](/labs/lab-8.md)** - In this exercise, you are connecting one of the message producers to the broker and start sending messages. You also connect one of the message consumers to the broker, using a different protocol. We will repeat set-up this with multiple protocol combinations to figure out which protocol conversions are supported by Amazon MQ.
 
+* **[Lab 9: Network of Brokers](/labs/lab-9.md)** - In this exercise, you will learn basic concepts about Network of Brokers and how this configuration of brokers can be used to scale producers and consumers. You will also learn about settings that play a critical role.
+
+* **[Lab 10: Performance Testing](/labs/lab-10.md)** - In this exercise, you will learn about tools available for doing performance/load testing. This will help you to assess different broker configurations that would be helpful to optimize your workload performance using AmazonMQ.
+
+* **[Lab 11: Ployglot Programming](/labs/lab-11.md)** - Most of this workshop focuses on working with Java clients. In this exercise, you will learn how to use other programming languages to communicate with AmazonMQ. You will work with a .Net client as an example. The Resources section in the lab provides links to code examples in other programming languages.
 
 ## Workshop Cleanup
 

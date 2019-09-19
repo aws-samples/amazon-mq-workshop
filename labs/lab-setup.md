@@ -33,7 +33,7 @@ Once you have chosen a region and are inside the AWS CloudFormation Console, you
 In the **Stack name** section the Stack name is pre-populated with the name "amazonmqworkshop". You can customize that to a name of your choice **less than 15 characters in length** or leave as is. 
 The Amazon MQ broker will be named `<stackname>-Broker`.
 
-In the **Parameter** section you must provide a password for the user that will administer the Amazon MQ broker. Choose something easy to remember, 12 characters or more. 
+In the **Parameter** section you must provide a password for the user that will administer the Amazon MQ broker. Choose something easy to remember, 12 characters or more. Select a Lab Level. There are three options provided. The **basic** lab is for Labs 1 thru 8. The **advanced** lab is for Labs 9-11 and the **all** option is for all labs. Select a lab that is most suitable for you. You can attempt each level at your own pace. One thing to remember is to run a lab, delete all resources for the lab and then attempt the next lab. For example if you selected **basic** lab, and created CloudFormation resources and wanted to attempt the **advanced** lab, then you must delete the **basic** lab stack first and then create reosurces for **advanced** lab.
 Leave the rest of the options as is and check the **I acknowledge that AWS CloudFormation might create IAM resources** box. This is to allow CloudFormation to create a Role to allow access to resources needed by the workshop.
 
 
