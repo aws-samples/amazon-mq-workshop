@@ -1346,5 +1346,5 @@ Resources:
       Name: MQClient
       Repositories:
         - PathComponent: /amazon-mq-workshop
-          RepositoryUrl: https://github.com/sam-andaluri/amazon-mq-workshop.git
+          RepositoryUrl: https://github.com/aws-samples/amazon-mq-workshop.git
       SubnetId: !Ref 'PublicSubnet1'
