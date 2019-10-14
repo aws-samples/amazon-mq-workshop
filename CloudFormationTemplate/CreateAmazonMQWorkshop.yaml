@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: AWS CloudFormation template to launch resources for the Amazon MQ workshop.
+
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -16,6 +17,7 @@ Metadata:
           default: Lab Configuration
         Parameters:
           - LabLevel
+          - EnvironmentOwnerType
     ParameterLabels:
       AmazonMQBrokerUser:
         default: Broker Username
@@ -23,6 +25,9 @@ Metadata:
         default: Broker Password
       LabLevel:
         default: Lab Level
+      EnvironmentOwnerType:
+        default: Environment Type
+      
 Parameters:
   CIDR:
     Description: CIDR block, from which the access to the EC2 instance is allowed.
@@ -40,19 +45,35 @@ Parameters:
   AmazonMQBrokerPassword:
     Description: The password to access the Amazon MQ broker. Min 12 characters
     Type: String
+    Default: workshopUser
     MinLength: 12
     ConstraintDescription: The Amazon MQ broker password is required !
     NoEcho: true
   LabLevel:
     Type: String
-    Default: basic
+    Default: all
     AllowedValues:
       - basic
       - advanced
       - all
     Description: Enter basic for Labs 1-8, advanced for Labs 9 and above or all for
       All labs.
+  EnvironmentOwnerType:
+    Type: String
+    AllowedValues:
+      - user
+      - assumed-role
+    Default: assumed-role
+    Description: >-
+      Type of access the owner of environment has.  The default is an assumed-role
+      which is used by the workshop event engine.  If testing this in your own account this should
+      be "user".
+
 Conditions:
+  UseAssumedRole:
+    Fn::Equals:
+      - !Ref EnvironmentOwnerType
+      - assumed-role
   AdvancedLab: !Not
     - !Equals
       - !Ref 'LabLevel'
@@ -60,6 +81,7 @@ Conditions:
   BasicLab: !Equals
       - !Ref 'LabLevel'
       - basic
+
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -200,10 +222,7 @@ Resources:
     Type: AWS::AmazonMQ::Broker
     Condition: BasicLab
     Properties:
-      BrokerName: !Join
-        - '-'
-        - - !Ref 'AWS::StackName'
-          - Broker
+      BrokerName: Broker
       EngineType: ActiveMQ
       EngineVersion: 5.15.9
       HostInstanceType: mq.t2.micro
@@ -228,10 +247,7 @@ Resources:
     Type: AWS::AmazonMQ::Broker
     Condition: AdvancedLab
     Properties:
-      BrokerName: !Join
-        - '-'
-        - - !Ref 'AWS::StackName'
-          - Broker
+      BrokerName: Broker
       EngineType: ActiveMQ
       EngineVersion: 5.15.9
       HostInstanceType: mq.m5.large
@@ -255,11 +271,7 @@ Resources:
   Broker1:
     Condition: AdvancedLab
     Properties:
-      BrokerName:
-        Fn::Join:
-        - ''
-        - - Ref: AWS::StackName
-          - -Broker1
+      BrokerName: NoB1
       DeploymentMode: ACTIVE_STANDBY_MULTI_AZ
       EngineType: ACTIVEMQ
       EngineVersion: 5.15.9
@@ -285,11 +297,7 @@ Resources:
     Condition: AdvancedLab
     Properties:
       AutoMinorVersionUpgrade: false
-      BrokerName:
-        Fn::Join:
-        - ''
-        - - Ref: AWS::StackName
-          - -Broker2
+      BrokerName: NoB2
       DeploymentMode: ACTIVE_STANDBY_MULTI_AZ
       EngineType: ACTIVEMQ
       EngineVersion: 5.15.9
@@ -315,11 +323,7 @@ Resources:
     Condition: AdvancedLab
     Properties:
       AutoMinorVersionUpgrade: false
-      BrokerName:
-        Fn::Join:
-        - ''
-        - - Ref: AWS::StackName
-          - -Broker3
+      BrokerName: NoB3
       DeploymentMode: ACTIVE_STANDBY_MULTI_AZ
       EngineType: ACTIVEMQ
       EngineVersion: 5.15.9
@@ -1342,9 +1346,18 @@ Resources:
     Properties:
       AutomaticStopTimeMinutes: 30
       Description: MQ Client Workspace
-      InstanceType: t2.micro
-      Name: MQClient
+      InstanceType: m4.large
+      Name:
+        Fn::Join:
+        - ''
+        - - Ref: AWS::StackName
+          - MQClient
       Repositories:
         - PathComponent: /amazon-mq-workshop
           RepositoryUrl: https://github.com/aws-samples/amazon-mq-workshop.git
       SubnetId: !Ref 'PublicSubnet1'
+      OwnerArn: 
+        Fn::If:
+          - UseAssumedRole
+          - !Sub "arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey"
+          - !Ref "AWS::NoValue"
