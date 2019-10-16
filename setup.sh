@@ -38,10 +38,10 @@ brokerId=`aws mq list-brokers | jq '.BrokerSummaries[] | select(.BrokerName=="Br
 nob1Id=`aws mq list-brokers | jq '.BrokerSummaries[] | select(.BrokerName=="NoB1") | {id:.BrokerId}' | grep "id" | cut -d '"' -f4`
 nob2Id=`aws mq list-brokers | jq '.BrokerSummaries[] | select(.BrokerName=="NoB2") | {id:.BrokerId}' | grep "id" | cut -d '"' -f4`
 nob3Id=`aws mq list-brokers | jq '.BrokerSummaries[] | select(.BrokerName=="NoB3") | {id:.BrokerId}' | grep "id" | cut -d '"' -f4`
-url=`aws mq describe-broker --broker-id=$brokerId | jq '.BrokerInstances[].Endpoints[0]' | xargs -n 2 | awk '{ print "failover("$1","$2")" }'`
-mesh1url=`aws mq describe-broker --broker-id=$nob1Id | jq '.BrokerInstances[].Endpoints[0]' | xargs -n 2 | awk '{ print "failover("$1","$2")" }'`
-mesh2url=`aws mq describe-broker --broker-id=$nob2Id | jq '.BrokerInstances[].Endpoints[0]' | xargs -n 2 | awk '{ print "failover("$1","$2")" }'`
-mesh3url=`aws mq describe-broker --broker-id=$nob3Id | jq '.BrokerInstances[].Endpoints[0]' | xargs -n 2 | awk '{ print "failover("$1","$2")" }'`
+url=`aws mq describe-broker --broker-id=$brokerId | jq '.BrokerInstances[].Endpoints[0]' | xargs -n 2 | awk '{ print "failover:("$1","$2")" }'`
+mesh1url=`aws mq describe-broker --broker-id=$nob1Id | jq '.BrokerInstances[].Endpoints[0]' | xargs -n 2 | awk '{ print "failover:("$1","$2")" }'`
+mesh2url=`aws mq describe-broker --broker-id=$nob2Id | jq '.BrokerInstances[].Endpoints[0]' | xargs -n 2 | awk '{ print "failover:("$1","$2")" }'`
+mesh3url=`aws mq describe-broker --broker-id=$nob3Id | jq '.BrokerInstances[].Endpoints[0]' | xargs -n 2 | awk '{ print "failover:("$1","$2")" }'`
 echo "Saving broker urls..."
 
 echo "perfurl=\"$url\"" >> ~/.bashrc; 
