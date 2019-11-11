@@ -51,7 +51,7 @@ Each of the labs in this workshop are independent and you may choose to do some 
 
 * **[Lab 10: Performance Testing](/labs/lab-10.md)** - In this exercise, you will learn about tools available for doing performance/load testing. This will help you to assess different broker configurations that would be helpful to optimize your workload performance using AmazonMQ.
 
-* **[Lab 11: Ployglot Programming](/labs/lab-11.md)** - Most of this workshop focuses on working with Java clients. In this exercise, you will learn how to use other programming languages to communicate with AmazonMQ. You will work with a .Net client as an example. The Resources section in the lab provides links to code examples in other programming languages.
+* **[Lab 11: Polyglot Programming](/labs/lab-11.md)** - Most of this workshop focuses on working with Java clients. In this exercise, you will learn how to use other programming languages to communicate with AmazonMQ. You will work with a .Net client as an example. The Resources section in the lab provides links to code examples in other programming languages.
 
 ## Workshop Cleanup
 

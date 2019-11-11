@@ -16,15 +16,12 @@ Metadata:
       - Label:
           default: Lab Configuration
         Parameters:
-          - LabLevel
           - EnvironmentOwnerType
     ParameterLabels:
       AmazonMQBrokerUser:
         default: Broker Username
       AmazonMQBrokerPassword:
         default: Broker Password
-      LabLevel:
-        default: Lab Level
       EnvironmentOwnerType:
         default: Environment Type
       
@@ -49,15 +46,6 @@ Parameters:
     MinLength: 12
     ConstraintDescription: The Amazon MQ broker password is required !
     NoEcho: true
-  LabLevel:
-    Type: String
-    Default: all
-    AllowedValues:
-      - basic
-      - advanced
-      - all
-    Description: Enter basic for Labs 1-8, advanced for Labs 9 and above or all for
-      All labs.
   EnvironmentOwnerType:
     Type: String
     AllowedValues:
@@ -74,13 +62,6 @@ Conditions:
     Fn::Equals:
       - !Ref EnvironmentOwnerType
       - assumed-role
-  AdvancedLab: !Not
-    - !Equals
-      - !Ref 'LabLevel'
-      - basic
-  BasicLab: !Equals
-      - !Ref 'LabLevel'
-      - basic
 
 Resources:
   VPC:
@@ -156,7 +137,6 @@ Resources:
               - PublicSubnet2
   PublicSubnet3:
     Type: AWS::EC2::Subnet
-    Condition: AdvancedLab
     Properties:
       VpcId: !Ref 'VPC'
       CidrBlock: 10.42.2.0/24
@@ -181,7 +161,6 @@ Resources:
       RouteTableId: !Ref 'RouteTable'
   PublicSubnet3RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Condition: AdvancedLab
     Properties:
       SubnetId: !Ref 'PublicSubnet3'
       RouteTableId: !Ref 'RouteTable'
@@ -218,34 +197,8 @@ Resources:
             - '-'
             - - !Ref 'AWS::StackName'
               - AmazonMQSecurityGroup
-  AmazonMQBrokerMicro:
-    Type: AWS::AmazonMQ::Broker
-    Condition: BasicLab
-    Properties:
-      BrokerName: Broker
-      EngineType: ActiveMQ
-      EngineVersion: 5.15.9
-      HostInstanceType: mq.t2.micro
-      DeploymentMode: ACTIVE_STANDBY_MULTI_AZ
-      PubliclyAccessible: true
-      AutoMinorVersionUpgrade: false
-      SecurityGroups:
-        - !Ref 'AmazonMQSecurityGroup'
-      SubnetIds:
-        - !Ref 'PublicSubnet1'
-        - !Ref 'PublicSubnet2'
-      Logs:
-        Audit: true
-        General: true
-      Users:
-        - ConsoleAccess: true
-          Groups:
-            - admin
-          Username: !Ref 'AmazonMQBrokerUser'
-          Password: !Ref 'AmazonMQBrokerPassword'
   AmazonMQBrokerLarge:
     Type: AWS::AmazonMQ::Broker
-    Condition: AdvancedLab
     Properties:
       BrokerName: Broker
       EngineType: ActiveMQ
@@ -269,7 +222,6 @@ Resources:
           Username: !Ref 'AmazonMQBrokerUser'
           Password: !Ref 'AmazonMQBrokerPassword'
   Broker1:
-    Condition: AdvancedLab
     Properties:
       BrokerName: NoB1
       DeploymentMode: ACTIVE_STANDBY_MULTI_AZ
@@ -294,7 +246,6 @@ Resources:
           Password: !Ref 'AmazonMQBrokerPassword'
     Type: AWS::AmazonMQ::Broker
   Broker2:
-    Condition: AdvancedLab
     Properties:
       AutoMinorVersionUpgrade: false
       BrokerName: NoB2
@@ -320,7 +271,6 @@ Resources:
           Password: !Ref 'AmazonMQBrokerPassword'
     Type: AWS::AmazonMQ::Broker
   Broker3:
-    Condition: AdvancedLab
     Properties:
       AutoMinorVersionUpgrade: false
       BrokerName: NoB3
@@ -346,7 +296,6 @@ Resources:
           Password: !Ref 'AmazonMQBrokerPassword'
     Type: AWS::AmazonMQ::Broker
   Configuration1:
-    Condition: AdvancedLab
     Properties:
       Data:
         Fn::Base64:
@@ -653,14 +602,9 @@ Resources:
       Description: Generated configuration to build a network of brokers.
       EngineType: ACTIVEMQ
       EngineVersion: 5.15.9
-      Name:
-        Fn::Join:
-        - ''
-        - - Ref: AWS::StackName
-          - -Broker1Configuration
+      Name: NoB1Configuration
     Type: AWS::AmazonMQ::Configuration
   Configuration2:
-    Condition: AdvancedLab
     Properties:
       Data:
         Fn::Base64:
@@ -967,14 +911,9 @@ Resources:
       Description: Generated configuration to build a network of brokers.
       EngineType: ACTIVEMQ
       EngineVersion: 5.15.9
-      Name:
-        Fn::Join:
-        - ''
-        - - Ref: AWS::StackName
-          - -Broker2Configuration
+      Name: NoB2Configuration
     Type: AWS::AmazonMQ::Configuration
   Configuration3:
-    Condition: AdvancedLab
     Properties:
       Data:
         Fn::Base64:
@@ -1281,15 +1220,10 @@ Resources:
       Description: Generated configuration to build a network of brokers.
       EngineType: ACTIVEMQ
       EngineVersion: 5.15.9
-      Name:
-        Fn::Join:
-        - ''
-        - - Ref: AWS::StackName
-          - -Broker3Configuration
+      Name: NoB3Configuration
     Type: AWS::AmazonMQ::Configuration
 
   ConfigurationAssociation1:
-    Condition: AdvancedLab
     Properties:
       Broker:
         Ref: Broker1
@@ -1303,7 +1237,6 @@ Resources:
     Type: AWS::AmazonMQ::ConfigurationAssociation
 
   ConfigurationAssociation2:
-    Condition: AdvancedLab
     Properties:
       Broker:
         Ref: Broker2
@@ -1317,7 +1250,6 @@ Resources:
     Type: AWS::AmazonMQ::ConfigurationAssociation
 
   ConfigurationAssociation3:
-    Condition: AdvancedLab
     Properties:
       Broker:
         Ref: Broker3
