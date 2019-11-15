@@ -13,17 +13,11 @@ Metadata:
         Parameters:
           - AmazonMQBrokerUser
           - AmazonMQBrokerPassword
-      - Label:
-          default: Lab Configuration
-        Parameters:
-          - EnvironmentOwnerType
     ParameterLabels:
       AmazonMQBrokerUser:
         default: Broker Username
       AmazonMQBrokerPassword:
         default: Broker Password
-      EnvironmentOwnerType:
-        default: Environment Type
       
 Parameters:
   CIDR:
@@ -46,22 +40,6 @@ Parameters:
     MinLength: 12
     ConstraintDescription: The Amazon MQ broker password is required !
     NoEcho: true
-  EnvironmentOwnerType:
-    Type: String
-    AllowedValues:
-      - user
-      - assumed-role
-    Default: assumed-role
-    Description: >-
-      Type of access the owner of environment has.  The default is an assumed-role
-      which is used by the workshop event engine.  If testing this in your own account this should
-      be "user".
-
-Conditions:
-  UseAssumedRole:
-    Fn::Equals:
-      - !Ref EnvironmentOwnerType
-      - assumed-role
 
 Resources:
   VPC:
@@ -1288,8 +1266,5 @@ Resources:
         - PathComponent: /amazon-mq-workshop
           RepositoryUrl: https://github.com/aws-samples/amazon-mq-workshop.git
       SubnetId: !Ref 'PublicSubnet1'
-      OwnerArn: 
-        Fn::If:
-          - UseAssumedRole
-          - !Sub "arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey"
-          - !Ref "AWS::NoValue"
+      OwnerArn: !Ref "AWS::NoValue"
+
