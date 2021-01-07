@@ -1,0 +1,314 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation template to launch resources for the Amazon MQ - Rabbit MQ workshop.
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: General Configuration
+        Parameters:
+          - CIDR
+      - Label:
+          default: Broker Configuration
+        Parameters:
+          - AmazonMQBrokerUser
+          - AmazonMQBrokerPassword
+    ParameterLabels:
+      AmazonMQBrokerUser:
+        default: Broker Username
+      AmazonMQBrokerPassword:
+        default: Broker Password
+      
+Parameters:
+  CIDR:
+    Description: CIDR block, from which the access to the EC2 instance is allowed.
+    Type: String
+    Default: '0.0.0.0/0'
+    MinLength: 1
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
+    ConstraintDescription: The CIDR block is required!
+  AmazonMQBrokerUser:
+    Description: The user to access the Amazon MQ broker.
+    Type: String
+    Default: admin
+    MinLength: 2
+    ConstraintDescription: The Amazon MQ broker user is required.
+  AmazonMQBrokerPassword:
+    Description: The password to access the Amazon MQ broker. Min 12 characters
+    Type: String
+    MinLength: 12
+    ConstraintDescription: The Amazon MQ broker password is required.
+    NoEcho: true
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.42.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref 'AWS::StackName'
+              - VPC
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref 'AWS::StackName'
+              - InternetGateway
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref 'VPC'
+      InternetGatewayId: !Ref 'InternetGateway'
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref 'VPC'
+      Tags:
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref 'AWS::StackName'
+              - RouteTable
+  Route:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref 'RouteTable'
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId: !Ref 'InternetGateway'
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'VPC'
+      CidrBlock: 10.42.0.0/24
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref 'AWS::StackName'
+              - PublicSubnet1
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'VPC'
+      CidrBlock: 10.42.1.0/24
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref 'AWS::StackName'
+              - PublicSubnet2
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'VPC'
+      CidrBlock: 10.42.2.0/24
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref 'AWS::StackName'
+              - PrivateSubnet1
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'VPC'
+      CidrBlock: 10.42.3.0/24
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref 'AWS::StackName'
+              - PrivateSubnet2
+
+  NatGateway1EIP:
+    Type: AWS::EC2::EIP
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+
+  NatGateway2EIP:
+    Type: AWS::EC2::EIP
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+
+  NatGateway1:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatGateway1EIP.AllocationId
+      SubnetId: !Ref PublicSubnet1
+
+  NatGateway2:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatGateway2EIP.AllocationId
+      SubnetId: !Ref PublicSubnet2
+  
+  PublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref 'PublicSubnet1'
+      RouteTableId: !Ref 'RouteTable'
+  PublicSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref 'PublicSubnet2'
+      RouteTableId: !Ref 'RouteTable'
+
+  PrivateRouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+
+
+  DefaultPrivateRoute1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable1
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway1
+
+  PrivateSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable1
+      SubnetId: !Ref PrivateSubnet1
+
+  PrivateRouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+
+
+  DefaultPrivateRoute2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable2
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway2
+
+  PrivateSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable2
+      SubnetId: !Ref PrivateSubnet2
+
+  
+  RabbitMQSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Limits security group ingress and egress traffic for the Amazon
+        MQ instance
+      VpcId: !Ref 'VPC'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5671
+          ToPort: 5671
+          CidrIp: !Ref 'CIDR'
+
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: !Ref 'CIDR'
+      Tags:
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref 'AWS::StackName'
+              - RabbitMQSecurityGroup
+
+
+  AmazonMQBrokerPrivate:
+    Type: AWS::AmazonMQ::Broker
+    Properties:
+      BrokerName: RabbitWorkshopBrokerPrivate
+      EngineType: RABBITMQ
+      EngineVersion: 3.8.6
+      HostInstanceType: mq.m5.large
+      DeploymentMode: CLUSTER_MULTI_AZ
+      PubliclyAccessible: false
+      AutoMinorVersionUpgrade: false
+      SecurityGroups:
+        - !Ref 'RabbitMQSecurityGroup'
+      SubnetIds:
+        - !Ref 'PrivateSubnet1'
+        - !Ref 'PrivateSubnet2'
+      Logs:
+        
+        General: true
+      Users:
+        - ConsoleAccess: true
+          Groups:
+            - admin
+          Username: !Ref 'AmazonMQBrokerUser'
+          Password: !Ref 'AmazonMQBrokerPassword'
+
+  AmazonMQBrokerPublic:
+      Type: AWS::AmazonMQ::Broker
+      Properties:
+        BrokerName: RabbitWorkshopBrokerPublic
+        EngineType: RABBITMQ
+        EngineVersion: 3.8.6
+        HostInstanceType: mq.m5.large
+        DeploymentMode: CLUSTER_MULTI_AZ
+        PubliclyAccessible: true
+        AutoMinorVersionUpgrade: false
+        Logs:
+          
+          General: true
+        Users:
+          - ConsoleAccess: true
+            Groups:
+              - admin
+            Username: !Ref 'AmazonMQBrokerUser'
+            Password: !Ref 'AmazonMQBrokerPassword'
+
+  C9MQClient:
+    Type: AWS::Cloud9::EnvironmentEC2
+    Properties:
+      AutomaticStopTimeMinutes: 30
+      Description: MQ Client Workspace
+      InstanceType: m4.large
+      Name:
+        Fn::Join:
+        - ''
+        - - Ref: AWS::StackName
+          - MQClient
+      SubnetId: !Ref 'PublicSubnet1'
+
+
+Outputs:
+  Cloud9DevEnvUrl:
+    Description: Cloud9 Development Environment
+    Value: !Sub "https://${AWS::Region}.console.aws.amazon.com/cloud9/ide/${C9MQClient}"
+
+  PrivateBrokerEndpoint:
+    Description: RabbitMQ Broker Endpoint
+    Value: !Sub "${AmazonMQBrokerPrivate}.mq.${AWS::Region}.amazonaws.com"
+
+  PublicBrokerWebconsole:
+    Description: RabbitMQ Web console
+    Value: !Sub "https://${AmazonMQBrokerPublic}.mq.${AWS::Region}.amazonaws.com"
+  
+

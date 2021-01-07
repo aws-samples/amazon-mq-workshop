@@ -1,0 +1,6 @@
+graph TD
+   Sender1-. Queue:\\TEST.FOO, 60 messages .->NoB1
+   NoB1-->NoB2
+   NoB1-. Queue:\\TEST.FOO, 30 messages .->Receiver1
+   NoB2-. Queue:\\TEST.FOO, 15 messages .->Receiver2
+   NoB2-. Queue:\\TEST.FOO, 15 messages .->Receiver3
