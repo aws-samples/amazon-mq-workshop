@@ -296,7 +296,7 @@ Resources:
         - - Ref: AWS::StackName
           - MQClient
       SubnetId: !Ref 'PublicSubnet1'
-
+      
 
 Outputs:
   Cloud9DevEnvUrl:
