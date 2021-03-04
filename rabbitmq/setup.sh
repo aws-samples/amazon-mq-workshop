@@ -9,8 +9,8 @@ echo BROKER_ENDPOINT=$(aws cloudformation describe-stacks \
     --query 'Stacks[].Outputs[?OutputKey==`PrivateBrokerEndpoint`].OutputValue' \
     --output text) >> ~/.bashrc; 
     
-echo BROKER_USER='admin' >> ~/.bashrc; 
-echo BROKER_PASSWORD='admin1234567' >> ~/.bashrc;  
+echo BROKER_USER='<<REPLACE_WITH_BROKER_USER>>' >> ~/.bashrc; 
+echo BROKER_PASSWORD='<<REPLACE_WITH_BROKER_PASSWORD>>' >> ~/.bashrc;  
 
 
 
