@@ -3,19 +3,32 @@ import pika
 import logging
 import time
 import sys
+import argparse
 
-message_count = 10
-count = 0
+# Initiate the parser
+parser = argparse.ArgumentParser()
+parser.add_argument("-H", "--host", help="RabbitMQ host")
+parser.add_argument("-P", "--port", help="RabbitMQ port")
+parser.add_argument("-u", "--user", help="RabbitMQ user")
+parser.add_argument("-p", "--password", help="RabbitMQ password")
+parser.add_argument("-e", "--exchange", help="Exchange name")
+parser.add_argument("-b", "--binding_key", help="Binding key")
+parser.add_argument("-q","--queue",help="Queue name")
+
+# Read arguments from the command line
+args = parser.parse_args()
+
+if len(sys.argv)==1:
+    parser.print_help(sys.stderr)
+    sys.exit(1)
 
 
-def connect_machine(host,port,exchange,queue,user,password,binding_key):
+def connect_machine(host,port,exchange,queue,binding_key,user,password):
     logging.basicConfig(level=logging.INFO)
     credentials = pika.PlainCredentials(user, password)
     argument_list = {'x-queue-master-locator': 'random'}
     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-    # context.verify_mode = ssl.CERT_NONE
-    # context.load_verify_locations('/Users/mithumal/Projects/AmazonMQ/rabbitmq-stuff/certs/certificate.pem')
-
+    
     cp = pika.ConnectionParameters(port=port, host=host,
                                    credentials=credentials, ssl_options=pika.SSLOptions(context))
 
@@ -27,7 +40,7 @@ def connect_machine(host,port,exchange,queue,user,password,binding_key):
                         
     ch.queue_declare(queue=queue,durable=True, arguments=argument_list)
 
-    ch.queue_bind(queue,exchange, routing_key='')
+    ch.queue_bind(queue,exchange, routing_key=binding_key)
  
     return conn, ch
 
@@ -43,22 +56,13 @@ def on_message(channel, method_frame, header_frame, body):
     print()
     channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
-if len(sys.argv) < 5:
-    sys.exit("usage: fanout-receiver.py host port user password exchange binding_key queue [vhost]")
+
     
 print("Argument List:", str(sys.argv))
 
-host = sys.argv[1]
-port = sys.argv[2]
-user = sys.argv[3]
-password = sys.argv[4]
-exchange = sys.argv[5]
-binding_key = sys.argv[6]
-queue = sys.argv[7]
+connection, channel = connect_machine(args.host,args.port,args.exchange,args.queue,args.binding_key,args.user,args.password)
 
-connection, channel = connect_machine(host,port,exchange,queue,user,password,binding_key)
-
-channel.basic_consume(queue, on_message, auto_ack=False)
+channel.basic_consume(args.queue, on_message, auto_ack=False)
 try:
     channel.start_consuming()
 except KeyboardInterrupt:
