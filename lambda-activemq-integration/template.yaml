@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  SAM Template for ActiveMQ integration
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Parameters:
+  brokerARNParameter:
+    Type: String
+    Default: arn:aws:mq:us-west-2:123456789:broker:Broker:b-222222-1111-1111-1111-111111111112
+  secretARNParameter:
+    Type: String
+    Default: arn:aws:secretsmanager:us-west-2:123456789:secret:MQaccess-jRLYpW
+
+Resources:
+  MQReceiverFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: MQReceiverFunction
+      CodeUri: src/
+      Handler: app.lambda_handler
+      Runtime: python3.6
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Resource: '*'
+            Action:
+            - mq:DescribeBroker
+            - secretsmanager:GetSecretValue
+            - ec2:CreateNetworkInterface
+            - ec2:DescribeNetworkInterfaces
+            - ec2:DescribeVpcs
+            - ec2:DeleteNetworkInterface
+            - ec2:DescribeSubnets
+            - ec2:DescribeSecurityGroups
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+      Events:
+        MQEvent:
+          Type: MQ
+          Properties:
+            Broker: !Ref brokerARNParameter
+            Queues:
+              - "workshop.queueC"
+            SourceAccessConfigurations:
+              - Type: BASIC_AUTH
+                URI: !Ref secretARNParameter
+
+Outputs:
+  MQReceiverFunction:
+    Description: "MQ Receiver Function ARN"
+    Value: !GetAtt MQReceiverFunction.Arn
+  MQReceiverFunctionIamRole:
+    Description: "Implicit IAM Role created for MQ Receiver function"
+    Value: !GetAtt MQReceiverFunctionRole.Arn
