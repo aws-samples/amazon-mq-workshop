@@ -1251,6 +1251,23 @@ Resources:
           - !Ref 'AmazonMQBrokerPassword'
       Description: SSM Param for broker user and password
  
+  MQBrokerUserPasswordSecret:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: MQBrokerUserPasswordSecret
+      Description: "Secret for accessing a queue on the ActiveMQ broker."
+      SecretString: !Join
+        - ''
+        - - '{'
+          - '"username"'
+          - ':'
+          - !Ref 'AmazonMQBrokerUser'
+          - ','
+          - '"password"'
+          - ':'
+          - !Ref 'AmazonMQBrokerPassword'
+          - '}' 
+ 
   C9MQClient:
     Type: AWS::Cloud9::EnvironmentEC2
     Properties:
@@ -1267,4 +1284,3 @@ Resources:
           RepositoryUrl: https://github.com/aws-samples/amazon-mq-workshop.git
       SubnetId: !Ref 'PublicSubnet1'
       OwnerArn: !Ref "AWS::NoValue"
-
