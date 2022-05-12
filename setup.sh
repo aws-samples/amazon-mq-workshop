@@ -19,7 +19,7 @@ if [[ "$mvn_version" =~ .*3\.6.* ]]; then
     echo "Maven is up to date"
 else 
     echo "Updating maven to 3.6..."
-    wget http://mirror.cc.columbia.edu/pub/software/apache/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.tar.gz > /dev/null 2>&1
+    wget https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.tar.gz > /dev/null 2>&1
     tar zxvf apache-maven-3.6.1-bin.tar.gz > /dev/null 2>&1
     echo "export PATH=~/environment/apache-maven-3.6.1/bin:$PATH" >> ~/.bashrc
 fi
