@@ -23,7 +23,8 @@ Parameters:
   CIDR:
     Description: CIDR block, from which the access to the EC2 instance is allowed.
     Type: String
-    
+    # Using the same CIDR block as the VPC for the Cloud9 instance
+    Default: '10.42.0.0/16'
     MinLength: 1
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
     ConstraintDescription: The CIDR block is required!
@@ -177,6 +178,7 @@ Resources:
               - AmazonMQSecurityGroup
   AmazonMQBrokerLarge:
     Type: AWS::AmazonMQ::Broker
+    DependsOn: AttachGateway
     Properties:
       BrokerName: Broker
       EngineType: ActiveMQ
