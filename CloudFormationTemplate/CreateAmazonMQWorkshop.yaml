@@ -225,6 +225,7 @@ Resources:
           Username: !Ref 'AmazonMQBrokerUser'
           Password: !Ref 'AmazonMQBrokerPassword'
     Type: AWS::AmazonMQ::Broker
+    DependsOn: AttachGateway
   Broker2:
     Properties:
       AutoMinorVersionUpgrade: false
@@ -250,6 +251,7 @@ Resources:
           Username: !Ref 'AmazonMQBrokerUser'
           Password: !Ref 'AmazonMQBrokerPassword'
     Type: AWS::AmazonMQ::Broker
+    DependsOn: AttachGateway
   Broker3:
     Properties:
       AutoMinorVersionUpgrade: false
@@ -275,6 +277,7 @@ Resources:
           Username: !Ref 'AmazonMQBrokerUser'
           Password: !Ref 'AmazonMQBrokerPassword'
     Type: AWS::AmazonMQ::Broker
+    DependsOn: AttachGateway
   Configuration1:
     Properties:
       Data:
