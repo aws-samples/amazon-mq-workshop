@@ -6,7 +6,7 @@ java_version=`java -version |& awk -F '"' '/version/ {print $2}'`
 if [[ "$java_version" =~ .*1\.8.*  ]]; then
     echo "Java is up to date"
 else 
-    echo "Updating java to Corretto 23..."
+    echo "Updating java to Corretto 17 and above..."
     wget https://corretto.aws/downloads/latest/amazon-corretto-23-x64-linux-jdk.rpm > /dev/null 2>&1
     sudo yum localinstall -y amazon-corretto-23-x64-linux-jdk.rpm > /dev/null 2>&1
 fi
