@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "dgSpecHash": "2IekOTDjBcdrb/LKzGp9OGi25G/iviLWymCZYIL8/UY6OxeySDnAdlZWN269Ez9ExJtLo+hN6yoBSV96/HEmRg==",
+  "success": true,
+  "projectFilePath": "/Users/kachis/active_mq_revamp_2/amazon-mq-workshop/dotnet-client/AmazonMQDotNet.csproj",
+  "expectedPackageFiles": [
+    "/Users/kachis/.nuget/packages/apache.nms/1.7.1/apache.nms.1.7.1.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/apache.nms.activemq/1.7.2/apache.nms.activemq.1.7.2.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/awssdk.core/3.3.103.32/awssdk.core.3.3.103.32.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/awssdk.simplesystemsmanagement/3.3.106.1/awssdk.simplesystemsmanagement.3.3.106.1.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/mcmaster.extensions.commandlineutils/2.3.4/mcmaster.extensions.commandlineutils.2.3.4.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/microsoft.netcore.app/2.1.0/microsoft.netcore.app.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/microsoft.netcore.dotnetapphost/2.1.0/microsoft.netcore.dotnetapphost.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/microsoft.netcore.dotnethostpolicy/2.1.0/microsoft.netcore.dotnethostpolicy.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/microsoft.netcore.dotnethostresolver/2.1.0/microsoft.netcore.dotnethostresolver.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/microsoft.netcore.platforms/2.1.0/microsoft.netcore.platforms.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/microsoft.netcore.targets/2.1.0/microsoft.netcore.targets.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/runtime.linux-x64.microsoft.netcore.app/2.1.0/runtime.linux-x64.microsoft.netcore.app.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/runtime.linux-x64.microsoft.netcore.dotnetapphost/2.1.0/runtime.linux-x64.microsoft.netcore.dotnetapphost.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/runtime.linux-x64.microsoft.netcore.dotnethostpolicy/2.1.0/runtime.linux-x64.microsoft.netcore.dotnethostpolicy.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/runtime.linux-x64.microsoft.netcore.dotnethostresolver/2.1.0/runtime.linux-x64.microsoft.netcore.dotnethostresolver.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/runtime.win-x64.microsoft.netcore.app/2.1.0/runtime.win-x64.microsoft.netcore.app.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/runtime.win-x64.microsoft.netcore.dotnetapphost/2.1.0/runtime.win-x64.microsoft.netcore.dotnetapphost.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/runtime.win-x64.microsoft.netcore.dotnethostpolicy/2.1.0/runtime.win-x64.microsoft.netcore.dotnethostpolicy.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/runtime.win-x64.microsoft.netcore.dotnethostresolver/2.1.0/runtime.win-x64.microsoft.netcore.dotnethostresolver.2.1.0.nupkg.sha512",
+    "/Users/kachis/.nuget/packages/system.componentmodel.annotations/4.4.1/system.componentmodel.annotations.4.4.1.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Apache.NMS 1.7.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework '.NETCoreApp,Version=v2.1'. This package may not be fully compatible with your project.",
+      "libraryId": "Apache.NMS",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.1"
+      ]
+    }
+  ]
+}
