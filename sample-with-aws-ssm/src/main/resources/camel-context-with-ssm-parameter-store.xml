@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <bean id="ssm" class="com.amazonaws.samples.AmazonSystemsManagerParameterStorePropertyPlaceholderConfigurer">
+        <property name="env" value="${env}" />
+    </bean>
+
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"/>
+
+    <bean id="amazonMQ" class="org.apache.camel.component.activemq.ActiveMQComponent">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start" destroy-method="stop">
+                <property name="maxConnections" value="6" />
+                <property name="connectionFactory">
+                    <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                        <property name="brokerURL" value="${amazonMQ.brokerURL}" />
+                        <property name="userName" value="${amazonMQ.userName}" />
+                        <property name="password">
+                            <bean factory-bean="ssm" factory-method="lookup">
+                                <constructor-arg value="JMS-BRIDGE/AMAZONMQ/PASSWORD" />
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="websphereMQ" class="org.apache.camel.component.jms.JmsComponent">
+        <property name="connectionFactory">
+            <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+                <property name="cacheConsumers" value="true" />
+                <property name="cacheProducers" value="true" />
+                <property name="reconnectOnException" value="true" />
+                <property name="sessionCacheSize" value="6" />
+                <property name="targetConnectionFactory">
+                    <bean class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+                        <property name="targetConnectionFactory">
+                            <bean class="com.ibm.mq.jms.MQConnectionFactory">
+                                <property name="hostName" value="${websphereMQ.hostName}" />
+                                <property name="port" value="1414" />
+                                <property name="queueManager" value="${websphereMQ.queueManager}" />
+                                <property name="channel" value="${websphereMQ.channel}" />
+                                <property name="transportType" value="1" />
+                            </bean>
+                        </property>
+                        <property name="username" value="${websphereMQ.userName}" />
+                        <property name="password">
+                            <bean factory-bean="ssm" factory-method="lookup">
+                                <constructor-arg value="JMS-BRIDGE/IBMMQ/PASSWORD" />
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <camelContext id="wmq-to-amq-bridge" xmlns="http://camel.apache.org/schema/spring">
+        <route id="amazonMQ-to-websphereMQ">
+            <description>Camel Route from amazonMQ to websphereMQ</description>
+            <from uri="amazonMQ:queue:DEV.QUEUE.1?concurrentConsumers=5"/>
+            <inOnly uri="websphereMQ:queue:DEV.QUEUE.1?preserveMessageQos=true"/>
+        </route>
+
+        <route id="websphereMQ-to-amazonMQ">
+            <description>Camel Route from websphereMQ to amazonMQ</description>
+            <from uri="websphereMQ:queue:DEV.QUEUE.2?concurrentConsumers=5"/>
+            <inOnly uri="amazonMQ:queue:DEV.QUEUE.2?preserveMessageQos=true"/>
+        </route>
+    </camelContext>
+</beans>
