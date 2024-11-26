@@ -1,0 +1,176 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploy a JMS-bridge service on AWS Fargate, which is looking up secrets in AWS SSM.
+
+Parameters:
+  Stage:
+    Type: String
+    Default: DEV
+    Description: The stage into we deploy this template.
+
+  IBMMQBrokerHost:
+    Type: String
+    Description: The host name or public IP address of the IBM MQ broker.
+
+Resources:
+  JMSBridgeSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Limits security group ingress and egress traffic for the JMS bridge instance
+      VpcId: {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:VPC'}
+      Tags:
+      - Key: Name
+        Value: !Sub '${AWS::StackName}:JMSBridgeSecurityGroup'
+
+  JMSBridgeECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: sample-with-aws-ssm-cluster
+
+  JMSBridgeECSTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: sample-with-aws-ssm-task
+      Cpu: 512
+      Memory: 1024
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      ExecutionRoleArn: {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:ECSTaskExecutionRole'}
+      TaskRoleArn: {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:ECSTaskRole'}
+      ContainerDefinitions:
+        - Name: sample-with-aws-ssm-task
+          Cpu: 512
+          Memory: 1024
+          Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/amazon-mq-migration-from-ibm-mq/sample-with-aws-ssm:latest'
+          Environment:
+            - Name: env
+              Value: DEV
+            - Name: amazonMQ.brokerURL
+              Value: {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:AmazonMQBrokerURL'}
+            - Name: amazonMQ.userName
+              Value: {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:AmazonMQBrokerUserName'}
+            - Name: websphereMQ.hostName
+              Value: !Ref IBMMQBrokerHost
+            - Name: websphereMQ.queueManager
+              Value: {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:IBMMQBrokerQueueManager'}
+            - Name: websphereMQ.channel
+              Value: {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:IBMMQBrokerChannel'}
+            - Name: websphereMQ.userName
+              Value: {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:IBMMQBrokerUserName'}
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudWatchLogsGroup
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: sample-with-aws-ssm
+
+  CloudWatchLogsGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: cmr/ecs/sample-with-aws-ssm-cluster
+      RetentionInDays: 30
+
+  JMSBridgeECSService:
+    Type: AWS::ECS::Service
+    Properties:
+      ServiceName: sample-with-aws-ssm-service
+      Cluster: !Ref JMSBridgeECSCluster
+      LaunchType: FARGATE
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 100
+      DesiredCount: 1
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED # to be able to download images from ECR
+          SecurityGroups:
+            - !Ref JMSBridgeSecurityGroup
+          Subnets:
+            - {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:PublicSubnet1'}
+            - {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:PublicSubnet2'}
+      TaskDefinition: !Ref JMSBridgeECSTaskDefinition
+
+# Auto-scaling configuration
+
+  DefaultServiceScalingTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MinCapacity: 1
+      MaxCapacity: 5
+      ResourceId: !Sub service/${JMSBridgeECSCluster}/${JMSBridgeECSService.Name}
+      RoleARN: {'Fn::ImportValue': !Sub '${Stage}:JMS-BRIDGE:ServiceAutoScalingRole'}
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+
+  DefaultServiceScaleOutPolicy:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: ScaleOutPolicy
+      PolicyType: StepScaling
+      ScalingTargetId: !Ref DefaultServiceScalingTarget
+      StepScalingPolicyConfiguration:
+        AdjustmentType: ChangeInCapacity
+        Cooldown: 60
+        MetricAggregationType: Average
+        StepAdjustments:
+          - ScalingAdjustment: 1
+            MetricIntervalLowerBound: 0
+
+  DefaultServiceScaleInPolicy:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: ScaleInPolicy
+      PolicyType: StepScaling
+      ScalingTargetId: !Ref DefaultServiceScalingTarget
+      StepScalingPolicyConfiguration:
+        AdjustmentType: ChangeInCapacity
+        Cooldown: 60
+        MetricAggregationType: Average
+        StepAdjustments:
+          - ScalingAdjustment: -1
+            MetricIntervalUpperBound: 0
+
+  DefaultServiceScaleOutAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      EvaluationPeriods: 3
+      Statistic: Average
+      TreatMissingData: notBreaching
+      Threshold: 85
+      AlarmDescription: Alarm to add capacity if CPU is high
+      Period: 60
+      AlarmActions:
+        - !Ref DefaultServiceScaleOutPolicy
+      Namespace: AWS/ECS
+      Dimensions:
+        - Name: ClusterName
+          Value: !Ref JMSBridgeECSCluster
+        - Name: ServiceName
+          Value: !GetAtt JMSBridgeECSService.Name
+      ComparisonOperator: GreaterThanThreshold
+      MetricName: CPUUtilization
+
+  DefaultServiceScaleInAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      EvaluationPeriods: 5
+      Statistic: Average
+      TreatMissingData: notBreaching
+      Threshold: 40
+      AlarmDescription: Alarm to reduce capacity if container CPU is low
+      Period: 60
+      AlarmActions:
+        - !Ref DefaultServiceScaleInPolicy
+      Namespace: AWS/ECS
+      Dimensions:
+        - Name: ClusterName
+          Value: !Ref JMSBridgeECSCluster
+        - Name: ServiceName
+          Value: !GetAtt JMSBridgeECSService.Name
+      ComparisonOperator: LessThanThreshold
+      MetricName: CPUUtilization
+
+Outputs:
+  JMSBridgeECSClusterRef:
+    Description: The name of the JMS bridge ECS cluster
+    Value: !Ref JMSBridgeECSCluster
