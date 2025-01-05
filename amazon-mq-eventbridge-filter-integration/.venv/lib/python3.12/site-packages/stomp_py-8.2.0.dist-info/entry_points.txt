@@ -1,0 +1,3 @@
+[console_scripts]
+stomp=stomp.__main__:main
+

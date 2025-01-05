@@ -1,0 +1,1035 @@
+Resources:
+  vpcA2121C38:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: AmazonmqEventbridgeFilterStack/vpc
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/Resource
+  vpcprivatesubnetSubnet1Subnet5B4B9220:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock: 10.0.0.0/17
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: private_subnet
+        - Key: aws-cdk:subnet-type
+          Value: Private
+        - Key: Name
+          Value: AmazonmqEventbridgeFilterStack/vpc/private_subnetSubnet1
+      VpcId:
+        Ref: vpcA2121C38
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/private_subnetSubnet1/Subnet
+  vpcprivatesubnetSubnet1RouteTable2BDF9440:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: AmazonmqEventbridgeFilterStack/vpc/private_subnetSubnet1
+      VpcId:
+        Ref: vpcA2121C38
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/private_subnetSubnet1/RouteTable
+  vpcprivatesubnetSubnet1RouteTableAssociation632A5D06:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcprivatesubnetSubnet1RouteTable2BDF9440
+      SubnetId:
+        Ref: vpcprivatesubnetSubnet1Subnet5B4B9220
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/private_subnetSubnet1/RouteTableAssociation
+  vpcprivatesubnetSubnet1DefaultRouteDC0AC1FA:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: vpcpublicsubnetSubnet1NATGateway9ACDACE3
+      RouteTableId:
+        Ref: vpcprivatesubnetSubnet1RouteTable2BDF9440
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/private_subnetSubnet1/DefaultRoute
+  vpcpublicsubnetSubnet1Subnet43A9D652:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock: 10.0.128.0/17
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: public_subnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: AmazonmqEventbridgeFilterStack/vpc/public_subnetSubnet1
+      VpcId:
+        Ref: vpcA2121C38
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/public_subnetSubnet1/Subnet
+  vpcpublicsubnetSubnet1RouteTable02F30A0A:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: AmazonmqEventbridgeFilterStack/vpc/public_subnetSubnet1
+      VpcId:
+        Ref: vpcA2121C38
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/public_subnetSubnet1/RouteTable
+  vpcpublicsubnetSubnet1RouteTableAssociationB9B8E76D:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcpublicsubnetSubnet1RouteTable02F30A0A
+      SubnetId:
+        Ref: vpcpublicsubnetSubnet1Subnet43A9D652
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/public_subnetSubnet1/RouteTableAssociation
+  vpcpublicsubnetSubnet1DefaultRoute09DF0FCE:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: vpcIGWE57CBDCA
+      RouteTableId:
+        Ref: vpcpublicsubnetSubnet1RouteTable02F30A0A
+    DependsOn:
+      - vpcVPCGW7984C166
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/public_subnetSubnet1/DefaultRoute
+  vpcpublicsubnetSubnet1EIP265CA510:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: AmazonmqEventbridgeFilterStack/vpc/public_subnetSubnet1
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/public_subnetSubnet1/EIP
+  vpcpublicsubnetSubnet1NATGateway9ACDACE3:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - vpcpublicsubnetSubnet1EIP265CA510
+          - AllocationId
+      SubnetId:
+        Ref: vpcpublicsubnetSubnet1Subnet43A9D652
+      Tags:
+        - Key: Name
+          Value: AmazonmqEventbridgeFilterStack/vpc/public_subnetSubnet1
+    DependsOn:
+      - vpcpublicsubnetSubnet1DefaultRoute09DF0FCE
+      - vpcpublicsubnetSubnet1RouteTableAssociationB9B8E76D
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/public_subnetSubnet1/NATGateway
+  vpcIGWE57CBDCA:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: AmazonmqEventbridgeFilterStack/vpc
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/IGW
+  vpcVPCGW7984C166:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId:
+        Ref: vpcIGWE57CBDCA
+      VpcId:
+        Ref: vpcA2121C38
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/vpc/VPCGW
+  SecurityGroupDD263621:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow MQ Access
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: from 0.0.0.0/0:ALL TRAFFIC
+          IpProtocol: "-1"
+      VpcId:
+        Ref: vpcA2121C38
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/SecurityGroup/Resource
+  SecretAmazonMQ3005BE0F:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: This is the secret for my AmazonMQ instance
+      GenerateSecretString:
+        ExcludeCharacters: '"@/, :=#$%^&*()'
+        GenerateStringKey: password
+        PasswordLength: 16
+        SecretStringTemplate: '{"username": "admin"}'
+      Name: AmazonMQSecret
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/SecretAmazonMQ/Resource
+  ProducerAmazonMQBroker:
+    Type: AWS::AmazonMQ::Broker
+    Properties:
+      AuthenticationStrategy: simple
+      AutoMinorVersionUpgrade: true
+      BrokerName: ProducerBroker
+      DeploymentMode: SINGLE_INSTANCE
+      EncryptionOptions:
+        UseAwsOwnedKey: true
+      EngineType: ActiveMQ
+      EngineVersion: 5.17.6
+      HostInstanceType: mq.t3.micro
+      Logs:
+        Audit: false
+        General: true
+      MaintenanceWindowStartTime:
+        DayOfWeek: FRIDAY
+        TimeOfDay: "17:00"
+        TimeZone: UTC
+      PubliclyAccessible: true
+      SecurityGroups:
+        - Fn::GetAtt:
+            - SecurityGroupDD263621
+            - GroupId
+      StorageType: efs
+      SubnetIds:
+        - Fn::GetAtt:
+            - vpcpublicsubnetSubnet1Subnet43A9D652
+            - SubnetId
+      Users:
+        - ConsoleAccess: true
+          Password:
+            Fn::Join:
+              - ""
+              - - "{{resolve:secretsmanager:"
+                - Ref: SecretAmazonMQ3005BE0F
+                - :SecretString:password}}
+          Username:
+            Fn::Join:
+              - ""
+              - - "{{resolve:secretsmanager:"
+                - Ref: SecretAmazonMQ3005BE0F
+                - :SecretString:username}}
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/ProducerAmazonMQBroker
+  ConsumerAmazonMQBroker:
+    Type: AWS::AmazonMQ::Broker
+    Properties:
+      AuthenticationStrategy: simple
+      AutoMinorVersionUpgrade: true
+      BrokerName: ConsumerBroker
+      DeploymentMode: SINGLE_INSTANCE
+      EncryptionOptions:
+        UseAwsOwnedKey: true
+      EngineType: ActiveMQ
+      EngineVersion: 5.17.6
+      HostInstanceType: mq.t3.micro
+      Logs:
+        Audit: false
+        General: true
+      MaintenanceWindowStartTime:
+        DayOfWeek: FRIDAY
+        TimeOfDay: "17:00"
+        TimeZone: UTC
+      PubliclyAccessible: true
+      SecurityGroups:
+        - Fn::GetAtt:
+            - SecurityGroupDD263621
+            - GroupId
+      StorageType: efs
+      SubnetIds:
+        - Fn::GetAtt:
+            - vpcpublicsubnetSubnet1Subnet43A9D652
+            - SubnetId
+      Users:
+        - ConsoleAccess: true
+          Password:
+            Fn::Join:
+              - ""
+              - - "{{resolve:secretsmanager:"
+                - Ref: SecretAmazonMQ3005BE0F
+                - :SecretString:password}}
+          Username:
+            Fn::Join:
+              - ""
+              - - "{{resolve:secretsmanager:"
+                - Ref: SecretAmazonMQ3005BE0F
+                - :SecretString:username}}
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/ConsumerAmazonMQBroker
+  FilterAmazonMQBroker:
+    Type: AWS::AmazonMQ::Broker
+    Properties:
+      AuthenticationStrategy: simple
+      AutoMinorVersionUpgrade: true
+      BrokerName: FilterBroker
+      DeploymentMode: SINGLE_INSTANCE
+      EncryptionOptions:
+        UseAwsOwnedKey: true
+      EngineType: ActiveMQ
+      EngineVersion: 5.17.6
+      HostInstanceType: mq.t3.micro
+      Logs:
+        Audit: false
+        General: true
+      MaintenanceWindowStartTime:
+        DayOfWeek: FRIDAY
+        TimeOfDay: "17:00"
+        TimeZone: UTC
+      PubliclyAccessible: true
+      SecurityGroups:
+        - Fn::GetAtt:
+            - SecurityGroupDD263621
+            - GroupId
+      StorageType: efs
+      SubnetIds:
+        - Fn::GetAtt:
+            - vpcpublicsubnetSubnet1Subnet43A9D652
+            - SubnetId
+      Users:
+        - ConsoleAccess: true
+          Password:
+            Fn::Join:
+              - ""
+              - - "{{resolve:secretsmanager:"
+                - Ref: SecretAmazonMQ3005BE0F
+                - :SecretString:password}}
+          Username:
+            Fn::Join:
+              - ""
+              - - "{{resolve:secretsmanager:"
+                - Ref: SecretAmazonMQ3005BE0F
+                - :SecretString:username}}
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/FilterAmazonMQBroker
+  FilterBrokerConfiguration:
+    Type: AWS::AmazonMQ::Configuration
+    Properties:
+      Data:
+        Fn::Base64:
+          Fn::Join:
+            - ""
+            - - <?xml version="1.0" encoding="UTF-8" standalone="yes"?> <broker schedulePeriodForDestinationPurge="10000" xmlns="http://activemq.apache.org/schema/core"> <destinationInterceptors> <mirroredQueue copyMessage="true" postfix=".qmirror" prefix=""/> <virtualDestinationInterceptor> <virtualDestinations> <virtualTopic name="&gt;" prefix="VirtualTopicConsumers.*." selectorAware="false"/> <compositeQueue name="ALL_INBOUND"> <forwardTo> <filteredDestination queue="NEW_APPLICATION_A_CANADA" selector="message_type = 'new' AND description like '%APPLICATION_A' AND country = 'canada' "/> <filteredDestination queue="NEW_APPLICATION_A_US" selector="message_type = 'new' AND description like '%APPLICATION_A' AND country = 'US' "/> <filteredDestination queue="NEW_APPLICATION_A_UK" selector="message_type = 'new' AND description like '%APPLICATION_A' AND country = 'UK' "/> <filteredDestination queue="NEW_APPLICATION_B_CANADA" selector="message_type = 'new' AND description like '%APPLICATION_B' AND country = 'canada' "/> <filteredDestination queue="NEW_APPLICATION_B_US" selector="message_type = 'new' AND description like '%APPLICATION_B' AND country = 'US' "/> <filteredDestination queue="NEW_APPLICATION_B_UK" selector="message_type = 'new' AND description like '%APPLICATION_B' AND country = 'UK' "/> <filteredDestination queue="NEW_APPLICATION_C_CANADA" selector="message_type = 'new' AND description like '%APPLICATION_C' AND country = 'canada' "/> <filteredDestination queue="NEW_APPLICATION_C_US" selector="message_type = 'new' AND description like '%APPLICATION_C' AND country = 'US' "/> <filteredDestination queue="NEW_APPLICATION_C_UK" selector="message_type = 'new' AND description like '%APPLICATION_C' AND country = 'UK' "/> <filteredDestination queue="NEW_APPLICATION_D_CANADA" selector="message_type = 'new' AND description like '%APPLICATION_D' AND country = 'canada' "/> <filteredDestination queue="NEW_APPLICATION_D_US" selector="message_type = 'new' AND description like '%APPLICATION_D' AND country = 'US' "/> <filteredDestination queue="NEW_APPLICATION_D_UK" selector="message_type = 'new' AND description like '%APPLICATION_D' AND country = 'UK' "/> <filteredDestination queue="NEW_APPLICATION_E_CANADA" selector="message_type = 'new' AND description like '%APPLICATION_E' AND country = 'canada' "/> <filteredDestination queue="NEW_APPLICATION_E_US" selector="message_type = 'new' AND description like '%APPLICATION_E' AND country = 'US' "/> <filteredDestination queue="NEW_APPLICATION_E_UK" selector="message_type = 'new' AND description like '%APPLICATION_E' AND country = 'UK' "/> </forwardTo> </compositeQueue> </virtualDestinations> </virtualDestinationInterceptor> </destinationInterceptors> <destinationPolicy> <policyMap> <policyEntries> <policyEntry gcInactiveDestinations="true" inactiveTimoutBeforeGC="600000" topic="&gt;"> <pendingMessageLimitStrategy> <constantPendingMessageLimitStrategy limit="1000"/> </pendingMessageLimitStrategy> </policyEntry> <policyEntry gcInactiveDestinations="true" inactiveTimoutBeforeGC="600000" queue="&gt;"/> </policyEntries> </policyMap> </destinationPolicy> <plugins> </plugins> <networkConnectors> <networkConnector duplex="true" messageTTL="2" name="ConsumerBroker" networkTTL="2" uri="static:(
+              - Fn::Select:
+                  - 0
+                  - Fn::GetAtt:
+                      - ConsumerAmazonMQBroker
+                      - OpenWireEndpoints
+              - )" userName="admin"/> </networkConnectors> </broker>
+      EngineType: ACTIVEMQ
+      EngineVersion: 5.17.6
+      Name: FilterBrokerConfiguration
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/FilterBrokerConfiguration
+  ProducerBrokerConfiguration:
+    Type: AWS::AmazonMQ::Configuration
+    Properties:
+      Data:
+        Fn::Base64:
+          Fn::Join:
+            - ""
+            - - <?xml version="1.0" encoding="UTF-8" standalone="yes"?> <broker schedulePeriodForDestinationPurge="10000" xmlns="http://activemq.apache.org/schema/core"> <destinationPolicy> <policyMap> <policyEntries> <policyEntry gcInactiveDestinations="true" inactiveTimoutBeforeGC="600000" topic="&gt;"> <pendingMessageLimitStrategy> <constantPendingMessageLimitStrategy limit="1000"/> </pendingMessageLimitStrategy> </policyEntry> <policyEntry gcInactiveDestinations="true" inactiveTimoutBeforeGC="600000" queue="&gt;"/> </policyEntries> </policyMap> </destinationPolicy> <plugins> </plugins> <networkConnectors> <networkConnector duplex="false" messageTTL="2" name="FilterBroker" networkTTL="2" staticBridge="true" uri="static:(
+              - Fn::Select:
+                  - 0
+                  - Fn::GetAtt:
+                      - FilterAmazonMQBroker
+                      - OpenWireEndpoints
+              - )" userName="admin"> <staticallyIncludedDestinations> <queue physicalName="ALL_INBOUND"/> </staticallyIncludedDestinations> </networkConnector> </networkConnectors> </broker>
+      EngineType: ACTIVEMQ
+      EngineVersion: 5.17.6
+      Name: ProducerBrokerConfiguration
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/ProducerBrokerConfiguration
+  filterbrokerconfigurationassociation:
+    Type: AWS::AmazonMQ::ConfigurationAssociation
+    Properties:
+      Broker:
+        Ref: FilterAmazonMQBroker
+      Configuration:
+        Id:
+          Ref: FilterBrokerConfiguration
+        Revision:
+          Fn::GetAtt:
+            - FilterBrokerConfiguration
+            - Revision
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/filter_broker_configuration_association
+  producerbrokerconfigurationassociation:
+    Type: AWS::AmazonMQ::ConfigurationAssociation
+    Properties:
+      Broker:
+        Ref: ProducerAmazonMQBroker
+      Configuration:
+        Id:
+          Ref: ProducerBrokerConfiguration
+        Revision:
+          Fn::GetAtt:
+            - ProducerBrokerConfiguration
+            - Revision
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/producer_broker_configuration_association
+  PipeRole4D7B8476:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: pipes.amazonaws.com
+        Version: "2012-10-17"
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - ec2:CreateNetworkInterface
+                  - ec2:DeleteNetworkInterface
+                  - ec2:DescribeNetworkInterfaces
+                  - ec2:DescribeSecurityGroups
+                  - ec2:DescribeSubnets
+                  - ec2:DescribeVpcs
+                  - events:PutEvents
+                  - mq:DescribeBroker
+                Effect: Allow
+                Resource: "*"
+              - Action: secretsmanager:GetSecretValue
+                Effect: Allow
+                Resource:
+                  Ref: SecretAmazonMQ3005BE0F
+            Version: "2012-10-17"
+          PolicyName: pipe_policy
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/PipeRole/Resource
+  amazonmqfilterbusE421663A:
+    Type: AWS::Events::EventBus
+    Properties:
+      Name: MyCustomEventBus
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/amazonmq_filter_bus/Resource
+  PipeMQSource:
+    Type: AWS::Pipes::Pipe
+    Properties:
+      RoleArn:
+        Fn::GetAtt:
+          - PipeRole4D7B8476
+          - Arn
+      Source:
+        Fn::GetAtt:
+          - ProducerAmazonMQBroker
+          - Arn
+      SourceParameters:
+        ActiveMQBrokerParameters:
+          BatchSize: 10
+          Credentials:
+            BasicAuth:
+              Ref: SecretAmazonMQ3005BE0F
+          QueueName: EVENT_BRIDGE_INBOUND
+      Target:
+        Fn::GetAtt:
+          - amazonmqfilterbusE421663A
+          - Arn
+      TargetParameters:
+        EventBridgeEventBusParameters: {}
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/PipeMQSource
+  NEWAPPLICATIONACANADA9B220AD3:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: NEW_APPLICATION_A_CANADA
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/NEW_APPLICATION_A_CANADA/Resource
+  NEWAPPLICATIONACANADAPolicy037813E2:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - sqs:GetQueueAttributes
+              - sqs:GetQueueUrl
+              - sqs:SendMessage
+            Condition:
+              ArnEquals:
+                aws:SourceArn:
+                  Fn::GetAtt:
+                    - ruleapplicationacanadaDD4163FA
+                    - Arn
+            Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Resource:
+              Fn::GetAtt:
+                - NEWAPPLICATIONACANADA9B220AD3
+                - Arn
+        Version: "2012-10-17"
+      Queues:
+        - Ref: NEWAPPLICATIONACANADA9B220AD3
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/NEW_APPLICATION_A_CANADA/Policy/Resource
+  ruleapplicationacanadaDD4163FA:
+    Type: AWS::Events::Rule
+    Properties:
+      EventBusName:
+        Ref: amazonmqfilterbusE421663A
+      EventPattern:
+        detail:
+          properties:
+            country:
+              - equals-ignore-case: canada
+            description:
+              - wildcard: "*APPLICATION_A"
+      State: ENABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - NEWAPPLICATIONACANADA9B220AD3
+              - Arn
+          Id: Target0
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/rule_application_a_canada/Resource
+  NEWAPPLICATIONBCANADAC8862ED2:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: NEW_APPLICATION_B_CANADA
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/NEW_APPLICATION_B_CANADA/Resource
+  NEWAPPLICATIONBCANADAPolicy397D9A12:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - sqs:GetQueueAttributes
+              - sqs:GetQueueUrl
+              - sqs:SendMessage
+            Condition:
+              ArnEquals:
+                aws:SourceArn:
+                  Fn::GetAtt:
+                    - ruleapplicationbcanada6A680E78
+                    - Arn
+            Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Resource:
+              Fn::GetAtt:
+                - NEWAPPLICATIONBCANADAC8862ED2
+                - Arn
+        Version: "2012-10-17"
+      Queues:
+        - Ref: NEWAPPLICATIONBCANADAC8862ED2
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/NEW_APPLICATION_B_CANADA/Policy/Resource
+  ruleapplicationbcanada6A680E78:
+    Type: AWS::Events::Rule
+    Properties:
+      EventBusName:
+        Ref: amazonmqfilterbusE421663A
+      EventPattern:
+        detail:
+          properties:
+            country:
+              - equals-ignore-case: canada
+            description:
+              - wildcard: "*APPLICATION_B"
+      State: ENABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - NEWAPPLICATIONBCANADAC8862ED2
+              - Arn
+          Id: Target0
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/rule_application_b_canada/Resource
+  NEWAPPLICATIONCCANADA05467BFA:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: NEW_APPLICATION_C_CANADA
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/NEW_APPLICATION_C_CANADA/Resource
+  NEWAPPLICATIONCCANADAPolicyA0D3FA8F:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - sqs:GetQueueAttributes
+              - sqs:GetQueueUrl
+              - sqs:SendMessage
+            Condition:
+              ArnEquals:
+                aws:SourceArn:
+                  Fn::GetAtt:
+                    - ruleapplicationccanada19D8549C
+                    - Arn
+            Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Resource:
+              Fn::GetAtt:
+                - NEWAPPLICATIONCCANADA05467BFA
+                - Arn
+        Version: "2012-10-17"
+      Queues:
+        - Ref: NEWAPPLICATIONCCANADA05467BFA
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/NEW_APPLICATION_C_CANADA/Policy/Resource
+  ruleapplicationccanada19D8549C:
+    Type: AWS::Events::Rule
+    Properties:
+      EventBusName:
+        Ref: amazonmqfilterbusE421663A
+      EventPattern:
+        detail:
+          properties:
+            country:
+              - equals-ignore-case: canada
+            description:
+              - wildcard: "*APPLICATION_C"
+      State: ENABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - NEWAPPLICATIONCCANADA05467BFA
+              - Arn
+          Id: Target0
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/rule_application_c_canada/Resource
+  NEWAPPLICATIONDCANADA9B7EC7C2:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: NEW_APPLICATION_D_CANADA
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/NEW_APPLICATION_D_CANADA/Resource
+  NEWAPPLICATIONDCANADAPolicy5E2B9040:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - sqs:GetQueueAttributes
+              - sqs:GetQueueUrl
+              - sqs:SendMessage
+            Condition:
+              ArnEquals:
+                aws:SourceArn:
+                  Fn::GetAtt:
+                    - ruleapplicationdcanada1AD45968
+                    - Arn
+            Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Resource:
+              Fn::GetAtt:
+                - NEWAPPLICATIONDCANADA9B7EC7C2
+                - Arn
+        Version: "2012-10-17"
+      Queues:
+        - Ref: NEWAPPLICATIONDCANADA9B7EC7C2
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/NEW_APPLICATION_D_CANADA/Policy/Resource
+  ruleapplicationdcanada1AD45968:
+    Type: AWS::Events::Rule
+    Properties:
+      EventBusName:
+        Ref: amazonmqfilterbusE421663A
+      EventPattern:
+        detail:
+          properties:
+            country:
+              - equals-ignore-case: canada
+            description:
+              - wildcard: "*APPLICATION_D"
+      State: ENABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - NEWAPPLICATIONDCANADA9B7EC7C2
+              - Arn
+          Id: Target0
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/rule_application_d_canada/Resource
+  NEWAPPLICATIONECANADA86CF6947:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: NEW_APPLICATION_E_CANADA
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/NEW_APPLICATION_E_CANADA/Resource
+  NEWAPPLICATIONECANADAPolicyB65D48A3:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - sqs:GetQueueAttributes
+              - sqs:GetQueueUrl
+              - sqs:SendMessage
+            Condition:
+              ArnEquals:
+                aws:SourceArn:
+                  Fn::GetAtt:
+                    - ruleapplicationecanadaED1B9C07
+                    - Arn
+            Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Resource:
+              Fn::GetAtt:
+                - NEWAPPLICATIONECANADA86CF6947
+                - Arn
+        Version: "2012-10-17"
+      Queues:
+        - Ref: NEWAPPLICATIONECANADA86CF6947
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/NEW_APPLICATION_E_CANADA/Policy/Resource
+  ruleapplicationecanadaED1B9C07:
+    Type: AWS::Events::Rule
+    Properties:
+      EventBusName:
+        Ref: amazonmqfilterbusE421663A
+      EventPattern:
+        detail:
+          properties:
+            country:
+              - equals-ignore-case: canada
+            description:
+              - wildcard: "*APPLICATION_E"
+      State: ENABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - NEWAPPLICATIONECANADA86CF6947
+              - Arn
+          Id: Target0
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/rule_application_e_canada/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Analytics: v2:deflate64:H4sIAAAAAAAA/11Sy27CMBD8Fu7G5aF+ACCEOLRNQ8W1cswSXIgd7F1QGuXfu3mUpL1kZ8Zje8bKTE6fJ3IyUvcw1ofz+GISWe5Q6bNg6bMEPZPlPtdidbT7aCUib24KYUeJBazFHsWOED5UcoFe77VFCE4bhcbZh1lElFyM7o9Yb6N6vCrc8CV3VdRsaxE8GwYSJ+nYAjnrKQOLYgeavMFi4x3lTYShUIkA2gOGTFmVgueWDe+MjCqhMvXtbHaVJYtL787g6+WVs0eTkn+E/yMMilXCqEyWsWufoJ6VgBuHC7Jc13NJoen5i2PqrFRbc5NDkEwjBiJcedc7ATWOFjTfyPGjFQ+xpVUlYgiOvGY7BXRZT/n8AX5ReW5s+s8VeXczB/BLFUBwJ0D+C9LGd7RvhDlhV/1g2q5RgSdnn+ZyOpPz0VcwZuzJoslAxu38AYguaw5dAgAA
+    Metadata:
+      aws:cdk:path: AmazonmqEventbridgeFilterStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Mappings:
+  LatestNodeRuntimeMap:
+    af-south-1:
+      value: nodejs20.x
+    ap-east-1:
+      value: nodejs20.x
+    ap-northeast-1:
+      value: nodejs20.x
+    ap-northeast-2:
+      value: nodejs20.x
+    ap-northeast-3:
+      value: nodejs20.x
+    ap-south-1:
+      value: nodejs20.x
+    ap-south-2:
+      value: nodejs20.x
+    ap-southeast-1:
+      value: nodejs20.x
+    ap-southeast-2:
+      value: nodejs20.x
+    ap-southeast-3:
+      value: nodejs20.x
+    ap-southeast-4:
+      value: nodejs20.x
+    ap-southeast-5:
+      value: nodejs20.x
+    ap-southeast-7:
+      value: nodejs20.x
+    ca-central-1:
+      value: nodejs20.x
+    ca-west-1:
+      value: nodejs20.x
+    cn-north-1:
+      value: nodejs18.x
+    cn-northwest-1:
+      value: nodejs18.x
+    eu-central-1:
+      value: nodejs20.x
+    eu-central-2:
+      value: nodejs20.x
+    eu-north-1:
+      value: nodejs20.x
+    eu-south-1:
+      value: nodejs20.x
+    eu-south-2:
+      value: nodejs20.x
+    eu-west-1:
+      value: nodejs20.x
+    eu-west-2:
+      value: nodejs20.x
+    eu-west-3:
+      value: nodejs20.x
+    il-central-1:
+      value: nodejs20.x
+    me-central-1:
+      value: nodejs20.x
+    me-south-1:
+      value: nodejs20.x
+    mx-central-1:
+      value: nodejs20.x
+    sa-east-1:
+      value: nodejs20.x
+    us-east-1:
+      value: nodejs20.x
+    us-east-2:
+      value: nodejs20.x
+    us-west-1:
+      value: nodejs20.x
+    us-west-2:
+      value: nodejs20.x
+Outputs:
+  AmazonMQSecretARN:
+    Value:
+      Ref: SecretAmazonMQ3005BE0F
+  ProducerBrokerHost:
+    Value:
+      Fn::Join:
+        - ""
+        - - Ref: ProducerAmazonMQBroker
+          - -1.mq.us-east-1.amazonaws.com
+  ConsumerBrokerHost:
+    Value:
+      Fn::Join:
+        - ""
+        - - Ref: ConsumerAmazonMQBroker
+          - -1.mq.us-east-1.amazonaws.com
+  FilterBrokerHost:
+    Value:
+      Fn::Join:
+        - ""
+        - - Ref: FilterAmazonMQBroker
+          - -1.mq.us-east-1.amazonaws.com
+  ProducerBrokerConsole:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://us-east-1.console.amazonaws.com/amazonmq/home?region=us-east-1#/brokers/
+          - Ref: ProducerAmazonMQBroker
+          - "-1"
+  ConsumerBrokerConsole:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://us-east-1.console.amazonaws.com/amazonmq/home?region=us-east-1#/brokers/
+          - Ref: ConsumerAmazonMQBroker
+          - "-1"
+  FilterBrokerConsole:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://us-east-1.console.amazonaws.com/amazonmq/home?region=us-east-1#/brokers/
+          - Ref: FilterAmazonMQBroker
+          - "-1"
+  AMQProducerURL:
+    Description: Producer Broker OpenWire SSL Endpoint
+    Value:
+      Fn::Join:
+        - ""
+        - - ssl://
+          - Ref: ProducerAmazonMQBroker
+          - -1.mq.us-east-1.amazonaws.com:61617
+  AMQConsumerURL:
+    Description: Consumer Broker OpenWire SSL Endpoint
+    Value:
+      Fn::Join:
+        - ""
+        - - ssl://
+          - Ref: ConsumerAmazonMQBroker
+          - -1.mq.us-east-1.amazonaws.com:61617
+  AMQProducerBrokerConsoleURL:
+    Description: Producer Broker Web Console URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: ProducerAmazonMQBroker
+          - -1.mq.us-east-1.amazonaws.com:8162
+  AMQConsumerBrokerConsoleURL:
+    Description: Consumer Broker Web Console URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: ConsumerAmazonMQBroker
+          - -1.mq.us-east-1.amazonaws.com:8162
+  AMQFilterBrokerConsoleURL:
+    Description: Filter Broker Web Console URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: FilterAmazonMQBroker
+          - -1.mq.us-east-1.amazonaws.com:8162
+  AMQProducerBrokerURL:
+    Description: Producer Broker OpenWire Endpoints
+    Value:
+      Fn::Join:
+        - ","
+        - Fn::GetAtt:
+            - ProducerAmazonMQBroker
+            - OpenWireEndpoints
+  AMQConsumerBrokerURL:
+    Description: Consumer Broker OpenWire Endpoints
+    Value:
+      Fn::Join:
+        - ","
+        - Fn::GetAtt:
+            - ConsumerAmazonMQBroker
+            - OpenWireEndpoints
+  ApplicationACanadaQueueUrl:
+    Description: Application A Canada Queue URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://sqs.
+          - Ref: AWS::Region
+          - .amazonaws.com/
+          - Ref: AWS::AccountId
+          - /NEW_APPLICATION_A_CANADA
+  ApplicationBCanadaQueueUrl:
+    Description: Application B Canada Queue URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://sqs.
+          - Ref: AWS::Region
+          - .amazonaws.com/
+          - Ref: AWS::AccountId
+          - /NEW_APPLICATION_B_CANADA
+  ApplicationCCanadaQueueUrl:
+    Description: Application C Canada Queue URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://sqs.
+          - Ref: AWS::Region
+          - .amazonaws.com/
+          - Ref: AWS::AccountId
+          - /NEW_APPLICATION_C_CANADA
+  ApplicationDCanadaQueueUrl:
+    Description: Application D Canada Queue URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://sqs.
+          - Ref: AWS::Region
+          - .amazonaws.com/
+          - Ref: AWS::AccountId
+          - /NEW_APPLICATION_D_CANADA
+  ApplicationECanadaQueueUrl:
+    Description: Application E Canada Queue URL
+    Value:
+      Fn::Join:
+        - ""
+        - - https://sqs.
+          - Ref: AWS::Region
+          - .amazonaws.com/
+          - Ref: AWS::AccountId
+          - /NEW_APPLICATION_E_CANADA
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - il-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2

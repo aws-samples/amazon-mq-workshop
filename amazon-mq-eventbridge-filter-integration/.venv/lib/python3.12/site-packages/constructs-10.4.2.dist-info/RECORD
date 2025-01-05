@@ -1,0 +1,14 @@
+constructs-10.4.2.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+constructs-10.4.2.dist-info/LICENSE,sha256=z8d0m5b2O9McPEK1xHG_dWgUBT6EfBDz6wA0F7xSPTA,11358
+constructs-10.4.2.dist-info/METADATA,sha256=QzeDG3vNa3iEXRtP2t8ga4MrdNAbTs2_U0SWDPVU4T0,2862
+constructs-10.4.2.dist-info/NOTICE,sha256=JnNtwbtmtU1pgs4p0JbqAU5AoQQcEPnUhuqy48czxJs,72
+constructs-10.4.2.dist-info/RECORD,,
+constructs-10.4.2.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+constructs-10.4.2.dist-info/WHEEL,sha256=eOLhNAGa2EW3wWl_TU484h7q1UNgy0JXjjoqKoxAAQc,92
+constructs-10.4.2.dist-info/top_level.txt,sha256=x2OEhsxEzub-PB51342CV_Mb1ev4VA76uyQXWwGLibM,11
+constructs/__init__.py,sha256=vLsGAdB5xcslvETSyXdwDVxjfPTPG_c67AEmFz0-Nlg,41037
+constructs/__pycache__/__init__.cpython-312.pyc,,
+constructs/_jsii/__init__.py,sha256=rK62NvUlYCLvlUYfeMDD75J80gC5PUzQKw49pASo-_A,419
+constructs/_jsii/__pycache__/__init__.cpython-312.pyc,,
+constructs/_jsii/constructs@10.4.2.jsii.tgz,sha256=jiHV4ugIRc0iRef3KuEo2b9aZ5SiNWaagXXzzsMeUmM,46981
+constructs/py.typed,sha256=AbpHGcgLb-kRsJGnwFEktk7uzpZOCcBY74-YBdrKVGs,1
