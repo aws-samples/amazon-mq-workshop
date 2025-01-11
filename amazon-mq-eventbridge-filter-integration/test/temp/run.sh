@@ -1,3 +1,0 @@
-#java -cp target/amazonmq-eventbridge-1.0-SNAPSHOT-with-dependencies.jar  org.example.activemq.AMQProducer -b "ssl://b-fe5bb3a3-7de2-4266-8c58-738d44806f45-1.mq.us-east-1.amazonaws.com:61617" -u 'admin' -p '}+6Ibga!dJ]>rKUj'
-#java -cp target/amazonmq-eventbridge-1.0-SNAPSHOT-with-dependencies.jar   org.example.activemq.AMQProducer -b "ssl://b-109b32a7-4e0e-486c-b8e7-9d98eb67acbc-1.mq.us-east-1.amazonaws.com:61617" -u "admin" -p "ja6Ris47wm(I<>LJ"
-java -cp ./bin/amazonmq-eventbridge.jar  org.example.activemq.AMQProducer -b "ssl://b-30ee5921-a00b-4c8a-9fa1-1d2ff1f4d19e-1.mq.us-east-1.amazonaws.com:61617" -u "admin" -p ";fjHB\&w!tQc00OJ"
