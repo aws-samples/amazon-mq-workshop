@@ -3,6 +3,8 @@ package com.aws.sample.amazonmq;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.jms.BytesMessage;
@@ -24,7 +26,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
 import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClientBuilder;
 import com.amazonaws.services.simplesystemsmanagement.model.GetParameterRequest;
 import com.amazonaws.services.simplesystemsmanagement.model.GetParameterResult;
@@ -57,7 +58,7 @@ public class AmazonMqClient {
             if (cmd.hasOption("user") && cmd.hasOption("password")) {
                 user = cmd.getOptionValue("user");
                 password = cmd.getOptionValue("password");                
-          } else {
+            } else {
                 secrets = getUserPassword("MQBrokerUserPassword");
                 if (secrets!=null && !secrets.isEmpty()) {
                     user = secrets.split(",")[0];
@@ -73,10 +74,12 @@ public class AmazonMqClient {
             if (cmd.getOptionValue("mode").contentEquals("sender")) {
                 if (cmd.getOptionValue("type").contentEquals("queue")) {
                     MessageProducer queueMessageProducer = session.createProducer(session.createQueue(cmd.getOptionValue("destination")));
-                    sendMessages(session, queueMessageProducer, ttl, name, interval, deliveryMode, count);
+                    Map<String, String> properties = parseProperties(cmd.getOptionValue("properties"));
+                    sendMessages(session, queueMessageProducer, ttl, name, interval, deliveryMode, count, properties);
                 } else {
                     MessageProducer topicMessageProducer = session.createProducer(session.createTopic(cmd.getOptionValue("destination")));
-                    sendMessages(session, topicMessageProducer, ttl, name, interval, deliveryMode, count);
+                    Map<String, String> properties = parseProperties(cmd.getOptionValue("properties"));
+                    sendMessages(session, topicMessageProducer, ttl, name, interval, deliveryMode, count, properties);
                 }
             } else {
                 if (cmd.getOptionValue("type").contentEquals("queue")) {
@@ -92,16 +95,36 @@ public class AmazonMqClient {
             System.exit(1);
         }
     }
+    
+    private static Map<String, String> parseProperties(String propertiesString) {
+        Map<String, String> properties = new HashMap<>();
+        if (propertiesString != null && !propertiesString.isEmpty()) {
+            String[] pairs = propertiesString.split(",");
+            for (String pair : pairs) {
+                String[] keyValue = pair.split(":");
+                if (keyValue.length == 2) {
+                    properties.put(keyValue[0].trim(), keyValue[1].trim());
+                }
+            }
+        }
+        return properties;
+    }
 
-    private static void sendMessages(Session session, MessageProducer queueMessageProducer, long ttl, String name, int interval, int deliveryMode, WrapInt count) throws JMSException {
+    private static void sendMessages(Session session, MessageProducer queueMessageProducer, long ttl, String name, int interval, int deliveryMode, WrapInt count, Map<String, String> properties) throws JMSException {
+        System.out.println("interval: " + interval);
+        System.out.println("properties: " + properties);
+    
         String destination = queueMessageProducer.getDestination().toString();
-
+    
         while (true) {
             count.v++;
             String id = UUID.randomUUID().toString();
             TextMessage message = session.createTextMessage(String.format("[%s] [%s] Message number %s", destination, name, count.v));
             message.setJMSMessageID(id);
             message.setJMSCorrelationID(id);
+            for (Map.Entry<String, String> entry : properties.entrySet()) {
+                message.setStringProperty(entry.getKey(), entry.getValue());
+            }
             queueMessageProducer.send(message, deliveryMode, 0, ttl);
             if (interval > 0) {
                 System.out.println(String.format("%s - Sender: sent '%s'", df.format(new Date()), message.getText()));
@@ -113,7 +136,7 @@ public class AmazonMqClient {
             }
         }
     }
-
+    
     private static void receiveMessages(Session session, MessageConsumer consumer) throws JMSException {
         consumer.setMessageListener(new MessageListener() {
             public void onMessage(Message message) {
@@ -149,6 +172,7 @@ public class AmazonMqClient {
         options.addOption("interval", true, "The interval in msec at which messages are generated. Default 1000");
         options.addOption("notPersistent", false, "Send messages in non-persistent mode");
         options.addOption("ttl", true, "The time to live value for the message.");
+        options.addOption("properties", true, "The list of properties in the format 'key1:value1,key2:value2,...'");
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = parser.parse(options, args);
 
@@ -156,7 +180,7 @@ public class AmazonMqClient {
             printUsage(options);
         }
 
-        if (!(cmd.hasOption("url") && cmd.hasOption("type") && cmd.hasOption("mode") && cmd.hasOption("destination"))) {
+        if (!(cmd.hasOption("url") && cmd.hasOption("type") && cmd.hasOption("mode") && cmd.hasOption("destination") )) {
             printUsage(options);
         }
 
@@ -165,7 +189,7 @@ public class AmazonMqClient {
 
     private static void printUsage(Options options) throws ParseException {
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp( "java -jar amazon-mq-client.jar -url <url> -user <user> -password <password> -mode <sender|receiver> -type <queue|topic> -destination <destination> [-name <name> -interval <interval> -notPersistent]", options);
+        formatter.printHelp( "java -jar amazon-mq-client.jar -url <url> -user <user> -password <password> -mode <sender|receiver> -type <queue|topic> -destination <destination> [-name <name> -interval <interval> -notPersistent -properties <properties-list> ]", options);
         System.exit(1);
     }
 
