@@ -8,6 +8,7 @@
 > - No bug fixes will be made
 > - No pull requests will be reviewed or merged
 > - Issues may not be addressed
+> 
 > For up-to-date instructions go to https://amazon-mq-intro.workshop.aws/
 >  
 >  
