@@ -6,9 +6,9 @@ java_version=`java -version |& awk -F '"' '/version/ {print $2}'`
 if [[ "$java_version" =~ .*1\.8.*  ]]; then
     echo "Java is up to date"
 else 
-    echo "Updating java to 1.8..."
-    wget https://d3pxv6yz143wms.cloudfront.net/8.222.10.1/java-1.8.0-amazon-corretto-devel-1.8.0_222.b10-1.x86_64.rpm > /dev/null 2>&1
-    sudo yum localinstall -y java-1.8.0-amazon-corretto-devel-1.8.0_222.b10-1.x86_64.rpm > /dev/null 2>&1
+    echo "Updating java to Corretto 17 and above..."
+    wget https://corretto.aws/downloads/latest/amazon-corretto-23-x64-linux-jdk.rpm > /dev/null 2>&1
+    sudo yum localinstall -y amazon-corretto-23-x64-linux-jdk.rpm > /dev/null 2>&1
 fi
 
 echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))" >> ~/.bashrc
@@ -18,10 +18,10 @@ mvn_version=`mvn -version |& awk '/Apache Maven/ {print $3 }'`
 if [[ "$mvn_version" =~ .*3\.6.* ]]; then
     echo "Maven is up to date"
 else 
-    echo "Updating maven to 3.6..."
-    wget https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz > /dev/null 2>&1
-    tar zxvf apache-maven-3.8.6-bin.tar.gz > /dev/null 2>&1
-    echo "export PATH=~/environment/apache-maven-3.6.1/bin:$PATH" >> ~/.bashrc
+    echo "Updating maven to 3.9..."
+    wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz > /dev/null 2>&1
+    tar zxvf apache-maven-3.9.9-bin.tar.gz > /dev/null 2>&1
+    echo "export PATH=~/environment/apache-maven-3.9.9/bin:$PATH" >> ~/.bashrc
 fi
 
 if [[ -d ~/environment/activemq-perftest ]];
