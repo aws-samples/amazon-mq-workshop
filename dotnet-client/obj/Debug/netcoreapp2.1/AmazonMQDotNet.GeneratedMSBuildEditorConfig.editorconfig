@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = AmazonMQDotNet
+build_property.ProjectDir = /Users/kachis/active_mq_revamp_2/amazon-mq-workshop/dotnet-client/

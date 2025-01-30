@@ -1,0 +1,93 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/kachis/active_mq_revamp_2/amazon-mq-workshop/dotnet-client/AmazonMQDotNet.csproj": {}
+  },
+  "projects": {
+    "/Users/kachis/active_mq_revamp_2/amazon-mq-workshop/dotnet-client/AmazonMQDotNet.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/kachis/active_mq_revamp_2/amazon-mq-workshop/dotnet-client/AmazonMQDotNet.csproj",
+        "projectName": "AmazonMQDotNet",
+        "projectPath": "/Users/kachis/active_mq_revamp_2/amazon-mq-workshop/dotnet-client/AmazonMQDotNet.csproj",
+        "packagesPath": "/Users/kachis/.nuget/packages/",
+        "outputPath": "/Users/kachis/active_mq_revamp_2/amazon-mq-workshop/dotnet-client/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/kachis/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "targetAlias": "netcoreapp2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "targetAlias": "netcoreapp2.1",
+          "dependencies": {
+            "AWSSDK.SimpleSystemsManagement": {
+              "target": "Package",
+              "version": "[3.3.106.1, )",
+              "noWarn": [
+                "NU1701"
+              ]
+            },
+            "Apache.NMS.ActiveMQ": {
+              "target": "Package",
+              "version": "[1.7.2, )",
+              "noWarn": [
+                "NU1701"
+              ]
+            },
+            "McMaster.Extensions.CommandLineUtils": {
+              "target": "Package",
+              "version": "[2.3.4, )",
+              "noWarn": [
+                "NU1701"
+              ]
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "linux-x64": {
+          "#import": []
+        },
+        "win10-x64": {
+          "#import": []
+        }
+      }
+    }
+  }
+}
