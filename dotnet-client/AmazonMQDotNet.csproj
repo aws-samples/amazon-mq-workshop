@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Apache.NMS.ActiveMQ" Version="1.7.2">
+    <PackageReference Include="Apache.NMS.ActiveMQ" Version="2.1.1">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.3.106.1">
